@@ -208,6 +208,11 @@
     <Compile Include="Controllers\Home\HomeDto.cs" />
     <Compile Include="Controllers\Home\HomeService.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\Product\ProductApiController.cs" />
+    <Compile Include="Controllers\Product\ProductApiShareController.cs" />
+    <Compile Include="Controllers\Product\ProductController.cs" />
+    <Compile Include="Controllers\Product\ProductDto.cs" />
+    <Compile Include="Controllers\Product\ProductService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1033,6 +1038,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\web.config" />
