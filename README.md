@@ -42,10 +42,10 @@
 5. Access Admin and Store areas via browser.
 
 ---
-![Alt text](./doccument/Order App template/assets/img/screen.jpeg)
+![Alt text](../doccument/Order-App-template/assets/img/screen.jpeg)
 <h4 align="center">Trang chủ</h4>
 
-![Alt text](./doccument/Order-App-template/assets/img/img-github/admin-product.jpeg)
+![Alt text](../doccument/Order-App-template/assets/img/img-github/admin-product.jpeg)
 <h4 align="center">Chi tiết sản phẩm</h4>
 
 ![Alt text](./assets/img/img-github/giohang.jpeg)
