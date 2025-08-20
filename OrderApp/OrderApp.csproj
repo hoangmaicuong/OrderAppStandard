@@ -213,6 +213,7 @@
     <Compile Include="Controllers\Product\ProductController.cs" />
     <Compile Include="Controllers\Product\ProductDto.cs" />
     <Compile Include="Controllers\Product\ProductService.cs" />
+    <Compile Include="DataFactory\DapperContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1038,6 +1039,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Content\UploadFile\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
