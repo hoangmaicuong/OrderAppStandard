@@ -42,5 +42,19 @@
 5. Access Admin and Store areas via browser.
 
 ---
+![Alt text](./assets/img/screen.jpeg)
+<h4 align="center">Trang chủ</h4>
 
-© 2025 - eCommerce Project
+![Alt text](./assets/img/img-github/admin-product.jpeg)
+<h4 align="center">Chi tiết sản phẩm</h4>
+
+![Alt text](./assets/img/img-github/giohang.jpeg)
+<h4 align="center">Giỏ hàng</h4>
+
+![Alt text](./assets/img/img-github/admin.jpeg)
+<h4 align="center">Trang admin</h4>
+
+![Alt text](./assets/img/img-github/admin-product.jpeg)
+<h4 align="center">Quản lý sản phẩm</h4>
+
+© 2025 - OrderApp Project
