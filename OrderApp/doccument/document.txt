@@ -1,0 +1,18 @@
+# Giới thiệu
+
+Đây là một file TXT mẫu được trình bày đẹp mắt.
+
+## Nội dung chính
+
+Chúng ta có thể viết nội dung theo từng phần rõ ràng, ví dụ:
+
+### Ưu điểm
+- Dễ đọc
+- Dễ chỉnh sửa
+- Tương thích với nhiều phần mềm
+
+### Nhược điểm
+- Không hỗ trợ định dạng phong phú như Word hoặc PDF
+
+## Kết luận
+File TXT thích hợp để ghi chú, tài liệu ngắn gọn hoặc danh sách.
