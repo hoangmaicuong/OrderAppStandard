@@ -1,5 +1,24 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Order App";
+}
+@section css_header{
+    <style>
+        .mobile-only {
+            display: none;
+        }
+
+        .desktop-only {
+            display: none;
+        }
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
 }
 <nav class="header-bottom">
     <div class="container">
@@ -279,3 +298,47 @@
         </div>
     </div>
 </div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
+
+            $scope.init = function () {
+                $scope.methods.loadInit();
+            };
+
+            $scope.events = {
+                
+            };
+            $scope.methods = {
+                loadInit: function () {
+
+                    //$http({
+                    //    url: '/api/admin/sample/get-all',
+                    //    method: "Get"
+                    //})
+                    //.then(function (response) {
+                    //    let data = JSON.parse(response.data);
+                    //    console.log('data', data);
+
+                    //    $scope.data.samples = data.samples;
+                    //    $scope.methods.loadDataTable();
+                    //})
+                    //.catch(function (response) {
+                    //    shareData.notification.exception();
+                    //    console.error('catch error', response);
+                    //})
+                    //.finally(function () {
+
+
+                    //});
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}
