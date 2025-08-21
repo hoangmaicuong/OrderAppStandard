@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="~/assets/css/toast-message.css">
     <link href="~/assets/font/font-awesome-pro-v6-6.2.0/css/all.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/assets/css/admin-responsive.css">
-    <title>Quản lý cửa hàng</title>
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/angular.min.js"></script>
+    @RenderSection("css_header", required: false)
+    @RenderSection("scripts_header", required: false)
+    <style>
+    </style>
 </head>
 
 <body>
@@ -467,5 +472,12 @@
     <div id="toast"></div>
     <script src="/assets/js/admin.js"></script>
     <script src="/assets/js/toast-message.js"></script>
+    <script>
+        const app = angular.module("areaAdmin", []);
+    </script>
+    @RenderSection("scripts_footer", required: false)
+    <script>
+
+    </script>
 </body>
 </html>
