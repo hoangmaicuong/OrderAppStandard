@@ -198,7 +198,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminOrder\AdminOrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleDto.cs" />
@@ -1667,6 +1671,10 @@
     <Content Include="Content\assets-login\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
     <Content Include="Content\assets-login\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Content\assets-login\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Areas\Admin\Views\AdminProduct\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminAccount\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminOrder\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminReport\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />

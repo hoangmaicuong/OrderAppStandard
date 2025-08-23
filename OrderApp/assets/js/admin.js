@@ -27,25 +27,25 @@ menuIconButton.addEventListener("click", () => {
 
 
 // tab for section
-const sidebars = document.querySelectorAll(".sidebar-list-item.tab-content");
-const sections = document.querySelectorAll(".section");
+//const sidebars = document.querySelectorAll(".sidebar-list-item.tab-content");
+//const sections = document.querySelectorAll(".section");
 
-for(let i = 0; i < sidebars.length; i++) {
-    sidebars[i].onclick = function () {
-        document.querySelector(".sidebar-list-item.active").classList.remove("active");
-        document.querySelector(".section.active").classList.remove("active");
-        sidebars[i].classList.add("active");
-        sections[i].classList.add("active");
-    };
-}
+//for(let i = 0; i < sidebars.length; i++) {
+//    sidebars[i].onclick = function () {
+//        document.querySelector(".sidebar-list-item.active").classList.remove("active");
+//        document.querySelector(".section.active").classList.remove("active");
+//        sidebars[i].classList.add("active");
+//        sections[i].classList.add("active");
+//    };
+//}
 
-const closeBtn = document.querySelectorAll('.section');
-console.log(closeBtn[0])
-for(let i=0;i<closeBtn.length;i++){
-    closeBtn[i].addEventListener('click',(e) => {
-        sidebar.classList.add("open");
-    })
-}
+//const closeBtn = document.querySelectorAll('.section');
+//console.log(closeBtn[0])
+//for(let i=0;i<closeBtn.length;i++){
+//    closeBtn[i].addEventListener('click',(e) => {
+//        sidebar.classList.add("open");
+//    })
+//}
 
 // Get amount product
 function getAmoumtProduct() {
@@ -69,9 +69,9 @@ function getMoney() {
     return tongtien;
 }
 
-document.getElementById("amount-user").innerHTML = getAmoumtUser();
-document.getElementById("amount-product").innerHTML = getAmoumtProduct();
-document.getElementById("doanh-thu").innerHTML = vnd(getMoney());
+//document.getElementById("amount-user").innerHTML = getAmoumtUser();
+//document.getElementById("amount-product").innerHTML = getAmoumtProduct();
+//document.getElementById("doanh-thu").innerHTML = vnd(getMoney());
 
 // Doi sang dinh dang tien VND
 function vnd(price) {
@@ -411,7 +411,7 @@ function showOrder(arr) {
 }
 
 let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
-window.onload = showOrder(orders);
+//window.onload = showOrder(orders);
 
 // Get Order Details
 function getOrderDetails(madon) {
@@ -657,7 +657,7 @@ function showThongKe(arr,mode) {
     })
 }
 
-showThongKe(createObj())
+//showThongKe(createObj())
 
 function mergeObjThongKe(arr) {
     let result = [];
@@ -788,7 +788,7 @@ function cancelSearchUser() {
     document.getElementById("time-end-user").value = "";
 }
 
-window.onload = showUser();
+//window.onload = showUser();
 
 function deleteAcount(phone) {
     let accounts = JSON.parse(localStorage.getItem('accounts'));
