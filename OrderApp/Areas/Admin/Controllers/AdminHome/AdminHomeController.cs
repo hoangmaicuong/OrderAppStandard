@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminHome
 {
+    [Authorize]
     public class AdminHomeController : Controller
     {
         // GET: Admin/AdminHome

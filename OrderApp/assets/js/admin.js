@@ -5,10 +5,10 @@ function checkLogin() {
             <img class="access-denied-img" src="~/assets/img/access-denied.webp" alt="">
         </div>`
     } else {
-        document.getElementById("name-acc").innerHTML = currentUser.fullname;
+        /*document.getElementById("name-acc").innerHTML = currentUser.fullname;*/
     }
 }
-window.onload = checkLogin();
+//window.onload = checkLogin();
 
 //do sidebar open and close
 const menuIconButton = document.querySelector(".menu-icon-btn");
@@ -904,8 +904,8 @@ addAccount.addEventListener("click", (e) => {
     }
 })
 
-document.getElementById("logout-acc").addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem("currentuser");
-    window.location = "/";
-})
+//document.getElementById("logout-acc").addEventListener('click', (e) => {
+//    e.preventDefault();
+//    localStorage.removeItem("currentuser");
+//    window.location = "/";
+//})

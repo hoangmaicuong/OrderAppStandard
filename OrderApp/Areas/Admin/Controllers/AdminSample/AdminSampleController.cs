@@ -7,7 +7,7 @@ using System.Web.UI;
 
 namespace OrderApp.Areas.Admin.Controllers._1Sample
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize]
     public class AdminSampleController : Controller
     {
         // GET: Admin/AdminSample

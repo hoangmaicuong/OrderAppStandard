@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminSample
 {
+    [Authorize]
     public class AdminSampleApiController : ApiController
     {
     }
