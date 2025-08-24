@@ -3,7 +3,7 @@
     ViewBag.Title = "Đơn hàng";
     var currentController = ViewContext.RouteData.Values["controller"].ToString();
 }
-<div class="section @(currentController == "AdminOrder" ? "active" : "")">
+<div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
             <select name="tinh-trang" id="tinh-trang" onchange="findOrder()">

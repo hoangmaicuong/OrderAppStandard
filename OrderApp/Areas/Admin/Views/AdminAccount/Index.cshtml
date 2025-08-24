@@ -3,7 +3,7 @@
     ViewBag.Title = "Tài khoản";
     var currentController = ViewContext.RouteData.Values["controller"].ToString();
 }
-<div class="section @(currentController == "AdminAccount" ? "active" : "")">
+<div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
             <select name="tinh-trang-user" id="tinh-trang-user" onchange="showUser()">

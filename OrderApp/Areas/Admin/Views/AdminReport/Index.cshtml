@@ -3,7 +3,7 @@
     ViewBag.Title = "Thông kê";
     var currentController = ViewContext.RouteData.Values["controller"].ToString();
 }
-<div class="section @(currentController == "AdminReport" ? "active" : "")">
+<div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
             <select name="the-loai-tk" id="the-loai-tk" onchange="thongKe()">

@@ -3,7 +3,7 @@
     ViewBag.Title = "Sản phẩm";
     var currentController = ViewContext.RouteData.Values["controller"].ToString();
 }
-<div class="section product-all @(currentController == "AdminProduct" ? "active" : "")">
+<div class="section product-all">
     <div class="admin-control">
         <div class="admin-control-left">
             <select name="the-loai" id="the-loai" onchange="showProduct()">
