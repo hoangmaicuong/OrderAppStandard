@@ -185,26 +185,23 @@
             };
             $scope.methods = {
                 loadInit: function () {
+                    $http({
+                        url: '/api/admin/product/get-all',
+                        method: "Get"
+                    })
+                    .then(function (response) {
+                        console.log('data', response.data);
 
-                    //$http({
-                    //    url: '/api/admin/sample/get-all',
-                    //    method: "Get"
-                    //})
-                    //.then(function (response) {
-                    //    let data = JSON.parse(response.data);
-                    //    console.log('data', data);
-
-                    //    $scope.data.samples = data.samples;
-                    //    $scope.methods.loadDataTable();
-                    //})
-                    //.catch(function (response) {
-                    //    shareData.notification.exception();
-                    //    console.error('catch error', response);
-                    //})
-                    //.finally(function () {
+                        $scope.data.products = response.data.products;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
 
 
-                    //});
+                    });
                 }
             };
             $scope.init();
