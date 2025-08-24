@@ -145,5 +145,16 @@
     }
 
     window.onload = showProduct();
+    // Open Popup Modal
+    let btnAddProduct = document.getElementById("btn-add-product");
+    btnAddProduct.addEventListener("click", () => {
+        document.querySelectorAll(".add-product-e").forEach(item => {
+            item.style.display = "block";
+        })
+        document.querySelectorAll(".edit-product-e").forEach(item => {
+            item.style.display = "none";
+        })
+        document.querySelector(".add-product").classList.add("open");
+    });
 </script>
 
