@@ -49,4 +49,46 @@
         </table>
     </div>
 </div>
+<script>
+    // Format Date
+    function formatDate(date) {
+        let fm = new Date(date);
+        let yyyy = fm.getFullYear();
+        let mm = fm.getMonth() + 1;
+        let dd = fm.getDate();
+        if (dd < 10) dd = "0" + dd;
+        if (mm < 10) mm = "0" + mm;
+        return dd + "/" + mm + "/" + yyyy;
+    }
+    function vnd(price) {
+        return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+    function showOrder(arr) {
+        let orderHtml = "";
+        if (arr.length == 0) {
+            orderHtml = `<td colspan="6">Không có dữ liệu</td>`
+        } else {
+            arr.forEach((item) => {
+                let status = item.trangthai == 0 ? `<span class="status-no-complete">Chưa xử lý</span>` : `<span class="status-complete">Đã xử lý</span>`;
+                let date = formatDate(item.thoigiandat);
+                orderHtml += `
+            <tr>
+            <td>${item.id}</td>
+            <td>${item.khachhang}</td>
+            <td>${date}</td>
+            <td>${vnd(item.tongtien)}</td>                               
+            <td>${status}</td>
+            <td class="control">
+            <button class="btn-detail" id="" onclick="detailOrder('${item.id}')"><i class="fa-regular fa-eye"></i> Chi tiết</button>
+            </td>
+            </tr>      
+            `;
+            });
+        }
+        document.getElementById("showOrder").innerHTML = orderHtml;
+    }
+
+    let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
+    window.onload = showOrder(orders);
+</script>
 
