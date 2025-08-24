@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminReport
 {
+    [Authorize]
     public class AdminReportController : Controller
     {
         // GET: Admin/AdminReport

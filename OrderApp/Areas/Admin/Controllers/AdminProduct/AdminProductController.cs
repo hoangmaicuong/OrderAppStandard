@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminProduct
 {
+    [Authorize]
     public class AdminProductController : Controller
     {
         // GET: Admin/AdminProduct
