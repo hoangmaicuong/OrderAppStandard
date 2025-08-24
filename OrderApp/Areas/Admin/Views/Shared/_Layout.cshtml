@@ -19,226 +19,286 @@
     @RenderSection("scripts_header", required: false)
     <style>
     </style>
+    <script>
+    const shareData = {
+        newId: 0,
+        isAuthenticated : '@Request.IsAuthenticated' == 'True',
+        searchKey: '',
+        productCategoryId: 0,
+        pageUrl: {
+            indexHomePageForSearch: '@Url.Action("Index", "Home", new { searchKey = "_searchKey" })'.replace('_searchKey', ''),
+            indexHomePageForProductCategory: '@Url.Action("Index", "Home", new { productCategoryId = "_productCategoryId" })'.replace('_productCategoryId', '')
+
+        },
+        loadButton: {
+            rootText: '',
+            loading: function (button, isShowRootText) {
+                this.rootText = button.innerHTML;
+                //--
+                let text = '';
+                if (isShowRootText) {
+                    text = button.innerHTML;
+                }
+                button.disabled = true;
+                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text}`;
+            },
+            loaded: function (button) {
+                button.disabled = false;
+                button.innerHTML = this.rootText;
+                //--
+                this.rootText = '';
+            }
+        },
+        notification: {
+            messageExceptionAPI: '@Html.Raw(Support.ResponsesAPI.MessageAPI.messageException)',
+            fail: function (message) {
+                const Swal2 = Swal.mixin({
+                    customClass: {
+                        input: 'form-control'
+                    }
+                })
+                Swal2.fire({
+                    icon: "warning",
+                    title: '@Html.Raw(Support.ResponsesAPI.MessageAPI.failTitle)',
+                    text: message,
+                })
+            },
+            exception: function () {
+                const Swal2 = Swal.mixin({
+                    customClass: {
+                        input: 'form-control'
+                    }
+                })
+                Swal2.fire({
+                    icon: "warning",
+                    title: shareData.notification.messageExceptionAPI
+                })
+            }
+        }
+    }
+    </script>
 </head>
 
 <body>
-
-    <header class="header">
-        <button class="menu-icon-btn">
-            <div class="menu-icon">
-                <i class="fa-regular fa-bars"></i>
-            </div>
-        </button>
-    </header>
-    <div class="container">
-        <aside class="sidebar open">
-            <div class="top-sidebar">
-                <a href="#" class="channel-logo"><img src="~/assets/img/favicon.png" alt="Channel Logo"></a>
-                <div class="hidden-sidebar your-channel">
-                    <img src="/assets/img/admin/vy-food-title.png"
-                         style="height: 30px;" alt="">
+    <div ng-app="appAdmin">
+        <header class="header">
+            <button class="menu-icon-btn">
+                <div class="menu-icon">
+                    <i class="fa-regular fa-bars"></i>
                 </div>
-            </div>
-            <div class="middle-sidebar">
-                <ul class="sidebar-list">
-                    <li class="sidebar-list-item tab-content @(currentController == "AdminHome" ? "active" : "")">
-                        <a href="@Url.Action("Index", "AdminHome", new {area = "Admin"})" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-light fa-house"></i></div>
-                            <div class="hidden-sidebar">Trang tổng quan</div>
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item tab-content @(currentController == "AdminProduct" ? "active" : "")">
-                        <a href="@Url.Action("Index", "AdminProduct", new {area = "Admin"})" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-light fa-pot-food"></i></div>
-                            <div class="hidden-sidebar">Sản phẩm</div>
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item tab-content @(currentController == "AdminAccount" ? "active" : "")">
-                        <a href="@Url.Action("Index", "AdminAccount", new {area = "Admin"})" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-light fa-users"></i></div>
-                            <div class="hidden-sidebar">Khách hàng</div>
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item tab-content @(currentController == "AdminOrder" ? "active" : "")">
-                        <a href="@Url.Action("Index", "AdminOrder", new {area = "Admin"})" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-light fa-basket-shopping"></i></div>
-                            <div class="hidden-sidebar">Đơn hàng</div>
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item tab-content @(currentController == "AdminReport" ? "active" : "")">
-                        <a href="@Url.Action("Index", "AdminReport", new {area = "Admin"})" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
-                            <div class="hidden-sidebar">Thống kê</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="bottom-sidebar">
-                <ul class="sidebar-list">
-                    <li class="sidebar-list-item user-logout">
-                        <a href="/" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-thin fa-circle-chevron-left"></i></div>
-                            <div class="hidden-sidebar">Trang chủ</div>
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item user-logout">
-                        <a href="#" class="sidebar-link">
-                            <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
-                            <div class="hidden-sidebar" @*id="name-acc"*@>
-                                Account:
-                                @if (Request.IsAuthenticated)
-                                {@User.Identity.GetUserName()}
-                            </div>
-
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item user-logout">
-                        @using (Html.BeginForm("LogOff", "AccountManage", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <a class="sidebar-link" @*id="logout-acc"*@ href="javascript:document.getElementById('logoutForm').submit()">
-                                <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
-                                <div class="hidden-sidebar">Đăng xuất</div>
+            </button>
+        </header>
+        <div class="container">
+            <aside class="sidebar open">
+                <div class="top-sidebar">
+                    <a href="#" class="channel-logo"><img src="~/assets/img/favicon.png" alt="Channel Logo"></a>
+                    <div class="hidden-sidebar your-channel">
+                        <img src="/assets/img/admin/vy-food-title.png"
+                             style="height: 30px;" alt="">
+                    </div>
+                </div>
+                <div class="middle-sidebar">
+                    <ul class="sidebar-list">
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminHome" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminHome", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-house"></i></div>
+                                <div class="hidden-sidebar">Trang tổng quan</div>
                             </a>
+                        </li>
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminProduct" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminProduct", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-pot-food"></i></div>
+                                <div class="hidden-sidebar">Sản phẩm</div>
+                            </a>
+                        </li>
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminAccount" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminAccount", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-users"></i></div>
+                                <div class="hidden-sidebar">Khách hàng</div>
+                            </a>
+                        </li>
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminOrder" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminOrder", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-basket-shopping"></i></div>
+                                <div class="hidden-sidebar">Đơn hàng</div>
+                            </a>
+                        </li>
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminReport" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminReport", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
+                                <div class="hidden-sidebar">Thống kê</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bottom-sidebar">
+                    <ul class="sidebar-list">
+                        <li class="sidebar-list-item user-logout">
+                            <a href="/" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-thin fa-circle-chevron-left"></i></div>
+                                <div class="hidden-sidebar">Trang chủ</div>
+                            </a>
+                        </li>
+                        <li class="sidebar-list-item user-logout">
+                            <a href="#" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
+                                <div class="hidden-sidebar" @*id="name-acc"*@>
+                                    Account:
+                                    @if (Request.IsAuthenticated)
+                                    {@User.Identity.GetUserName()}
+                                </div>
 
-                            @*<a href="#" class="sidebar-link" id="logout-acc">
+                            </a>
+                        </li>
+                        <li class="sidebar-list-item user-logout">
+                            @using (Html.BeginForm("LogOff", "AccountManage", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a class="sidebar-link" @*id="logout-acc"*@ href="javascript:document.getElementById('logoutForm').submit()">
+                                    <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
+                                    <div class="hidden-sidebar">Đăng xuất</div>
+                                </a>
+
+                                @*<a href="#" class="sidebar-link" id="logout-acc">
                                     <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
                                     <div class="hidden-sidebar">Đăng xuất</div>
                                 </a>*@
-                        }
+                            }
 
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <main class="content" ng-controller="mainCtrl">
+                @RenderBody()
+            </main>
+        </div>
+        <div class="modal add-product">
+            <div class="modal-container">
+                <h3 class="modal-container-title add-product-e">THÊM MỚI SẢN PHẨM</h3>
+                <h3 class="modal-container-title edit-product-e">CHỈNH SỬA SẢN PHẨM</h3>
+                <button class="modal-close product-form"><i class="fa-regular fa-xmark"></i></button>
+                <div class="modal-content">
+                    <form action="" class="add-product-form">
+                        <div class="modal-content-left">
+                            <img src="/assets/img/blank-image.png" alt="" class="upload-image-preview">
+                            <div class="form-group file">
+                                <label for="up-hinh-anh" class="form-label-file"><i class="fa-regular fa-cloud-arrow-up"></i>Chọn hình ảnh</label>
+                                <input accept="image/jpeg, image/png, image/jpg" id="up-hinh-anh" name="up-hinh-anh" type="file" class="form-control" onchange="uploadImage(this)">
+                            </div>
+                        </div>
+                        <div class="modal-content-right">
+                            <div class="form-group">
+                                <label for="ten-mon" class="form-label">Tên món</label>
+                                <input id="ten-mon" name="ten-mon" type="text" placeholder="Nhập tên món"
+                                       class="form-control">
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="category" class="form-label">Chọn món</label>
+                                <select name="category" id="chon-mon">
+                                    <option>Món chay</option>
+                                    <option>Món mặn</option>
+                                    <option>Món lẩu</option>
+                                    <option>Món ăn vặt</option>
+                                    <option>Món tráng miệng</option>
+                                    <option>Nước uống</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="gia-moi" class="form-label">Giá bán</label>
+                                <input id="gia-moi" name="gia-moi" type="text" placeholder="Nhập giá bán"
+                                       class="form-control">
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="mo-ta" class="form-label">Mô tả</label>
+                                <textarea class="product-desc" id="mo-ta" placeholder="Nhập mô tả món ăn..."></textarea>
+                                <span class="form-message"></span>
+                            </div>
+                            <button class="form-submit btn-add-product-form add-product-e" id="add-product-button">
+                                <i class="fa-regular fa-plus"></i>
+                                <span>THÊM MÓN</span>
+                            </button>
+                            <button class="form-submit btn-update-product-form edit-product-e" id="update-product-button">
+                                <i class="fa-light fa-pencil"></i>
+                                <span>LƯU THAY ĐỔI</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </aside>
-        <main class="content">
-            @RenderBody()
-        </main>
-    </div>
-    <div class="modal add-product">
-        <div class="modal-container">
-            <h3 class="modal-container-title add-product-e">THÊM MỚI SẢN PHẨM</h3>
-            <h3 class="modal-container-title edit-product-e">CHỈNH SỬA SẢN PHẨM</h3>
-            <button class="modal-close product-form"><i class="fa-regular fa-xmark"></i></button>
-            <div class="modal-content">
-                <form action="" class="add-product-form">
-                    <div class="modal-content-left">
-                        <img src="/assets/img/blank-image.png" alt="" class="upload-image-preview">
-                        <div class="form-group file">
-                            <label for="up-hinh-anh" class="form-label-file"><i class="fa-regular fa-cloud-arrow-up"></i>Chọn hình ảnh</label>
-                            <input accept="image/jpeg, image/png, image/jpg" id="up-hinh-anh" name="up-hinh-anh" type="file" class="form-control" onchange="uploadImage(this)">
-                        </div>
-                    </div>
-                    <div class="modal-content-right">
+        </div>
+        <div class="modal detail-order">
+            <div class="modal-container">
+                <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
+                <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+                <div class="modal-detail-order">
+                </div>
+                <div class="modal-detail-bottom">
+                </div>
+            </div>
+        </div>
+        <div class="modal detail-order-product">
+            <div class="modal-container">
+                <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+                <div class="table">
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <td>Mã đơn</td>
+                                <td>Số lượng</td>
+                                <td>Đơn giá</td>
+                                <td>Ngày đặt</td>
+                            </tr>
+                        </thead>
+                        <tbody id="show-product-order-detail">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal signup">
+            <div class="modal-container">
+                <h3 class="modal-container-title add-account-e">THÊM KHÁCH HÀNG MỚI</h3>
+                <h3 class="modal-container-title edit-account-e">CHỈNH SỬA THÔNG TIN</h3>
+                <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+                <div class="form-content sign-up">
+                    <form action="" class="signup-form">
                         <div class="form-group">
-                            <label for="ten-mon" class="form-label">Tên món</label>
-                            <input id="ten-mon" name="ten-mon" type="text" placeholder="Nhập tên món"
-                                   class="form-control">
-                            <span class="form-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="category" class="form-label">Chọn món</label>
-                            <select name="category" id="chon-mon">
-                                <option>Món chay</option>
-                                <option>Món mặn</option>
-                                <option>Món lẩu</option>
-                                <option>Món ăn vặt</option>
-                                <option>Món tráng miệng</option>
-                                <option>Nước uống</option>
-                            </select>
-                            <span class="form-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="gia-moi" class="form-label">Giá bán</label>
-                            <input id="gia-moi" name="gia-moi" type="text" placeholder="Nhập giá bán"
-                                   class="form-control">
-                            <span class="form-message"></span>
+                            <label for="fullname" class="form-label">Tên đầy đủ</label>
+                            <input id="fullname" name="fullname" type="text" placeholder="VD: Nhật Sinh" class="form-control">
+                            <span class="form-message-name form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="mo-ta" class="form-label">Mô tả</label>
-                            <textarea class="product-desc" id="mo-ta" placeholder="Nhập mô tả món ăn..."></textarea>
-                            <span class="form-message"></span>
+                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <input id="phone" name="phone" type="text" placeholder="Nhập số điện thoại" class="form-control">
+                            <span class="form-message-phone form-message"></span>
                         </div>
-                        <button class="form-submit btn-add-product-form add-product-e" id="add-product-button">
-                            <i class="fa-regular fa-plus"></i>
-                            <span>THÊM MÓN</span>
-                        </button>
-                        <button class="form-submit btn-update-product-form edit-product-e" id="update-product-button">
-                            <i class="fa-light fa-pencil"></i>
-                            <span>LƯU THAY ĐỔI</span>
-                        </button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input id="password" name="password" type="text" placeholder="Nhập mật khẩu" class="form-control">
+                            <span class="form-message-password form-message"></span>
+                        </div>
+                        <div class="form-group edit-account-e">
+                            <label for="" class="form-label">Trạng thái</label>
+                            <input type="checkbox" id="user-status" class="switch-input">
+                            <label for="user-status" class="switch"></label>
+                        </div>
+                        <button class="form-submit add-account-e" id="signup-button">Đăng ký</button>
+                        <button class="form-submit edit-account-e" id="btn-update-account"><i class="fa-regular fa-floppy-disk"></i> Lưu thông tin</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <div class="modal detail-order">
-        <div class="modal-container">
-            <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
-            <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
-            <div class="modal-detail-order">
-            </div>
-            <div class="modal-detail-bottom">
-            </div>
-        </div>
-    </div>
-    <div class="modal detail-order-product">
-        <div class="modal-container">
-            <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
-            <div class="table">
-                <table width="100%">
-                    <thead>
-                        <tr>
-                            <td>Mã đơn</td>
-                            <td>Số lượng</td>
-                            <td>Đơn giá</td>
-                            <td>Ngày đặt</td>
-                        </tr>
-                    </thead>
-                    <tbody id="show-product-order-detail">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="modal signup">
-        <div class="modal-container">
-            <h3 class="modal-container-title add-account-e">THÊM KHÁCH HÀNG MỚI</h3>
-            <h3 class="modal-container-title edit-account-e">CHỈNH SỬA THÔNG TIN</h3>
-            <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
-            <div class="form-content sign-up">
-                <form action="" class="signup-form">
-                    <div class="form-group">
-                        <label for="fullname" class="form-label">Tên đầy đủ</label>
-                        <input id="fullname" name="fullname" type="text" placeholder="VD: Nhật Sinh" class="form-control">
-                        <span class="form-message-name form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class="form-label">Số điện thoại</label>
-                        <input id="phone" name="phone" type="text" placeholder="Nhập số điện thoại" class="form-control">
-                        <span class="form-message-phone form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="form-label">Mật khẩu</label>
-                        <input id="password" name="password" type="text" placeholder="Nhập mật khẩu" class="form-control">
-                        <span class="form-message-password form-message"></span>
-                    </div>
-                    <div class="form-group edit-account-e">
-                        <label for="" class="form-label">Trạng thái</label>
-                        <input type="checkbox" id="user-status" class="switch-input">
-                        <label for="user-status" class="switch"></label>
-                    </div>
-                    <button class="form-submit add-account-e" id="signup-button">Đăng ký</button>
-                    <button class="form-submit edit-account-e" id="btn-update-account"><i class="fa-regular fa-floppy-disk"></i> Lưu thông tin</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    
     <div id="toast"></div>
     <script src="/assets/js/admin.js"></script>
     <script src="/assets/js/toast-message.js"></script>
     <script>
-        const app = angular.module("areaAdmin", []);
+        const app = angular.module("appAdmin", []);
     </script>
     @RenderSection("scripts_footer", required: false)
     <script>

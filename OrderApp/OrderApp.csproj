@@ -201,9 +201,17 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeApiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeApiShareController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeDto.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminOrder\AdminOrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductApiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductApiShareController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductDto.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleController.cs" />

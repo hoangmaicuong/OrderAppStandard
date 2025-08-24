@@ -1,6 +1,16 @@
-﻿
+﻿@using System.Configuration;
 @{
     ViewBag.Title = "Quản lý cửa hàng";
+}
+@section css_header{
+
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
 }
 <div class="section">
     <h1 class="page-title">Trang tổng quát của cửa hàng</h1>
@@ -48,3 +58,47 @@
         </div>
     </div>
 </div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
+
+            $scope.init = function () {
+                $scope.methods.loadInit();
+            };
+
+            $scope.events = {
+
+            };
+            $scope.methods = {
+                loadInit: function () {
+
+                    //$http({
+                    //    url: '/api/admin/sample/get-all',
+                    //    method: "Get"
+                    //})
+                    //.then(function (response) {
+                    //    let data = JSON.parse(response.data);
+                    //    console.log('data', data);
+
+                    //    $scope.data.samples = data.samples;
+                    //    $scope.methods.loadDataTable();
+                    //})
+                    //.catch(function (response) {
+                    //    shareData.notification.exception();
+                    //    console.error('catch error', response);
+                    //})
+                    //.finally(function () {
+
+
+                    //});
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}
