@@ -1,6 +1,16 @@
-﻿
+﻿@using System.Configuration;
 @{
     ViewBag.Title = "Sản phẩm";
+}
+@section css_header{
+
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
 }
 <div class="section product-all">
     <div class="admin-control">
@@ -38,7 +48,7 @@
     function vnd(price) {
         return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
-    // Phân trang 
+    // Phân trang
     let perPage = 12;
     let currentPage = 1;
     let totalPage = 0;
@@ -77,7 +87,7 @@
         return node;
     }
 
-    // Hiển thị danh sách sản phẩm 
+    // Hiển thị danh sách sản phẩm
     function showProductArr(arr) {
         let productHtml = "";
         if (arr.length == 0) {
@@ -99,15 +109,15 @@
                 </div>
                 <div class="list-right">
                     <div class="list-price">
-                    <span class="list-current-price">${vnd(product.price)}</span>                   
+                    <span class="list-current-price">${vnd(product.price)}</span>
                     </div>
                     <div class="list-control">
                     <div class="list-tool">
                         <button class="btn-edit" onclick="editProduct(${product.id})"><i class="fa-light fa-pen-to-square"></i></button>
                         ${btnCtl}
-                    </div>                       
+                    </div>
                 </div>
-                </div> 
+                </div>
             </div>`;
             });
         }
@@ -156,4 +166,49 @@
         document.querySelector(".add-product").classList.add("open");
     });
 </script>
+
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
+
+            $scope.init = function () {
+                $scope.methods.loadInit();
+            };
+
+            $scope.events = {
+
+            };
+            $scope.methods = {
+                loadInit: function () {
+
+                    //$http({
+                    //    url: '/api/admin/sample/get-all',
+                    //    method: "Get"
+                    //})
+                    //.then(function (response) {
+                    //    let data = JSON.parse(response.data);
+                    //    console.log('data', data);
+
+                    //    $scope.data.samples = data.samples;
+                    //    $scope.methods.loadDataTable();
+                    //})
+                    //.catch(function (response) {
+                    //    shareData.notification.exception();
+                    //    console.error('catch error', response);
+                    //})
+                    //.finally(function () {
+
+
+                    //});
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}
 
