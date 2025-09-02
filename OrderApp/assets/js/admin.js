@@ -141,89 +141,6 @@ function getPathImage(path) {
     return "~/assets/img/products/" + patharr[patharr.length - 1];
 }
 
-let btnUpdateProductIn = document.getElementById("update-product-button");
-btnUpdateProductIn.addEventListener("click", (e) => {
-    e.preventDefault();
-    let products = JSON.parse(localStorage.getItem("products"));
-    let idProduct = products[indexCur].id;
-    let imgProduct = products[indexCur].img;
-    let titleProduct = products[indexCur].title;
-    let curProduct = products[indexCur].price;
-    let descProduct = products[indexCur].desc;
-    let categoryProduct = products[indexCur].category;
-    let imgProductCur = getPathImage(document.querySelector(".upload-image-preview").src)
-    let titleProductCur = document.getElementById("ten-mon").value;
-    let curProductCur = document.getElementById("gia-moi").value;
-    let descProductCur = document.getElementById("mo-ta").value;
-    let categoryText = document.getElementById("chon-mon").value;
-
-    if (imgProductCur != imgProduct || titleProductCur != titleProduct || curProductCur != curProduct || descProductCur != descProduct || categoryText != categoryProduct) {
-        let productadd = {
-            id: idProduct,
-            title: titleProductCur,
-            img: imgProductCur,
-            category: categoryText,
-            price: parseInt(curProductCur),
-            desc: descProductCur,
-            status: 1,
-        };
-        products.splice(indexCur, 1);
-        products.splice(indexCur, 0, productadd);
-        localStorage.setItem("products", JSON.stringify(products));
-        toast({ title: "Success", message: "Sửa sản phẩm thành công!", type: "success", duration: 3000, });
-        setDefaultValue();
-        document.querySelector(".add-product").classList.remove("open");
-        showProduct();
-    } else {
-        toast({ title: "Warning", message: "Sản phẩm của bạn không thay đổi!", type: "warning", duration: 3000, });
-    }
-});
-
-let btnAddProductIn = document.getElementById("add-product-button");
-btnAddProductIn.addEventListener("click", (e) => {
-    e.preventDefault();
-    let imgProduct = getPathImage(document.querySelector(".upload-image-preview").src)
-    let tenMon = document.getElementById("ten-mon").value;
-    let price = document.getElementById("gia-moi").value;
-    let moTa = document.getElementById("mo-ta").value;
-    let categoryText = document.getElementById("chon-mon").value;
-    if(tenMon == "" || price == "" || moTa == "") {
-        toast({ title: "Chú ý", message: "Vui lòng nhập đầy đủ thông tin món!", type: "warning", duration: 3000, });
-    } else {
-        if(isNaN(price)) {
-            toast({ title: "Chú ý", message: "Giá phải ở dạng số!", type: "warning", duration: 3000, });
-        } else {
-            let products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [];
-            let product = {
-                id: createId(products),
-                title: tenMon,
-                img: imgProduct,
-                category: categoryText,
-                price: price,
-                desc: moTa,
-                status:1
-            };
-            products.unshift(product);
-            localStorage.setItem("products", JSON.stringify(products));
-            showProduct();
-            document.querySelector(".add-product").classList.remove("open");
-            toast({ title: "Success", message: "Thêm sản phẩm thành công!", type: "success", duration: 3000});
-            setDefaultValue();
-        }
-    }
-});
-
-document.querySelector(".modal-close.product-form").addEventListener("click",() => {
-    setDefaultValue();
-})
-
-function setDefaultValue() {
-    document.querySelector(".upload-image-preview").src = "~/assets/img/blank-image.png";
-    document.getElementById("ten-mon").value = "";
-    document.getElementById("gia-moi").value = "";
-    document.getElementById("mo-ta").value = "";
-    document.getElementById("chon-mon").value = "Món chay";
-}
 
 // Close Popup Modal
 let closePopup = document.querySelectorAll(".modal-close");
@@ -235,11 +152,7 @@ for (let i = 0; i < closePopup.length; i++) {
     };
 }
 
-// On change Image
-function uploadImage(el) {
-    let path = "~/assets/img/products/" + el.value.split("\\")[2];
-    document.querySelector(".upload-image-preview").setAttribute("src", path);
-}
+
 
 // Format Date
 function formatDate(date) {

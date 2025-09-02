@@ -21,7 +21,14 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
         [Route("update")]
         public IHttpActionResult Update(AdminProductDto.UpdateDto dto)
         {
-            return Ok(services.Update(dto));
+            if (dto.Product.ProductId < 1)
+            {
+                return Ok(services.Create(dto));
+            }
+            else
+            {
+                return Ok(services.Edit(dto));
+            }
         }
     }
 }

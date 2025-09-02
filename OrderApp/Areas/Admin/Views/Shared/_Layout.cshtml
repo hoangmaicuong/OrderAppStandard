@@ -40,7 +40,7 @@
                     text = button.innerHTML;
                 }
                 button.disabled = true;
-                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text}`;
+                button.innerHTML = `<i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i> ${text}`;
             },
             loaded: function (button) {
                 button.disabled = false;
@@ -52,27 +52,10 @@
         notification: {
             messageExceptionAPI: '@Html.Raw(Support.ResponsesAPI.MessageAPI.messageException)',
             fail: function (message) {
-                const Swal2 = Swal.mixin({
-                    customClass: {
-                        input: 'form-control'
-                    }
-                })
-                Swal2.fire({
-                    icon: "warning",
-                    title: '@Html.Raw(Support.ResponsesAPI.MessageAPI.failTitle)',
-                    text: message,
-                })
+                alert(`⚠️ @Html.Raw(Support.ResponsesAPI.MessageAPI.failTitle)!${message}.`)
             },
             exception: function () {
-                const Swal2 = Swal.mixin({
-                    customClass: {
-                        input: 'form-control'
-                    }
-                })
-                Swal2.fire({
-                    icon: "warning",
-                    title: shareData.notification.messageExceptionAPI
-                })
+                alert('⚠️' + shareData.notification.messageExceptionAPI)
             }
         }
     }

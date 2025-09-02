@@ -21,9 +21,8 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
             public string ProductName { get; set; }
             public string ProductDescription { get; set; }
             public Nullable<decimal> ProductPrice { get; set; }
-            public Nullable<decimal> OriginalPrice { get; set; }
-            public Nullable<bool> IsAvailable { get; set; }
-            public int NumberOfProductsSold { get; set; }
+            public Nullable<bool> IsActive { get; set; }
+            public int? CategoryId { get; set; }
         }
     }
 }
