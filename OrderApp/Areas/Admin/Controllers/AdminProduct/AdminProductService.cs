@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using OrderApp.Areas.Admin.Controllers.AdminSample;
+using System.IO;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminProduct
 {
@@ -156,6 +157,39 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
             #endregion
 
             //* Kết quả hàm *
+            return result;
+        }
+        public List<string> UploadImages(int productId, HttpRequest Request, HttpServerUtility Server)
+        {
+            var result = new List<string>();
+
+            var product = db.Product.FirstOrDefault(x => x.ProductId == productId);
+
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                var file = Request.Files[i];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(Server.MapPath(imagePath), fileName);
+
+                    // Tùy chọn: Đổi tên file nếu trùng
+                    var FileId = Guid.NewGuid().ToString("N") + Path.GetExtension(fileName);
+
+                    var uniquePath = Path.Combine(Server.MapPath(imagePath), FileId);
+
+                    file.SaveAs(uniquePath);
+                    // Lưu vào DB
+                    product.ProductImage = new ProductImage
+                    {
+                        FileId = FileId
+                    };
+                    result.Add(FileId);
+                }
+            }
+
+            db.SaveChanges();
             return result;
         }
     }

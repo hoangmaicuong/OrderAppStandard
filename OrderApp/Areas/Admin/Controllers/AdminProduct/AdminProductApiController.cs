@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminProduct
@@ -29,6 +30,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
             {
                 return Ok(services.Edit(dto));
             }
+        }
+        [HttpPost]
+        [Route("upload-images")]
+        public IHttpActionResult UploadImages(int productId)
+        {
+            var httpRequest = HttpContext.Current.Request;
+            var server = HttpContext.Current.Server;
+
+            var uploadedFiles = services.UploadImages(productId, httpRequest, server);
+            return Json(new { success = true, files = uploadedFiles });
         }
     }
 }
