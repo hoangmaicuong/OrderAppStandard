@@ -35,25 +35,24 @@
 <div class="section product-all">
     <div class="admin-control">
         <div class="admin-control-left">
-            <select name="the-loai" id="the-loai" onchange="showProduct()">
-                <option>Tất cả</option>
+            <select ng-model="selectedCategoryId">
+                <option value="">Tất cả</option>
                 <option ng-repeat="item in data.support.categorys" value="{{item.categoryId}}">{{item.categoryName}}</option>
-                <option>Đã xóa</option>
             </select>
         </div>
         <div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input id="form-search-product" type="text" class="form-search-input" placeholder="Tìm kiếm tên món..." oninput="showProduct()">
+                <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm tên món...">
             </form>
         </div>
         <div class="admin-control-right">
-            <button class="btn-control-large" id="btn-cancel-product" onclick="cancelSearchProduct()"><i class="fa-light fa-rotate-right"></i> Làm mới</button>
+            <button class="btn-control-large" id="btn-cancel-product" ng-click="events.onCancelSearchProduct()"><i class="fa-light fa-rotate-right"></i> Làm mới</button>
             <button class="btn-control-large" ng-click="events.onOpenModelProduct()" @*id="btn-add-product"*@><i class="fa-light fa-plus"></i> Thêm món mới</button>
         </div>
     </div>
     <div @*id="show-product"*@>
-        <div ng-repeat="item in data.products" class="list">
+        <div ng-repeat="item in data.products | filter:searchText | filter:{ categoryId: selectedCategoryId }" class="list">
             <div class="list-left">
                 <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
                 <div class="list-info">
@@ -242,24 +241,24 @@
     }
 
     function showProduct() {
-        let selectOp = document.getElementById('the-loai').value;
-        let valeSearchInput = document.getElementById('form-search-product').value;
-        let products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [];
+        //let selectOp = document.getElementById('the-loai').value;
+        //let valeSearchInput = document.getElementById('form-search-product').value;
+        //let products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [];
 
-        if (selectOp == "Tất cả") {
-            result = products.filter((item) => item.status == 1);
-        } else if (selectOp == "Đã xóa") {
-            result = products.filter((item) => item.status == 0);
-        } else {
-            result = products.filter((item) => item.category == selectOp);
-        }
+        //if (selectOp == "Tất cả") {
+        //    result = products.filter((item) => item.status == 1);
+        //} else if (selectOp == "Đã xóa") {
+        //    result = products.filter((item) => item.status == 0);
+        //} else {
+        //    result = products.filter((item) => item.category == selectOp);
+        //}
 
-        result = valeSearchInput == "" ? result : result.filter(item => {
-            return item.title.toString().toUpperCase().includes(valeSearchInput.toString().toUpperCase());
-        })
+        //result = valeSearchInput == "" ? result : result.filter(item => {
+        //    return item.title.toString().toUpperCase().includes(valeSearchInput.toString().toUpperCase());
+        //})
 
-        displayList(result, perPage, currentPage);
-        setupPagination(result, perPage, currentPage);
+        //displayList(result, perPage, currentPage);
+        //setupPagination(result, perPage, currentPage);
     }
 
     function cancelSearchProduct() {
@@ -383,7 +382,6 @@
                     const button = $event.currentTarget;
                     shareData.loadButton.loading(button, true);
 
-                    //console.log('$scope.data', $scope.data)
                     const data = {
                         product: $scope.data.product
                     }
@@ -405,6 +403,10 @@
                     }
                     document.querySelector(".add-product").classList.add("open");
                 },
+                onCancelSearchProduct: function () {
+                    $scope.selectedCategoryId = '';
+                    $scope.searchText = '';
+                }
             };
             $scope.methods = {
                 loadInit: function (button) {
@@ -413,7 +415,7 @@
                         method: "Get"
                     })
                         .then(function (response) {
-                            console.log('data', response.data);
+                            //console.log('data', response.data);
 
                             $scope.data.products = response.data.products;
                             $scope.data.support.categorys = response.data.categorys;
@@ -436,7 +438,6 @@
                         data: data
                     })
                         .then(function (response) {
-                            //console.log('response', response);
                             if (response.data.success == true) {
                                 if (response.data?.objectResponses?.id > 0) {
                                     $scope.data.product.productId = response.data.objectResponses.id;
@@ -480,8 +481,6 @@
                     })
                     .then(function (response) {
                         if (response.data.success === true) {
-                            console.log("response", response);
-                            console.log("✅ Upload ảnh thành công");
                             $scope.data.product.fileId = response.data.objectResponses.fileId;
                             
                         } else {
