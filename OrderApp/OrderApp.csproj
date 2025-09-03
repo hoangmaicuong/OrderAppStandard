@@ -1259,7 +1259,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Content\UploadFile\" />
+    <Folder Include="Content\UploadFiles\" />
     <Folder Include="doccument\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>

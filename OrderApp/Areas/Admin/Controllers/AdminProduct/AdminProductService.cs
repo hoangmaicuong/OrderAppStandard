@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using OrderApp.Areas.Admin.Controllers.AdminSample;
 using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminProduct
 {
@@ -159,37 +160,61 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
             //* Kết quả hàm *
             return result;
         }
-        public List<string> UploadImages(int productId, HttpRequest Request, HttpServerUtility Server)
+        public Support.ResponsesAPI UploadImage(int productId, HttpRequest Request, HttpServerUtility Server)
         {
-            var result = new List<string>();
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            var file = Request.Files[0];
+            Product product = db.Product.FirstOrDefault(x => x.ProductId == productId);
 
-            var product = db.Product.FirstOrDefault(x => x.ProductId == productId);
-
-            for (int i = 0; i < Request.Files.Count; i++)
+            #endregion
+            if (product == null)
             {
-                var file = Request.Files[i];
-
-                if (file != null && file.ContentLength > 0)
+                return new Support.ResponsesAPI
                 {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath(imagePath), fileName);
-
-                    // Tùy chọn: Đổi tên file nếu trùng
-                    var FileId = Guid.NewGuid().ToString("N") + Path.GetExtension(fileName);
-
-                    var uniquePath = Path.Combine(Server.MapPath(imagePath), FileId);
-
-                    file.SaveAs(uniquePath);
-                    // Lưu vào DB
-                    product.ProductImage = new ProductImage
-                    {
-                        FileId = FileId
-                    };
-                    result.Add(FileId);
-                }
+                    success = false,
+                    messageForUser = "Không tìm thấy sản phẩm"
+                };
             }
 
-            db.SaveChanges();
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath(imagePath), fileName);
+
+                // Tùy chọn: Đổi tên file nếu trùng
+                var FileId = Guid.NewGuid().ToString("N") + Path.GetExtension(fileName);
+
+                var uniquePath = Path.Combine(Server.MapPath(imagePath), FileId);
+
+                // 🔹 kiểm tra có ảnh cũ không
+                if (product.ProductImage != null && !string.IsNullOrEmpty(product.ProductImage.FileId))
+                {
+                    var oldFilePath = Path.Combine(Server.MapPath(imagePath), product.ProductImage.FileId);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath); // xóa ảnh cũ
+                    }
+                }
+
+                // lưu ảnh mới
+                file.SaveAs(uniquePath);
+
+                // Lưu vào DB
+                product.ProductImage = new ProductImage
+                {
+                    FileId = FileId
+                };
+                db.SaveChanges();
+                result = new Support.ResponsesAPI
+                {
+                    success = true,
+                    objectResponses = new
+                    {
+                        fileId = FileId
+                    }
+                };
+            }
             return result;
         }
     }

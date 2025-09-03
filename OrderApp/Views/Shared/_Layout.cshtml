@@ -37,7 +37,7 @@
                         text = button.innerHTML;
                     }
                     button.disabled = true;
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text}`;
+                    button.innerHTML = `<i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i> ${text}`;
                 },
                 loaded: function (button) {
                     button.disabled = false;

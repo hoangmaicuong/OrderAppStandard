@@ -114,27 +114,6 @@ function changeStatusProduct(id) {
     showProduct();
 }
 
-var indexCur;
-function editProduct(id) {
-    let products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [];
-    let index = products.findIndex(item => {
-        return item.id == id;
-    })
-    indexCur = index;
-    document.querySelectorAll(".add-product-e").forEach(item => {
-        item.style.display = "none";
-    })
-    document.querySelectorAll(".edit-product-e").forEach(item => {
-        item.style.display = "block";
-    })
-    document.querySelector(".add-product").classList.add("open");
-    //
-    document.querySelector(".upload-image-preview").src = products[index].img;
-    document.getElementById("ten-mon").value = products[index].title;
-    document.getElementById("gia-moi").value = products[index].price;
-    document.getElementById("mo-ta").value = products[index].desc;
-    document.getElementById("chon-mon").value = products[index].category;
-}
 
 function getPathImage(path) {
     let patharr = path.split("/");

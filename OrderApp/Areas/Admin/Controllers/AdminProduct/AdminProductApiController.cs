@@ -32,14 +32,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
             }
         }
         [HttpPost]
-        [Route("upload-images")]
-        public IHttpActionResult UploadImages(int productId)
+        [Route("upload-image")]
+        public IHttpActionResult UploadImage(int productId)
         {
             var httpRequest = HttpContext.Current.Request;
             var server = HttpContext.Current.Server;
 
-            var uploadedFiles = services.UploadImages(productId, httpRequest, server);
-            return Json(new { success = true, files = uploadedFiles });
+            return Json(services.UploadImage(productId, httpRequest, server));
         }
     }
 }
