@@ -32,9 +32,9 @@
         <div class="home-slider">
             <img src="~/assets/img/banner-1.png" alt="">
             <!-- <img src="~/assets/img/banner-2.png" alt="">
-            <img src="~/assets/img/banner-3.png" alt="">
-            <img src="~/assets/img/banner-4.png" alt="">
-            <img src="~/assets/img/banner-5.png" alt=""> -->
+        <img src="~/assets/img/banner-3.png" alt="">
+        <img src="~/assets/img/banner-4.png" alt="">
+        <img src="~/assets/img/banner-5.png" alt=""> -->
         </div>
         <div class="home-service" id="home-service">
             <div class="home-service-item">
@@ -77,7 +77,34 @@
         <div class="home-title-block" id="home-title">
             <h2 class="home-title">Khám phá thực đơn của chúng tôi</h2>
         </div>
-        <div class="home-products" id="home-products">
+        @*<div class="home-products" id="home-products">
+        </div>*@
+        <div class="home-products" @*id="home-products"*@>
+            <div ng-repeat="item in data.products" class="col-product">
+                <article class="card-product">
+                    <div class="card-header">
+                        <a href="javascript:;" class="card-image-link" ng-click="events.onOpenModelProduct(item)">
+                            <img class="card-image" ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                        </a>
+                    </div>
+                    <div class="food-info">
+                        <div class="card-content">
+                            <div class="card-title">
+                                <a href="javascript:;" ng-bind-html="item.productName" 
+                                   class="card-title-link" ng-click="events.onOpenModelProduct(item)" @*onclick="detailProduct(1)"*@></a>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="product-price">
+                                <span ng-bind-html="item.productPrice + '&nbsp;₫'" class="current-price"></span>
+                            </div>
+                            <div class="product-buy">
+                                <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
         </div>
         <div class="page-nav">
             <ul class="page-nav-list">
@@ -168,7 +195,40 @@
 </main>
 <div class="modal product-detail">
     <button class="modal-close close-popup"><i class="fa-thin fa-xmark"></i></button>
+    @*<div class="modal-container mdl-cnt" id="product-detail-content">
+        </div>*@
     <div class="modal-container mdl-cnt" id="product-detail-content">
+        <div class="modal-header">
+            <img class="product-image" ng-src="{{data.product.fileId ? data.support.imagePath + data.product.fileId : '/assets/img/blank-image.png'}}"  alt="">
+        </div>
+        <div class="modal-body">
+            <h2 class="product-title">{{data.product.productName}}</h2>
+            <div class="product-control">
+                <div class="priceBox">
+                    <span class="current-price">{{data.product.productPrice}}</span>
+                </div>
+                <div class="buttons_added">
+                    <input class="minus is-form" type="button" value="-" onclick="decreasingNumber(this)">
+                    <input disabled class="input-qty" max="100" min="1" name="" type="number" value="1">
+                    <input class="plus is-form" type="button" value="+" onclick="increasingNumber(this)">
+                </div>
+            </div>
+            <p class="product-description">{{data.product.productDescription}}</p>
+        </div>
+        <div class="notebox">
+            <p class="notebox-title">Ghi chú</p>
+            <textarea class="text-note" id="popup-detail-note" placeholder="Nhập thông tin cần lưu ý..."></textarea>
+        </div>
+        <div class="modal-footer">
+            <div class="price-total">
+                <span class="thanhtien">Thành tiền</span>
+                <span class="price">200.000&nbsp;₫</span>
+            </div>
+            <div class="modal-footer-control">
+                <button class="button-dathangngay" data-product="1">Đặt hàng ngay</button>
+                <button class="button-dat" id="add-cart" onclick="animationCart()"><i class="fa-light fa-basket-shopping"></i></button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal signup-login">
@@ -294,6 +354,7 @@
     <script>
         app.controller("mainCtrl", function ($scope, $http) {
             $scope.data = {
+                product: {},
                 support: {
                     imagePath: context.imagePath,
                 }
@@ -304,30 +365,32 @@
             };
 
             $scope.events = {
-                
+                onOpenModelProduct: function (product) {
+                    $scope.data.product = product;
+                    document.querySelector(".modal.product-detail").classList.add("open");
+                    body.style.overflow = "hidden";
+                }
             };
             $scope.methods = {
                 loadInit: function () {
 
-                    //$http({
-                    //    url: '/api/admin/sample/get-all',
-                    //    method: "Get"
-                    //})
-                    //.then(function (response) {
-                    //    let data = JSON.parse(response.data);
-                    //    console.log('data', data);
-
-                    //    $scope.data.samples = data.samples;
-                    //    $scope.methods.loadDataTable();
-                    //})
-                    //.catch(function (response) {
-                    //    shareData.notification.exception();
-                    //    console.error('catch error', response);
-                    //})
-                    //.finally(function () {
+                    $http({
+                        url: '/api/home/get-all',
+                        method: "Get"
+                    })
+                    .then(function (response) {
+                        console.log('response', response);
+                        $scope.data.products = response.data.products;
+                        $scope.data.support.categorys = response.data.categorys;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
 
 
-                    //});
+                    });
                 }
             };
             $scope.init();

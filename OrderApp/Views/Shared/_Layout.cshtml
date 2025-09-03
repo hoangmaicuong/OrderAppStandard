@@ -11,10 +11,11 @@
     <link rel="stylesheet" href="~/assets/css/toast-message.css">
     <link rel="stylesheet" href="~/assets/font/font-awesome-pro-v6-6.2.0/css/all.min.css" />
     <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-sanitize.min.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
     @RenderSection("css_header", required: false)
     @RenderSection("scripts_header", required: false)
     <style>
-
     </style>
     <script>
         const shareData = {
@@ -499,7 +500,7 @@
     <script src="~/assets/js/checkout.js"></script>
     <script src="~/assets/js/toast-message.js"></script>
     <script>
-        const app = angular.module("orderApp", []);
+        const app = angular.module("orderApp", ['ngSanitize', 'ngAnimate']);
     </script>
     @RenderSection("scripts_footer", required: false)
     <script>
