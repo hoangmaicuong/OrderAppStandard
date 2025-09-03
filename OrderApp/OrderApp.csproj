@@ -208,7 +208,6 @@
     <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminOrder\AdminOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductApiController.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductApiShareController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductDto.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductService.cs" />
