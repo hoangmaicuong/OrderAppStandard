@@ -28,23 +28,23 @@ function closeModal() {
     body.style.overflow = "auto";
 }
 
-function increasingNumber(e) {
-    let qty = e.parentNode.querySelector('.input-qty');
-    if (parseInt(qty.value) < qty.max) {
-        qty.value = parseInt(qty.value) + 1;
-    } else {
-        qty.value = qty.max;
-    }
-}
+//function increasingNumber(e) {
+//    let qty = e.parentNode.querySelector('.input-qty');
+//    if (parseInt(qty.value) < qty.max) {
+//        qty.value = parseInt(qty.value) + 1;
+//    } else {
+//        qty.value = qty.max;
+//    }
+//}
 
-function decreasingNumber(e) {
-    let qty = e.parentNode.querySelector('.input-qty');
-    if (qty.value > qty.min) {
-        qty.value = parseInt(qty.value) - 1;
-    } else {
-        qty.value = qty.min;
-    }
-}
+//function decreasingNumber(e) {
+//    let qty = e.parentNode.querySelector('.input-qty');
+//    if (qty.value > qty.min) {
+//        qty.value = parseInt(qty.value) - 1;
+//    } else {
+//        qty.value = qty.min;
+//    }
+//}
 
 //Xem chi tiet san pham
 function detailProduct(index) {
@@ -137,7 +137,7 @@ function addCart(index) {
         currentuser.cart[vitri].soluong = parseInt(currentuser.cart[vitri].soluong) + parseInt(productcart.soluong);
     }
     localStorage.setItem('currentuser', JSON.stringify(currentuser));
-    updateAmount();
+    //updateAmount();
     closeModal();
     // toast({ title: 'Success', message: 'Thêm thành công sản phẩm vào giỏ hàng', type: 'success', duration: 3000 });
 }
@@ -239,7 +239,7 @@ function getProduct(item) {
     return product;
 }
 
-window.onload = updateAmount();
+//window.onload = updateAmount();
 window.onload = updateCartTotal();
 
 // Lay so luong hang
@@ -254,12 +254,12 @@ function getAmountCart() {
 }
 
 //Update Amount Cart 
-function updateAmount() {
-    if (localStorage.getItem('currentuser') != null) {
-        let amount = getAmountCart();
-        document.querySelector('.count-product-cart').innerText = amount;
-    }
-}
+//function updateAmount() {
+//    if (localStorage.getItem('currentuser') != null) {
+//        let amount = getAmountCart();
+//        document.querySelector('.count-product-cart').innerText = amount;
+//    }
+//}
 
 // Save Cart Info
 function saveAmountCart() {
@@ -289,7 +289,7 @@ function openCart() {
 function closeCart() {
     document.querySelector('.modal-cart').classList.remove('open');
     body.style.overflow = "auto";
-    updateAmount();
+    //updateAmount();
 }
 
 // Open Search Advanced
@@ -436,7 +436,7 @@ signupButton.addEventListener('click', () => {
                 toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
                 closeModal();
                 kiemtradangnhap();
-                updateAmount();
+                //updateAmount();
             } else {
                 toast({ title: 'Thất bại', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });
             }
@@ -485,7 +485,7 @@ loginButton.addEventListener('click', () => {
                 closeModal();
                 kiemtradangnhap();
                 checkAdmin();
-                updateAmount();
+                //updateAmount();
             }
         } else {
             toast({ title: 'Warning', message: 'Sai mật khẩu', type: 'warning', duration: 3000 });

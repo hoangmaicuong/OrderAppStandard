@@ -324,32 +324,7 @@
         </div>
     </div>
 </div>
-<div class="modal-cart">
-    <div class="cart-container">
-        <div class="cart-header">
-            <h3 class="cart-header-title"><i class="fa-regular fa-basket-shopping-simple"></i> Giỏ hàng</h3>
-            <button class="cart-close" onclick="closeCart()"><i class="fa-sharp fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="cart-body">
-            <div class="gio-hang-trong">
-                <i class="fa-thin fa-cart-xmark"></i>
-                <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
-            </div>
-            <ul class="cart-list">
-            </ul>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total-price">
-                <p class="text-tt">Tổng tiền:</p>
-                <p class="text-price">0đ</p>
-            </div>
-            <div class="cart-footer-payment">
-                <button class="them-mon"><i class="fa-regular fa-plus"></i> Thêm món</button>
-                <button class="thanh-toan disabled">Thanh toán</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="modal detail-order">
     <div class="modal-container mdl-cnt">
         <h3 class="modal-container-title">Thông tin đơn hàng</h3>
@@ -360,10 +335,11 @@
 </div>
 @section scripts_footer {
     <script>
-        app.controller("mainCtrl", function ($scope, $http) {
+        app.controller("mainCtrl", function ($scope, $http, ShareService) {
             $scope.data = {
                 product: {},
                 shoppingCart: {},
+                share: ShareService.getShare(),
                 support: {
                     imagePath: context.imagePath,
                 }
@@ -385,7 +361,8 @@
                 onAddShoppingCart: function ($event) {
                     //const button = $event.currentTarget;
                     //shareData.loadButton.loading(button);
-                    console.log('$scope.data.shoppingCart', $scope.data.shoppingCart)
+                    $scope.data.share.shoppingCart.add($scope.data.shoppingCart);
+                    closeModal();
                 }
             };
             $scope.methods = {
