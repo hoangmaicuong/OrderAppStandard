@@ -230,7 +230,11 @@
             </div>
             <div class="modal-footer-control">
                 <button class="button-dathangngay" data-product="1">Đặt hàng ngay</button>
-                <button class="button-dat" id="add-cart" onclick="animationCart()"><i class="fa-light fa-basket-shopping"></i></button>
+                <button class="button-dat" id="add-cart" onclick="animationCart()"
+                        ng-click="events.onAddShoppingCart($event)"
+                        >
+                <i class="fa-light fa-basket-shopping"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -377,6 +381,11 @@
 
                     document.querySelector(".modal.product-detail").classList.add("open");
                     body.style.overflow = "hidden";
+                },
+                onAddShoppingCart: function ($event) {
+                    //const button = $event.currentTarget;
+                    //shareData.loadButton.loading(button);
+                    console.log('$scope.data.shoppingCart', $scope.data.shoppingCart)
                 }
             };
             $scope.methods = {
