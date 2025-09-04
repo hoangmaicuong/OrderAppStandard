@@ -231,7 +231,140 @@
     </script>
     @RenderSection("scripts_footer", required: false)
     <script>
+        //filter Dùng chung angularjs
+        app.filter('vnCurrency', function () {
+            return function (input) {
+                if (isNaN(input)) {
+                    return '0'; // Giá trị mặc định nếu input không hợp lệ
+                }
+                return parseFloat(input)
+                    .toFixed(0) // Làm tròn đến số nguyên
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '&nbsp;₫'; // Thêm dấu chấm phân cách hàng nghìn
+            };
+        });
+        app.filter('vnNumber', function () {
+            return function (input) {
+                if (isNaN(input)) {
+                    return '0'; // Giá trị mặc định nếu input không hợp lệ
+                }
+                return parseFloat(input)
+                    .toFixed(0) // Làm tròn đến số nguyên
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Thêm dấu chấm phân cách hàng nghìn
+            };
+        });
+        app.filter('formatDateTime', function () {
+            return function (input) {
+                if (!input) return '';
 
+                // Chuyển đổi chuỗi ngày thành đối tượng Date
+                const date = new Date(input);
+
+                // Kiểm tra nếu không hợp lệ
+                if (isNaN(date.getTime())) return '';
+
+                // Lấy thông tin ngày, tháng, năm, giờ và phút
+                const day = date.getDate().toString().padStart(2, '0'); // Đảm bảo ngày có 2 chữ số
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng bắt đầu từ 0
+                const year = date.getFullYear();
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+
+                // Trả về chuỗi định dạng
+                return `${day}/${month}/${year} vào lúc ${hours}:${minutes}`;
+            };
+        });
+
+        app.directive('formatNumberInput', ['$filter', function ($filter) {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attrs, ngModelCtrl) {
+                    const vnNumberFilter = $filter('vnNumber');
+
+                    // Định dạng giá trị hiển thị
+                    function formatNumber(value) {
+                        if (!value && value !== 0) return '';
+                        return vnNumberFilter(value);
+                    }
+
+                    // Loại bỏ định dạng để lấy giá trị thực (số)
+                    function parseNumber(value) {
+                        if (!value) return 0;
+
+                        // Bỏ khoảng trắng + ký tự không phải số, dấu . , hoặc -
+                        value = value.replace(/[^\d,.-]/g, '');
+
+                        // Bỏ dấu chấm phân cách nghìn
+                        value = value.replace(/\./g, '');
+
+                        // Đổi dấu phẩy thành dấu chấm để parseFloat hiểu phần thập phân
+                        value = value.replace(',', '.');
+
+                        // Trả về số
+                        return parseFloat(value) || 0;
+                    }
+
+                    // Hiển thị giá trị đã định dạng trong input
+                    ngModelCtrl.$formatters.push(function (value) {
+                        return formatNumber(value);
+                    });
+
+                    // Khi người dùng nhập vào, vẫn giữ định dạng
+                    ngModelCtrl.$parsers.push(function (value) {
+                        const rawValue = parseNumber(value);
+                        element.val(formatNumber(rawValue)); // Hiển thị lại giá trị đã định dạng
+                        return rawValue; // Lưu giá trị thực vào ngModel
+                    });
+
+                    // Xử lý khi người dùng blur hoặc thay đổi giá trị
+                    element.on('blur', function () {
+                        const formattedValue = formatNumber(ngModelCtrl.$modelValue);
+                        element.val(formattedValue); // Cập nhật giá trị đã định dạng
+                    });
+
+                    // Xử lý ngay khi người dùng gõ để cập nhật định dạng liên tục
+                    element.on('input', function () {
+                        const rawValue = parseNumber(element.val());
+                        element.val(formatNumber(rawValue)); // Hiển thị giá trị đã định dạng
+                    });
+                }
+            };
+        }]);
+        app.directive('formatPhoneInput', ['$filter', function ($filter) {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attrs, ngModelCtrl) {
+                    function formatPhoneNumber(value) {
+                        if (!value) return '';
+                        var cleaned = value.replace(/\D/g, ''); // bỏ ký tự không phải số
+
+                        // Định dạng 4-3-3 (VD: 0123-345-678)
+                        if (cleaned.length <= 4) {
+                            return cleaned;
+                        } else if (cleaned.length <= 7) {
+                            return cleaned.slice(0, 4) + '-' + cleaned.slice(4);
+                        } else {
+                            return cleaned.slice(0, 4) + '-' + cleaned.slice(4, 7) + '-' + cleaned.slice(7, 10);
+                        }
+                    }
+
+                    ngModelCtrl.$parsers.push(function (value) {
+                        var formatted = formatPhoneNumber(value || '');
+                        ngModelCtrl.$setViewValue(formatted);
+                        ngModelCtrl.$render();
+                        return formatted.replace(/\D/g, ''); // trả về chuỗi số thuần cho model
+                    });
+
+                    element.on('input', function () {
+                        var value = element.val();
+                        var formatted = formatPhoneNumber(value);
+                        ngModelCtrl.$setViewValue(formatted);
+                        ngModelCtrl.$render();
+                    });
+                }
+            };
+        }]);
     </script>
 </body>
 </html>

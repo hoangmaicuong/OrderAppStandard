@@ -65,7 +65,7 @@
             </div>
             <div class="list-right">
                 <div class="list-price">
-                    <span class="list-current-price" ng-bind-html="item.productPrice + '&nbsp;₫'"></span>
+                    <span class="list-current-price" ng-bind-html="item.productPrice | vnCurrency"></span>
                 </div>
                 <div class="list-control">
                     <div class="list-tool">
@@ -143,7 +143,9 @@
                     </div>
                     <div class="form-group">
                         <label for="gia-moi" class="form-label">Giá bán</label>
-                        <input  ng-model="data.product.productPrice" id="gia-moi" name="gia-moi" type="text" placeholder="Nhập giá bán"
+                        <input  ng-model="data.product.productPrice" 
+                               format-number-input
+                               id="gia-moi" name="gia-moi" type="text" placeholder="Nhập giá bán"
                                class="form-control">
                         <span class="form-message"></span>
                     </div>
