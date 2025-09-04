@@ -504,7 +504,62 @@
     </script>
     @RenderSection("scripts_footer", required: false)
     <script>
+        //filter Dùng chung angularjs
+        app.filter('vnCurrency', function () {
+            return function (input) {
+                if (isNaN(input)) {
+                    return '0'; // Giá trị mặc định nếu input không hợp lệ
+                }
+                return parseFloat(input)
+                    .toFixed(0) // Làm tròn đến số nguyên
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '&nbsp;₫'; // Thêm dấu chấm phân cách hàng nghìn
+            };
+        });
+        app.filter('vnNumber', function () {
+            return function (input) {
+                if (isNaN(input)) {
+                    return '0'; // Giá trị mặc định nếu input không hợp lệ
+                }
+                return parseFloat(input)
+                    .toFixed(0) // Làm tròn đến số nguyên
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Thêm dấu chấm phân cách hàng nghìn
+            };
+        });
+        app.directive('formatPhoneInput', ['$filter', function ($filter) {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attrs, ngModelCtrl) {
+                    function formatPhoneNumber(value) {
+                        if (!value) return '';
+                        var cleaned = value.replace(/\D/g, ''); // bỏ ký tự không phải số
 
+                        // Định dạng 4-3-3 (VD: 0123-345-678)
+                        if (cleaned.length <= 4) {
+                            return cleaned;
+                        } else if (cleaned.length <= 7) {
+                            return cleaned.slice(0, 4) + '-' + cleaned.slice(4);
+                        } else {
+                            return cleaned.slice(0, 4) + '-' + cleaned.slice(4, 7) + '-' + cleaned.slice(7, 10);
+                        }
+                    }
+
+                    ngModelCtrl.$parsers.push(function (value) {
+                        var formatted = formatPhoneNumber(value || '');
+                        ngModelCtrl.$setViewValue(formatted);
+                        ngModelCtrl.$render();
+                        return formatted.replace(/\D/g, ''); // trả về chuỗi số thuần cho model
+                    });
+
+                    element.on('input', function () {
+                        var value = element.val();
+                        var formatted = formatPhoneNumber(value);
+                        ngModelCtrl.$setViewValue(formatted);
+                        ngModelCtrl.$render();
+                    });
+                }
+            };
+        }]);
     </script>
 </body>
 </html>

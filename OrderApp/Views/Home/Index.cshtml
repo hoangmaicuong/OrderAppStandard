@@ -96,7 +96,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="product-price">
-                                <span ng-bind-html="item.productPrice + '&nbsp;₫'" class="current-price"></span>
+                                <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
                             </div>
                             <div class="product-buy">
                                 <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
@@ -199,30 +199,34 @@
         </div>*@
     <div class="modal-container mdl-cnt" id="product-detail-content">
         <div class="modal-header">
-            <img class="product-image" ng-src="{{data.product.fileId ? data.support.imagePath + data.product.fileId : '/assets/img/blank-image.png'}}"  alt="">
+            <img class="product-image" ng-src="{{data.shoppingCart.fileId ? data.support.imagePath + data.shoppingCart.fileId : '/assets/img/blank-image.png'}}"  alt="">
         </div>
         <div class="modal-body">
-            <h2 class="product-title">{{data.product.productName}}</h2>
+            <h2 class="product-title">{{data.shoppingCart.productName}}</h2>
             <div class="product-control">
                 <div class="priceBox">
-                    <span class="current-price">{{data.product.productPrice}}</span>
+                    <span class="current-price" ng-bind-html="data.shoppingCart.productPrice | vnCurrency"></span>
                 </div>
                 <div class="buttons_added">
-                    <input class="minus is-form" type="button" value="-" onclick="decreasingNumber(this)">
-                    <input disabled class="input-qty" max="100" min="1" name="" type="number" value="1">
-                    <input class="plus is-form" type="button" value="+" onclick="increasingNumber(this)">
+                    <input class="minus is-form" type="button" value="-"
+                           ng-click="data.shoppingCart.shoppingCartQuantity = data.shoppingCart.shoppingCartQuantity - 1"
+                           @*onclick="decreasingNumber(this)"*@>
+                    <input disabled ng-model="data.shoppingCart.shoppingCartQuantity" class="input-qty" max="100" min="1" name="" type="number" value="1">
+                    <input class="plus is-form" type="button" value="+"
+                           ng-click="data.shoppingCart.shoppingCartQuantity = data.shoppingCart.shoppingCartQuantity + 1"
+                           @*onclick="increasingNumber(this)"*@>
                 </div>
             </div>
-            <p class="product-description">{{data.product.productDescription}}</p>
+            <p class="product-description">{{data.shoppingCart.productDescription}}</p>
         </div>
         <div class="notebox">
             <p class="notebox-title">Ghi chú</p>
-            <textarea class="text-note" id="popup-detail-note" placeholder="Nhập thông tin cần lưu ý..."></textarea>
+            <textarea class="text-note" ng-model="data.shoppingCart.shoppingCartNote" id="popup-detail-note" placeholder="Nhập thông tin cần lưu ý..."></textarea>
         </div>
         <div class="modal-footer">
             <div class="price-total">
                 <span class="thanhtien">Thành tiền</span>
-                <span class="price">200.000&nbsp;₫</span>
+                <span class="price" ng-bind-html="(data.shoppingCart.productPrice * data.shoppingCart.shoppingCartQuantity) | vnCurrency"></span>
             </div>
             <div class="modal-footer-control">
                 <button class="button-dathangngay" data-product="1">Đặt hàng ngay</button>
@@ -355,6 +359,7 @@
         app.controller("mainCtrl", function ($scope, $http) {
             $scope.data = {
                 product: {},
+                shoppingCart: {},
                 support: {
                     imagePath: context.imagePath,
                 }
@@ -366,7 +371,10 @@
 
             $scope.events = {
                 onOpenModelProduct: function (product) {
-                    $scope.data.product = product;
+                    $scope.data.shoppingCart = product;
+                    $scope.data.shoppingCart.shoppingCartQuantity = 1;
+                    $scope.data.shoppingCart.shoppingCartNote = '';
+
                     document.querySelector(".modal.product-detail").classList.add("open");
                     body.style.overflow = "hidden";
                 }
