@@ -31,20 +31,20 @@
 <div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
-            <select>
-                <option value="2">Tất cả trạng thái</option>
-                <option value="1">Đang mở</option>
-                <option value="0">Đang đóng</option>
+            <select ng-model="selectedStatusTable">
+                <option value="">Tất cả trạng thái</option>
+                <option value="true">Đang mở</option>
+                <option value="false">Đang đóng</option>
             </select>
         </div>
         <div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input id="form-search-user" type="text" class="form-search-input" placeholder="Tìm kiếm bàn..." oninput="showUser()">
+                <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm bàn...">
             </form>
         </div>
         <div class="admin-control-right">
-            <button id="btn-add-user" class="btn-control-large" onclick="openCreateAccount()"><i class="fa-light fa-plus"></i> <span>Thêm bàn mới</span></button>
+            <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModelTable()"><i class="fa-light fa-plus"></i> <span>Thêm bàn mới</span></button>
         </div>
     </div>
     <div class="table">
@@ -58,15 +58,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Tên bàn</td>
+                <tr ng-repeat="item in data.tables | filter:searchText | filter:{ isOpen: selectedStatusTable }">
+                    <td ng-bind="item.tableName">Tên bàn</td>
                     <td>
-                        <span class="status-open">Đang mở</span>
-                        <span class="status-close">Đang đóng</span>
+                        <span ng-show="item.isOpen" class="status-open">Đang mở</span>
+                        <span ng-hide="item.isOpen" class="status-close">Đang đóng</span>
                     </td>
-                    <td>ID</td>
+                    <td ng-bind="item.tableId">ID</td>
                     <td>
-                        <button class="btn-edit"><i class="fa-light fa-pen-to-square"></i></button>
+                        <button ng-click="events.onOpenModelTable(item)"
+                                class="btn-edit">
+                            <i class="fa-light fa-pen-to-square"></i>
+                        </button>
                         <button class="btn-delete"><i class="fa-regular fa-trash"></i></button>
                     </td>
                 </tr>
@@ -75,7 +78,7 @@
     </div>
 </div>
 
-<div class="modal signup">
+<div class="modal table-detail">
     <div class="modal-container">
         <h3 class="modal-container-title" ng-bind="data.table.tableName"></h3>
         <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
@@ -112,7 +115,7 @@
             }
 
             $scope.init = function () {
-                //$scope.methods.loadInit();
+                $scope.methods.loadInit();
             };
 
             $scope.events = {
@@ -123,21 +126,38 @@
                     const data = {
                         table: $scope.data.table
                     }
-                    //$scope.methods.update(data, button)
-                    console.log('data', data)
+                    $scope.methods.update(data, button)
+                },
+                onOpenModelTable: function (table) {
+                    let isNew;
+                    if (table == null || table == undefined) {
+                        isNew = true;
+                    }
+                    else isNew = false;
+
+                    if (isNew) {
+                        $scope.data.table = {
+                            tableName: 'Bàn Số ',
+                            isOpen: true
+                        };
+                    }
+                    else {
+                        $scope.data.table = table;
+                    }
+                    
+                    document.querySelector(".table-detail").classList.add("open");
                 }
             };
             $scope.methods = {
                 loadInit: function (button) {
                     $http({
-                        url: '/api/admin/product/get-all',
+                        url: '/api/admin/table/get-all',
                         method: "Get"
                     })
                         .then(function (response) {
                             //console.log('data', response.data);
 
-                            $scope.data.products = response.data.products;
-                            $scope.data.support.categorys = response.data.categorys;
+                            $scope.data.tables = response.data.tables;
                         })
                         .catch(function (response) {
                             shareData.notification.exception();
@@ -152,14 +172,14 @@
                 update: function (data, button) {
 
                     $http({
-                        url: '/api/admin/product/update',
+                        url: '/api/admin/table/update',
                         method: "POST",
                         data: data
                     })
                         .then(function (response) {
                             if (response.data.success == true) {
                                 if (response.data?.objectResponses?.id > 0) {
-                                    $scope.data.product.productId = response.data.objectResponses.id;
+                                    $scope.data.table.tableId = response.data.objectResponses.id;
                                 }
                                 $scope.methods.loadInit(button);
                             }

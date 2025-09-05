@@ -178,7 +178,6 @@ function deleteAcount(phone) {
         accounts.splice(index, 1)
     }
     localStorage.setItem("accounts", JSON.stringify(accounts));
-    showUser();
 }
 
 let indexFlag;
@@ -218,7 +217,6 @@ updateAccount.addEventListener("click", (e) => {
         toast({ title: 'Thành công', message: 'Thay đổi thông tin thành công !', type: 'success', duration: 3000 });
         document.querySelector(".signup").classList.remove("open");
         signUpFormReset();
-        showUser();
     }
 })
 
@@ -277,7 +275,6 @@ addAccount.addEventListener("click", (e) => {
             localStorage.setItem('accounts', JSON.stringify(accounts));
             toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
             document.querySelector(".signup").classList.remove("open");
-            showUser();
             signUpFormReset();
         } else {
             toast({ title: 'Cảnh báo !', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });

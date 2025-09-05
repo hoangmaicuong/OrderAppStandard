@@ -216,7 +216,10 @@
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleDto.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleService.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableDto.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableService.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountManage\AccountManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
