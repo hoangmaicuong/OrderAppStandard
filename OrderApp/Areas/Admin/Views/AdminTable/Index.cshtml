@@ -4,6 +4,21 @@
 }
 @section css_header{
     <style>
+        .status-close {
+            background-color: #f04e2e;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            display: inline-block;
+        }
+        .status-open {
+            background-color: #e5e5e5;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            display: inline-block;
+        }
     </style>
 }
 @section scripts_header{
@@ -36,23 +51,24 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>ID</td>
                     <td>Tên bàn</td>
                     <td>Trạng thái</td>
-                    <td></td>
+                    <td>ID</td>
+                    <td>#</td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>ID</td>
                     <td>Tên bàn</td>
                     <td>
-                        <div class="form-group">
-                            <input type="checkbox" id="table-isOpen" class="switch-input">
-                            <label for="table-isOpen" class="switch"></label>
-                        </div>
+                        <span class="status-open">Đang mở</span>
+                        <span class="status-close">Đang đóng</span>
                     </td>
-                    <td></td>
+                    <td>ID</td>
+                    <td>
+                        <button class="btn-edit"><i class="fa-light fa-pen-to-square"></i></button>
+                        <button class="btn-delete"><i class="fa-regular fa-trash"></i></button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -61,7 +77,7 @@
 
 <div class="modal signup">
     <div class="modal-container">
-        <h3 class="modal-container-title">THÊM BÀN MỚI</h3>
+        <h3 class="modal-container-title" ng-bind="data.table.tableName"></h3>
         <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
         <div class="form-content sign-up">
             <form action="" class="signup-form">
