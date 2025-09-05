@@ -102,7 +102,10 @@
                         <form action="" class="form-search">
                             <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
                             <input type="text" class="form-search-input" placeholder="Tìm kiếm món ăn..."
-                                   oninput="searchProducts()">
+                                   ng-model="data.searchText"
+                                   ng-change="methods.doSearch()"
+                                    oninput="document.getElementById('home-service').scrollIntoView({behavior: 'smooth'});" 
+                                   @*oninput="searchProducts()"*@>
                             <button class="filter-btn"><i class="fa-light fa-filter-list"></i><span>Lọc</span></button>
                         </form>
                     </div>
@@ -591,9 +594,10 @@
         });
     </script>
     <script>
-        app.controller("headerCtrl", function ($scope, $http, $timeout, ShareService) {
+        app.controller("headerCtrl", function ($scope, $http, $timeout, $rootScope, ShareService) {
             $scope.data = {
                 share: ShareService.getShare(),
+                searchText: '',
                 support: {
                     
                 }
@@ -634,6 +638,10 @@
                     }
                     return totalPrice;
                 },
+                doSearch: function () {
+                    //document.getElementById("home-service").scrollIntoView();
+                    $rootScope.shareSearchText = $scope.data.searchText;
+                }
             };
             
             $scope.init();

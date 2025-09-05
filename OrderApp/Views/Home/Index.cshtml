@@ -26,6 +26,11 @@
                    ng-click="events.onFilterByCategory(cat.categoryId)"
                    class="menu-link"></a>
             </li>
+            <li class="menu-list-item">
+                <a href="javascript:;"
+                   ng-click="events.onFilterByCategory(null)"
+                   class="menu-link">Tất cả các món</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -90,7 +95,7 @@
                 <i class="fa-light fa-face-sad-cry"></i>
             </div>
         </div>
-        <div ng-repeat="item in filteredProducts = (data.products | filter: methods.productFilter)" class="col-product">
+        <div ng-repeat="item in filteredProducts = (data.products | filter: methods.productFilter | filter: data.filter.searchText)" class="col-product">
             <article class="card-product">
                 <div class="card-header">
                     <a href="javascript:;" class="card-image-link" ng-click="events.onOpenModelProduct(item)">
@@ -345,7 +350,7 @@
 </div>
 @section scripts_footer {
     <script>
-        app.controller("mainCtrl", function ($scope, $http, ShareService) {
+        app.controller("mainCtrl", function ($scope, $http, $rootScope, ShareService) {
             $scope.data = {
                 product: {},
                 shoppingCart: {},
@@ -354,13 +359,20 @@
                     imagePath: context.imagePath,
                 },
                 filter: {
-                    categoryId: null
+                    categoryId: null,
+                    searchText: ''
                 }
             }
 
             $scope.init = function () {
                 $scope.methods.loadInit();
             };
+
+            $scope.$watch(function () {
+                return $rootScope.shareSearchText;
+            }, function (newVal) {
+                $scope.data.filter.searchText = newVal;
+            });
 
             $scope.events = {
                 onOpenModelProduct: function (product) {
