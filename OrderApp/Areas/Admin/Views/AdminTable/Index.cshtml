@@ -1,0 +1,167 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Các Bàn";
+}
+@section css_header{
+    <style>
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
+<div class="section">
+    <div class="admin-control">
+        <div class="admin-control-left">
+            <select>
+                <option value="2">Tất cả trạng thái</option>
+                <option value="1">Đang mở</option>
+                <option value="0">Đang đóng</option>
+            </select>
+        </div>
+        <div class="admin-control-center">
+            <form action="" class="form-search">
+                <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
+                <input id="form-search-user" type="text" class="form-search-input" placeholder="Tìm kiếm bàn..." oninput="showUser()">
+            </form>
+        </div>
+        <div class="admin-control-right">
+            <button id="btn-add-user" class="btn-control-large" onclick="openCreateAccount()"><i class="fa-light fa-plus"></i> <span>Thêm bàn mới</span></button>
+        </div>
+    </div>
+    <div class="table">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Tên bàn</td>
+                    <td>Trạng thái</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID</td>
+                    <td>Tên bàn</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="checkbox" id="table-isOpen" class="switch-input">
+                            <label for="table-isOpen" class="switch"></label>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal signup">
+    <div class="modal-container">
+        <h3 class="modal-container-title">THÊM BÀN MỚI</h3>
+        <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+        <div class="form-content sign-up">
+            <form action="" class="signup-form">
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Tên bàn</label>
+                    <input ng-model="data.table.tableName" type="text" placeholder="VD: Bàn số 1" class="form-control">
+                    <span class="form-message-name form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label">Trạng thái</label>
+                    <input ng-model="data.table.isOpen" type="checkbox" id="table-isOpen" class="switch-input">
+                    <label for="table-isOpen" class="switch"></label>
+                </div>
+                <button type="button"
+                        ng-click="events.onAdd($event)"
+                        class="form-submit">Hoàn thành</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                table: {
+                    tableName:'Bàn Số ',
+                    isOpen: true
+                },
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
+
+            $scope.init = function () {
+                //$scope.methods.loadInit();
+            };
+
+            $scope.events = {
+                onAdd: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    const data = {
+                        table: $scope.data.table
+                    }
+                    //$scope.methods.update(data, button)
+                    console.log('data', data)
+                }
+            };
+            $scope.methods = {
+                loadInit: function (button) {
+                    $http({
+                        url: '/api/admin/product/get-all',
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            //console.log('data', response.data);
+
+                            $scope.data.products = response.data.products;
+                            $scope.data.support.categorys = response.data.categorys;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                update: function (data, button) {
+
+                    $http({
+                        url: '/api/admin/product/update',
+                        method: "POST",
+                        data: data
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                if (response.data?.objectResponses?.id > 0) {
+                                    $scope.data.product.productId = response.data.objectResponses.id;
+                                }
+                                $scope.methods.loadInit(button);
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}

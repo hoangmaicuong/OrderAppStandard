@@ -216,6 +216,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleDto.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleService.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountManage\AccountManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1725,6 +1726,7 @@
     <Content Include="DataFactory\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\AdminTable\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
