@@ -28,5 +28,6 @@ namespace OrderApp.DataFactory
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductImage> ProductImage { get; set; }
+        public virtual DbSet<Table> Table { get; set; }
     }
 }

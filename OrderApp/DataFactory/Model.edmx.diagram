@@ -10,6 +10,7 @@
         <EntityTypeShape EntityType="OrderAppModel.ProductImage" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <AssociationConnector Association="OrderAppModel.FK_Product_Category" ManuallyRouted="false" />
         <AssociationConnector Association="OrderAppModel.FK_Product_ProductImage" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OrderAppModel.Table" Width="1.5" PointX="3.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
