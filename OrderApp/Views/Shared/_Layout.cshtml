@@ -93,7 +93,7 @@
                 <div class="container">
                     <div class="header-middle-left">
                         <div class="header-logo">
-                            <a href="">
+                            <a href="/">
                                 <img src="~/assets/img/vy-food.png" alt="" class="header-logo-img">
                             </a>
                         </div>
@@ -154,7 +154,7 @@
                             <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
                         </div>
                         <ul class="cart-list">
-                            <li ng-repeat="item in data.shoppingCarts" class="cart-item">
+                            <li ng-repeat="item in data.shoppingCarts track by $index" class="cart-item">
                                 <div class="cart-item-info">
                                     <p ng-bind="item.productName" class="cart-item-title">
                                     </p>
@@ -467,7 +467,6 @@
                     return totalPrice;
                 },
                 doSearch: function () {
-                    //document.getElementById("home-service").scrollIntoView();
                     $rootScope.shareSearchText = $scope.data.searchText;
                 }
             };
