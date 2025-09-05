@@ -16,6 +16,16 @@
     @RenderSection("css_header", required: false)
     @RenderSection("scripts_header", required: false)
     <style>
+        /*angularjs animate*/
+        /*ng-repeat*/
+        .ng-enter {
+            transition: 0.5s linear all;
+            opacity: 0;
+        }
+
+        .ng-enter-active {
+            opacity: 1;
+        }
     </style>
     <script>
         const shareData = {
@@ -50,27 +60,10 @@
             notification: {
                 messageExceptionAPI: '@Html.Raw(Support.ResponsesAPI.MessageAPI.messageException)',
                 fail: function (message) {
-                    const Swal2 = Swal.mixin({
-                        customClass: {
-                            input: 'form-control'
-                        }
-                    })
-                    Swal2.fire({
-                        icon: "warning",
-                        title: '@Html.Raw(Support.ResponsesAPI.MessageAPI.failTitle)',
-                        text: message,
-                    })
+                    alert(`⚠️@Html.Raw(Support.ResponsesAPI.MessageAPI.failTitle)! ${message}`)
                 },
                 exception: function () {
-                    const Swal2 = Swal.mixin({
-                        customClass: {
-                            input: 'form-control'
-                        }
-                    })
-                    Swal2.fire({
-                        icon: "warning",
-                        title: shareData.notification.messageExceptionAPI
-                    })
+                    alert('⚠️' + shareData.notification.messageExceptionAPI)
                 }
             }
         }
