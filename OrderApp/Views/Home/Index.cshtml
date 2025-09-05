@@ -15,14 +15,17 @@
 <nav class="header-bottom">
     <div class="container">
         <ul class="menu-list">
-            <li class="menu-list-item"><a href="" class="menu-link">Trang chủ</a></li>
-            <li class="menu-list-item" onclick="showCategory('Món chay')"><a href="javascript:;" class="menu-link">Món chay</a></li>
-            <li class="menu-list-item" onclick="showCategory('Món mặn')"><a href="javascript:;" class="menu-link">Món mặn</a></li>
-            <li class="menu-list-item" onclick="showCategory('Món lẩu')"><a href="javascript:;" class="menu-link">Món lẩu</a></li>
-            <li class="menu-list-item" onclick="showCategory('Món ăn vặt')"><a href="javascript:;" class="menu-link">Món ăn vặt</a></li>
-            <li class="menu-list-item" onclick="showCategory('Món tráng miệng')"><a href="javascript:;" class="menu-link">Món tráng miệng</a></li>
-            <li class="menu-list-item" onclick="showCategory('Nước uống')"><a href="javascript:;" class="menu-link">Nước uống</a></li>
-            <li class="menu-list-item" onclick="showCategory('Món khác')"><a href="javascript:;" class="menu-link">Món khác</a></li>
+            <li class="menu-list-item">
+                <a href="javascript:;"
+                   ng-click="events.onFilterByCategory(null)"
+                   class="menu-link">Tất cả các món</a>
+            </li>
+            <li ng-repeat="cat in data.support.categorys"
+                class="menu-list-item">
+                <a ng-bind="cat.categoryName" href="javascript:;"
+                   ng-click="events.onFilterByCategory(cat.categoryId)"
+                   class="menu-link"></a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -74,38 +77,45 @@
                 </div>
             </div>
         </div>
-        <div class="home-title-block" id="home-title">
+        <div ng-show="filteredProducts.length > 0" class="home-title-block" id="home-title">
             <h2 class="home-title">Khám phá thực đơn của chúng tôi</h2>
         </div>
         @*<div class="home-products" id="home-products">
         </div>*@
-        <div class="home-products" @*id="home-products"*@>
-            <div ng-repeat="item in data.products" class="col-product">
-                <article class="card-product">
-                    <div class="card-header">
-                        <a href="javascript:;" class="card-image-link" ng-click="events.onOpenModelProduct(item)">
-                            <img class="card-image" ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
-                        </a>
-                    </div>
-                    <div class="food-info">
-                        <div class="card-content">
-                            <div class="card-title">
-                                <a href="javascript:;" ng-bind-html="item.productName" 
-                                   class="card-title-link" ng-click="events.onOpenModelProduct(item)" @*onclick="detailProduct(1)"*@></a>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="product-price">
-                                <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
-                            </div>
-                            <div class="product-buy">
-                                <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+    <div class="home-products" @*id="home-products"*@>
+        <div class="no-result" ng-if="filteredProducts.length === 0">
+            <div class="no-result-h">Tìm kiếm không có kết quả</div>
+            <div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div>
+            <div class="no-result-i">
+                <i class="fa-light fa-face-sad-cry"></i>
             </div>
         </div>
+        <div ng-repeat="item in filteredProducts = (data.products | filter: methods.productFilter)" class="col-product">
+            <article class="card-product">
+                <div class="card-header">
+                    <a href="javascript:;" class="card-image-link" ng-click="events.onOpenModelProduct(item)">
+                        <img class="card-image" ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                    </a>
+                </div>
+                <div class="food-info">
+                    <div class="card-content">
+                        <div class="card-title">
+                            <a href="javascript:;" ng-bind-html="item.productName"
+                               class="card-title-link" ng-click="events.onOpenModelProduct(item)" @*onclick="detailProduct(1)"*@></a>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="product-price">
+                            <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
+                        </div>
+                        <div class="product-buy">
+                            <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
         <div class="page-nav">
             <ul class="page-nav-list">
             </ul>
@@ -342,6 +352,9 @@
                 share: ShareService.getShare(),
                 support: {
                     imagePath: context.imagePath,
+                },
+                filter: {
+                    categoryId: null
                 }
             }
 
@@ -363,6 +376,10 @@
                     //shareData.loadButton.loading(button);
                     $scope.data.share.shoppingCart.add($scope.data.shoppingCart);
                     closeModal();
+                },
+                onFilterByCategory: function (categoryId) {
+                    $scope.data.filter.categoryId = categoryId;
+                    document.getElementById("home-title").scrollIntoView();
                 }
             };
             $scope.methods = {
@@ -385,6 +402,10 @@
 
 
                     });
+                },
+                productFilter: function (product) {
+                    if ($scope.data.filter.categoryId == null) return true;
+                    return product.categoryId == $scope.data.filter.categoryId;
                 }
             };
             $scope.init();

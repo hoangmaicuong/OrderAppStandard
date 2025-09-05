@@ -955,17 +955,17 @@ function paginationChange(page, productAll, currentPage) {
 }
 
 // Hiển thị chuyên mục
-function showCategory(category) {
-    document.getElementById('trangchu').classList.remove('hide');
-    document.getElementById('account-user').classList.remove('open');
-    document.getElementById('order-history').classList.remove('open');
-    let productSearch = productAll.filter(value => {
-        return value.category.toString().toUpperCase().includes(category.toUpperCase());
-    })
-    let currentPageSeach = 1;
-    displayList(productSearch, perPage, currentPageSeach);
-    setupPagination(productSearch, perPage, currentPageSeach);
-    document.getElementById("home-title").scrollIntoView();
-}
+//function showCategory(category) {
+//    document.getElementById('trangchu').classList.remove('hide');
+//    document.getElementById('account-user').classList.remove('open');
+//    document.getElementById('order-history').classList.remove('open');
+//    let productSearch = productAll.filter(value => {
+//        return value.category.toString().toUpperCase().includes(category.toUpperCase());
+//    })
+//    let currentPageSeach = 1;
+//    displayList(productSearch, perPage, currentPageSeach);
+//    setupPagination(productSearch, perPage, currentPageSeach);
+//    document.getElementById("home-title").scrollIntoView();
+//}
 
 
