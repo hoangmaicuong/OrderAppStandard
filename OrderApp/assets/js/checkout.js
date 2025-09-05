@@ -166,13 +166,13 @@ function showProductBuyNow(product) {
 }
 
 //Open Page Checkout
-let nutthanhtoan = document.querySelector('.thanh-toan')
-let checkoutpage = document.querySelector('.checkout-page');
-nutthanhtoan.addEventListener('click', () => {
-    checkoutpage.classList.add('active');
-    thanhtoanpage(1);
-    closeCart();
-    body.style.overflow = "hidden"
+//let nutthanhtoan = document.querySelector('.thanh-toan')
+//let checkoutpage = document.querySelector('.checkout-page');
+//nutthanhtoan.addEventListener('click', () => {
+//    checkoutpage.classList.add('active');
+//    thanhtoanpage(1);
+//    closeCart();
+//    body.style.overflow = "hidden"
 })
 
 // Đặt hàng ngay
