@@ -19,6 +19,7 @@
           </Key>
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TableId" Type="int" />
+          <Property Name="OrderDate" Type="datetime" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -250,6 +251,7 @@
           <Property Name="TableId" Type="Int32" />
           <NavigationProperty Name="Table" Relationship="OrderAppModel.FK_Order_Table" FromRole="Order" ToRole="Table" />
           <NavigationProperty Name="OrderDetail" Relationship="OrderAppModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -347,6 +349,7 @@
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="OrderAppModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="TableId" ColumnName="TableId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
