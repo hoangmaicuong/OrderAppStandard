@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web;
+using OrderApp.Areas.Admin.Controllers.AdminTable;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminOrder
 {
@@ -73,6 +74,56 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                     throw;
                 }
             }
+        }
+        public Support.ResponsesAPI RemoveOrderDetail(int orderDetailId)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            OrderDetail orderDetail = new OrderDetail();
+
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
+            if (orderDetail == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            db.OrderDetail.Remove(orderDetail);
+            #endregion
+
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
         }
     }
 }

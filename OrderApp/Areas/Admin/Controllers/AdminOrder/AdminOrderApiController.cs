@@ -25,5 +25,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         {
             return Ok(services.GetOrderDetails(orderId));
         }
+        [HttpPost]
+        [Route("remove-order-detail")]
+        public IHttpActionResult RemoveOrderDetail(int orderDetailId)
+        {
+            return Ok(services.RemoveOrderDetail(orderDetailId));
+        }
     }
 }

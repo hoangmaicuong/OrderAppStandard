@@ -102,8 +102,13 @@
                             <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
                             <div class="order-product-info">
                                 <h4 ng-bind="item.productName"></h4>
-                                <p ng-bind="item.orderDetailNote" class="order-product-note">
-                                    @*<i class="fa-light fa-pen"></i> Không có ghi chú*@
+                                <p ng-show="item.orderDetailNote != null" 
+                                   ng-bind="item.orderDetailNote" 
+                                   class="order-product-note">
+                                </p>
+                                <p ng-show="item.orderDetailNote == null" 
+                                   class="order-product-note">
+                                    <i class="fa-light fa-pen"></i> Không có ghi chú
                                 </p>
                                 <p ng-bind="'SL: ' + item.orderDetailQuantity" class="order-product-quantity"></p>
                             </div>
@@ -111,6 +116,14 @@
                         <div class="order-product-right">
                             <div class="order-product-price">
                                 <span ng-bind-html="item.productPrice | vnCurrency" class="order-product-current-price"></span>
+                            </div>
+                            <div>&nbsp;</div>
+                            <div>
+                                <button type="button"
+                                        ng-click="events.onRemoveOrderDetail($index, item, $event)"
+                                        class="btn-edit" style="float: right; background-color:white">
+                                    <i class="fa-duotone fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -141,7 +154,8 @@
                 </div>
             </div>
             <div class="modal-detail-bottom-right">
-                <button class="modal-detail-btn btn-daxuly" onclick="changeStatus('DH1',this)">Đã xử lý</button>
+                <button class="modal-detail-btn btn-chuaxuly" onclick="changeStatus('DH2',this)">Xác nhận</button>
+                <button class="modal-detail-btn btn-daxuly" onclick="changeStatus('DH1',this)">Hoàn thành</button>
             </div>
         </div>
 
@@ -172,6 +186,18 @@
                     document.querySelector(".detail-order").classList.add("open");
                     shareData.loadButton.loaded(button);
                     //console.log('$scope.data.order', $scope.data.order);
+                },
+                onRemoveOrderDetail: async function (index, orderDetail, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    let result = false;
+                    result = await $scope.methods.removeOrderDetail(orderDetail.orderDetailId);
+                    if (result) {
+                        $scope.data.order.orderDetails.splice(index, 1);
+                        $scope.$apply();
+                    }
+                    shareData.loadButton.loaded(button);
                 }
             };
             $scope.methods = {
@@ -227,7 +253,6 @@
                         method: "Get"
                     })
                     .then(function (response) {
-                        
                         return response.data.orderDetails;
                     })
                     .catch(function (response) {
@@ -236,6 +261,29 @@
                     })
                     .finally(function () {
                         
+                    });
+                },
+                removeOrderDetail: async function (orderDetailId) {
+                    return await $http({
+                        url: '/api/admin/order/remove-order-detail?orderDetailId=' + orderDetailId,
+                        method: "Post"
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            return true;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                        return false;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+
                     });
                 },
                 totalPriceForOrder: function (order) {
