@@ -44,63 +44,64 @@ namespace OrderApp.Controllers.Home
         }
         public Support.ResponsesAPI CreateOrder(HomeDto.CreateOrderDto dto)
         {
-            return null;
-            //var result = new Support.ResponsesAPI();
-            //#region khởi tạo tham số
-            //Models.Order product = new Product();
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            Order order = new Order();
 
-            //#endregion
+            #endregion
 
-            //#region Kiểm tra điều kiện thực thi function
-            //// Check.. (điều kiện để thực thi)
-            //if (string.IsNullOrEmpty(dto.Product.ProductName))
-            //{
-            //    result.success = false;
-            //    result.messageForUser = "Tên không được bỏ trống.";
-            //    return result;
-            //}
-            //product.ProductName = dto.Product.ProductName;
-            //product.ProductPrice = dto.Product.ProductPrice;
-            //product.ProductDescription = dto.Product.ProductDescription;
-            //product.CategoryId = dto.Product.CategoryId;
-            //product.IsActive = dto.Product.IsActive;
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            if (dto.Order.TableId < 1)
+            {
+                result.success = false;
+                result.messageForUser = "Chưa có bàn.";
+                return result;
+            }
+            order.TableId = dto.Order.TableId;
+            foreach(var item in dto.OrderDetails)
+            {
+                order.OrderDetail.Add(new OrderDetail
+                {
+                    ProductId = item.ProductId
+                });
+            }
+            #endregion
 
-            //#endregion
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.Order.Add(order);
+                    db.SaveChanges();
+                    transaction.Commit();
 
-            //#region thực thi function
-            //using (var transaction = db.Database.BeginTransaction())
-            //{
-            //    try
-            //    {
-            //        db.Product.Add(product);
-            //        db.SaveChanges();
-            //        transaction.Commit();
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true,
+                        objectResponses = new
+                        {
+                            id = order.OrderId
+                        }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
 
-            //        result = new Support.ResponsesAPI
-            //        {
-            //            success = true,
-            //            objectResponses = new
-            //            {
-            //                id = product.ProductId
-            //            }
-            //        };
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        transaction.Rollback();
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
 
-            //        result = new Support.ResponsesAPI
-            //        {
-            //            success = false,
-            //            messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
-            //            messageForDev = ex.Message
-            //        };
-            //    }
-            //}
-            //#endregion
-
-            ////* Kết quả hàm *
-            //return result;
+            //* Kết quả hàm *
+            return result;
         }
     }
 }

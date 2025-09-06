@@ -485,10 +485,7 @@
                     })
                     .then(function (response) {
                         if (response.data.success == true) {
-                            if (response.data?.objectResponses?.id > 0) {
-                                $scope.data.product.productId = response.data.objectResponses.id;
-                            }
-                            $scope.methods.loadInit(button);
+                            toast({ title: 'Success', message: 'Thêm thành công sản phẩm vào giỏ hàng', type: 'success', duration: 3000 });
                         }
                         else {
                             shareData.notification.fail(response.data.messageForUser)
@@ -500,7 +497,9 @@
                         console.error('catch error', response);
                     })
                     .finally(function () {
-
+                        if (button != null) {
+                            shareData.loadButton.loaded(button);
+                        }
                     });
                 }
             };
