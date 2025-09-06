@@ -37,5 +37,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         {
             return Ok(services.ChangeStatusToFinish(orderId));
         }
+        [HttpPost]
+        [Route("order-confirm")]
+        public IHttpActionResult OrderConfirm(int orderId)
+        {
+            return Ok(services.OrderConfirm(orderId));
+        }
     }
 }

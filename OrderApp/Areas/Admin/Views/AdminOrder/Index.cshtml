@@ -65,26 +65,29 @@
                 <tr>
                     <td>#</td>
                     <td>Trạng thái</td>
+                    <td>Xác nhận</td>
                     <td>Bàn đặt</td>
                     <td>Ngày đặt</td>
-                    <td>Mã đơn</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.orders | filter:searchText | filter:{ isFinish: selectedStatusOrder }">
                     <td>
                         <button class="btn-detail"
+                                ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
                                 ng-click="events.onOpenModelOrder($event, item)">
-                            <i class="fa-light fa-receipt"></i>
                         </button>
                     </td>
                     <td>
                         <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
                         <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
                     </td>
+                    <td>
+                        <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
+                        <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
+                    </td>
                     <td ng-bind="item.tableName"></td>
                     <td ng-bind="item.orderDate | formatDateTime"></td>
-                    <td ng-bind="item.orderId"></td>
                 </tr>
             </tbody>
         </table>
@@ -154,9 +157,13 @@
                 </div>
             </div>
             <div class="modal-detail-bottom-right">
-                @*<button class="modal-detail-btn btn-chuaxuly" onclick="changeStatus('DH2',this)">Xác nhận đơn</button>*@
+                <button ng-hide="data.order.isConfirm == true"
+                        ng-click="events.onOrderConfirm(data.order, $event)"
+                        class="modal-detail-btn btn-chuaxuly">
+                    Xác nhận đơn
+                </button>
                 <button ng-click="events.onChangeStatusToFinish(data.order, $event)"
-                        ng-hide="data.order.isFinish"
+                        ng-hide="data.order.isFinish || data.order.isConfirm != true"
                         class="modal-detail-btn btn-daxuly">
                     Hoàn thành đơn
                 </button>
@@ -215,7 +222,19 @@
                         $scope.$apply();
                     }
                     shareData.loadButton.loaded(button);
-                }
+                },
+                onOrderConfirm: async function (order, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    let result = false;
+                    result = await $scope.methods.orderConfirm(order.orderId);
+                    if (result) {
+                        $scope.data.order.isConfirm = true;
+                        $scope.$apply();
+                    }
+                    shareData.loadButton.loaded(button);
+                },
             };
             $scope.methods = {
                 loadInit: function (button) {
@@ -325,6 +344,29 @@
                     .finally(function () {
 
                     });
+                },
+                orderConfirm: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/order-confirm?orderId=' + orderId,
+                        method: "Post"
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
                 },
                 totalPriceForOrder: function (order) {
                     let total = 0;
