@@ -23,6 +23,7 @@ namespace OrderApp.DataFactory
         public int OrderId { get; set; }
         public Nullable<int> TableId { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<bool> IsFinish { get; set; }
     
         public virtual Table Table { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

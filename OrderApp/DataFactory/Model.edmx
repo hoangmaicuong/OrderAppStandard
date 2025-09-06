@@ -20,6 +20,7 @@
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TableId" Type="int" />
           <Property Name="OrderDate" Type="datetime" />
+          <Property Name="IsFinish" Type="bit" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -30,6 +31,7 @@
           <Property Name="ProductId" Type="int" />
           <Property Name="OrderDetailQuantity" Type="int" />
           <Property Name="OrderDetailNote" Type="nvarchar(max)" />
+          <Property Name="OrderDetailPrice" Type="money" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -252,6 +254,7 @@
           <NavigationProperty Name="Table" Relationship="OrderAppModel.FK_Order_Table" FromRole="Order" ToRole="Table" />
           <NavigationProperty Name="OrderDetail" Relationship="OrderAppModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="IsFinish" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -264,6 +267,7 @@
           <NavigationProperty Name="Product" Relationship="OrderAppModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
           <Property Name="OrderDetailQuantity" Type="Int32" />
           <Property Name="OrderDetailNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDetailPrice" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <Association Name="FK_Order_Table">
           <End Type="OrderAppModel.Table" Role="Table" Multiplicity="0..1" />
@@ -349,6 +353,7 @@
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="OrderAppModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="IsFinish" ColumnName="IsFinish" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="TableId" ColumnName="TableId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
@@ -358,6 +363,7 @@
           <EntitySetMapping Name="OrderDetail">
             <EntityTypeMapping TypeName="OrderAppModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="OrderDetailPrice" ColumnName="OrderDetailPrice" />
                 <ScalarProperty Name="OrderDetailNote" ColumnName="OrderDetailNote" />
                 <ScalarProperty Name="OrderDetailQuantity" ColumnName="OrderDetailQuantity" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
