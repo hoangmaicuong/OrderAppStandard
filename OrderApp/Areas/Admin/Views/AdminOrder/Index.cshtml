@@ -113,7 +113,7 @@
                         </div>
                         <div class="order-product-right">
                             <div class="order-product-price">
-                                <span ng-bind-html="item.orderDetailPrice | vnCurrency" class="order-product-current-price"></span>
+                                <span ng-bind-html="item.productPrice | vnCurrency" class="order-product-current-price"></span>
                             </div>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                     let total = 0;
                     if (order != null && order.orderDetails != null) {
                         for (item of order.orderDetails) {
-                            total += (item.orderDetailPrice * item.orderDetailQuantity);
+                            total += (item.productPrice * item.orderDetailQuantity);
                         }
                     }
                     return total;
