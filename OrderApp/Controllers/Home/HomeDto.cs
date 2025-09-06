@@ -29,6 +29,7 @@ namespace OrderApp.Controllers.Home
             public int ProductId { get; set; }
             public string ShoppingCartNote { get; set; }
             public int ShoppingCartQuantity { get; set; }
+            public decimal ProductPrice { get; set; }
         }
     }
 }

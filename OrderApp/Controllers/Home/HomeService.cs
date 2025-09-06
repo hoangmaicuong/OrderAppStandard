@@ -65,6 +65,7 @@ namespace OrderApp.Controllers.Home
                 order.OrderDetail.Add(new OrderDetail
                 {
                     ProductId = item.ProductId,
+                    OrderDetailPrice = item.ProductPrice,
                     OrderDetailQuantity = item.ShoppingCartQuantity,
                     OrderDetailNote = item.ShoppingCartNote
                 });
