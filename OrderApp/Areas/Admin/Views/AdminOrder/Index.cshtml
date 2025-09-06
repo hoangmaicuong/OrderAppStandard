@@ -131,15 +131,21 @@
             <div class="modal-detail-right">
                 <ul class="detail-order-group">
                     <li class="detail-order-item">
-                        <span class="detail-order-item-left"><i class="fa-light fa-location-dot"></i> Bàn đặt</span>
-                        <span ng-bind="data.order.tableName" class="detail-order-item-right"></span>
+                        <span class="detail-order-item-left"><i class="fa-light fa-table-picnic"></i> Bàn đặt</span>
+                        <span @*ng-bind="data.order.tableName"*@ class="detail-order-item-right">
+                            {{data.order.tableName}}
+                            <a href="/?tableId={{data.order.tableId}}" target="_blank">
+                                <i class="fa-light fa-utensils"></i>
+                            </a>
+                        </span>
+                        
                     </li>
                     <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-code"></i> Mã đơn</span>
                         <span ng-bind="data.order.orderId" class="detail-order-item-right"></span>
                     </li>
                     <li class="detail-order-item">
-                        <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt hàng</span>
+                        <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt</span>
                         <span ng-bind="data.order.orderDate | formatDateTime" class="detail-order-item-right"></span>
                     </li>
                 </ul>
