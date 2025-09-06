@@ -21,6 +21,7 @@
           <Property Name="TableId" Type="int" />
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="IsFinish" Type="bit" />
+          <Property Name="IsConfirm" Type="bit" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -254,6 +255,7 @@
           <NavigationProperty Name="OrderDetail" Relationship="OrderAppModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="IsFinish" Type="Boolean" />
+          <Property Name="IsConfirm" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -351,6 +353,7 @@
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="OrderAppModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="IsConfirm" ColumnName="IsConfirm" />
                 <ScalarProperty Name="IsFinish" ColumnName="IsFinish" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="TableId" ColumnName="TableId" />
