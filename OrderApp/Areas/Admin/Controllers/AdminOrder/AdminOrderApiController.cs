@@ -43,5 +43,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         {
             return Ok(services.OrderConfirm(orderId));
         }
+        [HttpPost]
+        [Route("restore-order")]
+        public IHttpActionResult RestoreOrder(int orderId)
+        {
+            return Ok(services.RestoreOrder(orderId));
+        }
     }
 }

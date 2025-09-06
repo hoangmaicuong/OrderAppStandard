@@ -168,6 +168,11 @@
                     Hoàn thành đơn
                 </button>
                 <span ng-show="data.order.isFinish" class="status-order-finish">Hoàn thành</span>
+                <button ng-show="data.order.isFinish"
+                        ng-click="events.onRestoreOrder(data.order, $event)"
+                        class="btn-edit">
+                    <i class="fa-light fa-arrow-rotate-right"></i>
+                </button>
             </div>
         </div>
 
@@ -231,6 +236,18 @@
                     result = await $scope.methods.orderConfirm(order.orderId);
                     if (result) {
                         $scope.data.order.isConfirm = true;
+                        $scope.$apply();
+                    }
+                    shareData.loadButton.loaded(button);
+                },
+                onRestoreOrder: async function (order, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    let result = false;
+                    result = await $scope.methods.restoreOrder(order.orderId);
+                    if (result) {
+                        $scope.data.order.isFinish = false;
                         $scope.$apply();
                     }
                     shareData.loadButton.loaded(button);
@@ -348,6 +365,29 @@
                 orderConfirm: async function (orderId) {
                     return await $http({
                         url: '/api/admin/order/order-confirm?orderId=' + orderId,
+                        method: "Post"
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
+                restoreOrder: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/restore-order?orderId=' + orderId,
                         method: "Post"
                     })
                         .then(function (response) {
