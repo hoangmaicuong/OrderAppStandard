@@ -22,6 +22,7 @@ namespace OrderApp.DataFactory
     
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public Nullable<int> No { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Product { get; set; }

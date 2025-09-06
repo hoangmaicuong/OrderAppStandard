@@ -11,6 +11,7 @@
           </Key>
           <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="225" />
+          <Property Name="No" Type="int" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -88,6 +89,7 @@
           <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="225" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
+          <Property Name="No" Type="Int32" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -166,6 +168,7 @@
           <EntitySetMapping Name="Category">
             <EntityTypeMapping TypeName="OrderAppModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="No" ColumnName="No" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
               </MappingFragment>
