@@ -39,25 +39,18 @@
                 <option value="false">Đơn mới</option>
             </select>
         </div>
+        <div class="admin-control-left">
+            <select ng-model="selectedTableId">
+                <option value="">Tất cả bàn</option>
+                <option ng-repeat="item in data.support.tables" value="{{item.tableId}}">{{item.tableName}}</option>
+            </select>
+        </div>
         <div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm mã đơn, khách hàng..." oninput="findOrder()">
+                <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm mã đơn, khách hàng...">
             </form>
         </div>
-        @*<div class="admin-control-right">
-            <form action="" class="fillter-date">
-                <div>
-                    <label for="time-start">Từ</label>
-                    <input type="date" class="form-control-date" id="time-start" onchange="findOrder()">
-                </div>
-                <div>
-                    <label for="time-end">Đến</label>
-                    <input type="date" class="form-control-date" id="time-end" onchange="findOrder()">
-                </div>
-            </form>
-            <button class="btn-reset-order" onclick="cancelSearchOrder()"><i class="fa-light fa-arrow-rotate-right"></i></button>
-        </div>*@
     </div>
     <div class="table">
         <table width="100%">
@@ -71,7 +64,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data.orders | filter:searchText | filter:{ isFinish: selectedStatusOrder }">
+                <tr ng-repeat="item in data.orders 
+                    | filter:searchText 
+                    | filter:{ isFinish: selectedStatusOrder }
+                    | filter:{ tableId: selectedTableId }">
                     <td>
                         <button class="btn-detail"
                                 ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
@@ -167,7 +163,7 @@
                         class="modal-detail-btn btn-daxuly">
                     Hoàn thành đơn
                 </button>
-                <span ng-show="data.order.isFinish" class="status-order-finish">Hoàn thành</span>
+                <span ng-show="data.order.isFinish" class="status-order-finish">Đã hoàn thành</span>
                 <button ng-show="data.order.isFinish"
                         ng-click="events.onRestoreOrder(data.order, $event)"
                         class="btn-edit">
@@ -262,6 +258,7 @@
                         .then(function (response) {
                             console.log('data', response.data);
                             $scope.data.orders = response.data.orders;
+                            $scope.data.support.tables = response.data.tables;
                         })
                         .catch(function (response) {
                             shareData.notification.exception();

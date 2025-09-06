@@ -31,6 +31,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                             var dataSet = new DataSet();
                             adapter.Fill(dataSet);
                             dataSet.Tables[0].TableName = "orders";
+                            dataSet.Tables[1].TableName = "tables";
                             return dataSet;
                         }
                     }
