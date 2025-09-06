@@ -12,19 +12,19 @@ namespace OrderApp.DataFactory
     using System;
     using System.Collections.Generic;
     
-    public partial class Table
+    public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Table()
+        public Order()
         {
-            this.Order = new HashSet<Order>();
+            this.OrderDetail = new HashSet<OrderDetail>();
         }
     
-        public int TableId { get; set; }
-        public string TableName { get; set; }
-        public Nullable<bool> IsOpen { get; set; }
+        public int OrderId { get; set; }
+        public Nullable<int> TableId { get; set; }
     
+        public virtual Table Table { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
     }
 }

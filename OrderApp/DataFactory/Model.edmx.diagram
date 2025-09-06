@@ -11,6 +11,11 @@
         <AssociationConnector Association="OrderAppModel.FK_Product_Category" ManuallyRouted="false" />
         <AssociationConnector Association="OrderAppModel.FK_Product_ProductImage" ManuallyRouted="false" />
         <EntityTypeShape EntityType="OrderAppModel.Table" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="OrderAppModel.Order" Width="1.5" PointX="3" PointY="7.625" />
+        <EntityTypeShape EntityType="OrderAppModel.OrderDetail" Width="1.5" PointX="5.25" PointY="1.5" />
+        <AssociationConnector Association="OrderAppModel.FK_Order_Table" />
+        <AssociationConnector Association="OrderAppModel.FK_OrderDetail_Order" />
+        <AssociationConnector Association="OrderAppModel.FK_OrderDetail_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -14,6 +14,12 @@ namespace OrderApp.DataFactory
     
     public partial class Product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.OrderDetail = new HashSet<OrderDetail>();
+        }
+    
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
@@ -24,5 +30,7 @@ namespace OrderApp.DataFactory
     
         public virtual Category Category { get; set; }
         public virtual ProductImage ProductImage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
     }
 }
