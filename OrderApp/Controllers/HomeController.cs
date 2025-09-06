@@ -8,8 +8,9 @@ namespace OrderApp.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int tableId = 0)
         {
+            ViewBag.TableId = tableId;
             return View();
         }
 

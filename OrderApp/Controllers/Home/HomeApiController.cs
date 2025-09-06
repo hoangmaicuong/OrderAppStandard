@@ -17,5 +17,11 @@ namespace OrderApp.Controllers.Home
         {
             return Ok(services.GetAll());
         }
+        [HttpPost]
+        [Route("create-order")]
+        public IHttpActionResult CreateOrder(HomeDto.CreateOrderDto dto)
+        {
+            return Ok(services.CreateOrder(dto));
+        }
     }
 }

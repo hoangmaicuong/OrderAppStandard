@@ -30,14 +30,8 @@
     <script>
         const shareData = {
             newId: 0,
-            isAuthenticated : '@Request.IsAuthenticated' == 'True',
-            searchKey: '',
-            productCategoryId: 0,
-            pageUrl: {
-                indexHomePageForSearch: '@Url.Action("Index", "Home", new { searchKey = "_searchKey" })'.replace('_searchKey', ''),
-                indexHomePageForProductCategory: '@Url.Action("Index", "Home", new { productCategoryId = "_productCategoryId" })'.replace('_productCategoryId', '')
-
-            },
+            isAuthenticated: '@Request.IsAuthenticated' == 'True',
+            tableId: '@ViewBag.TableId',
             loadButton: {
                 rootText: '',
                 loading: function (button, isShowRootText) {
@@ -189,6 +183,7 @@
                         <div class="cart-footer-payment">
                             <button class="them-mon"><i class="fa-regular fa-plus"></i> Thêm món</button>
                             <button ng-class="{'disabled': data.shoppingCarts.length === 0}"
+                                    ng-click="events.onOrder($event)"
                                     class="thanh-toan">Gọi món</button>
                         </div>
                     </div>
@@ -452,6 +447,18 @@
                     let share = ShareService.getShare();
                     shoppingCart.shoppingCartQuantity += 1;
                     share.shoppingCart.set($scope.data.shoppingCarts);
+                },
+                onOrder: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    const data = {
+                        order: {
+                            tableId: shareData.tableId
+                        },
+                        orderDetails: $scope.data.shoppingCarts
+                    }
+                    $scope.methods.createOrder(data, button)
                 }
             }
             $scope.methods = {
@@ -469,6 +476,32 @@
                 },
                 doSearch: function () {
                     $rootScope.shareSearchText = $scope.data.searchText;
+                },
+                createOrder: function (data, button) {
+                    $http({
+                        url: '/api/home/create-order',
+                        method: "POST",
+                        data: data
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            if (response.data?.objectResponses?.id > 0) {
+                                $scope.data.product.productId = response.data.objectResponses.id;
+                            }
+                            $scope.methods.loadInit(button);
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+
+                    });
                 }
             };
             
