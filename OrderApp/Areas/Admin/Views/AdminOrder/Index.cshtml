@@ -63,31 +63,28 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>Mã đơn</td>
+                    <td>#</td>
+                    <td>Trạng thái</td>
                     <td>Bàn đặt</td>
                     <td>Ngày đặt</td>
-                    <td>Tổng tiền</td>
-                    <td>Trạng thái</td>
-                    <td>Thao tác</td>
+                    <td>Mã đơn</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.orders | filter:searchText | filter:{ isFinish: selectedStatusOrder }">
-                    <td ng-bind="item.orderId"></td>
-                    <td ng-bind="item.tableName"></td>
-                    <td ng-bind="item.orderDate | formatDateTime"></td>
-                    <td>Tổng tiền</td>
-                    <td>
-                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
-                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
-                    </td>
                     <td>
                         <button class="btn-detail"
                                 ng-click="events.onOpenModelOrder($event, item)">
                             <i class="fa-regular fa-eye"></i>
-                            Chi tiết
                         </button>
                     </td>
+                    <td>
+                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
+                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+                    </td>
+                    <td ng-bind="item.tableName"></td>
+                    <td ng-bind="item.orderDate | formatDateTime"></td>
+                    <td ng-bind="item.orderId"></td>
                 </tr>
             </tbody>
         </table>
@@ -122,24 +119,16 @@
             <div class="modal-detail-right">
                 <ul class="detail-order-group">
                     <li class="detail-order-item">
-                        <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt hàng</span>
-                        <span ng-bind="data.order.orderDate | formatDateTime" class="detail-order-item-right"></span>
+                        <span class="detail-order-item-left"><i class="fa-light fa-location-dot"></i> Bàn đặt</span>
+                        <span ng-bind="data.order.tableName" class="detail-order-item-right"></span>
                     </li>
                     <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-code"></i> Mã đơn</span>
                         <span ng-bind="data.order.orderId" class="detail-order-item-right"></span>
                     </li>
-                    <li class="detail-order-item tb">
-                        <span class="detail-order-item-left"><i class="fa-light fa-clock"></i> Thời gian giao</span>
-                        <p class="detail-order-item-b">08:00 - 05/09/2025</p>
-                    </li>
-                    <li class="detail-order-item tb">
-                        <span class="detail-order-item-t"><i class="fa-light fa-location-dot"></i> Địa chỉ nhận</span>
-                        <p class="detail-order-item-b">Bàu Bàng, TP Hồ Chí MInh</p>
-                    </li>
-                    <li class="detail-order-item tb">
-                        <span class="detail-order-item-t"><i class="fa-light fa-note-sticky"></i> Ghi chú</span>
-                        <p class="detail-order-item-b">ghi chú</p>
+                    <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt hàng</span>
+                        <span ng-bind="data.order.orderDate | formatDateTime" class="detail-order-item-right"></span>
                     </li>
                 </ul>
             </div>
