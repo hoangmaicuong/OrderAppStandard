@@ -51,6 +51,7 @@
         <table width="100%">
             <thead>
                 <tr>
+                    <td>#</td>
                     <td>Tên bàn</td>
                     <td>Trạng thái</td>
                     <td>ID</td>
@@ -59,6 +60,11 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.tables | filter:searchText | filter:{ isOpen: selectedStatusTable }">
+                    <td>
+                        <a href="/?tableId={{item.tableId}}" class="btn-edit" target="_blank">
+                            <i class="fa-light fa-utensils"></i>
+                        </a>
+                    </td>
                     <td ng-bind="item.tableName">Tên bàn</td>
                     <td>
                         <span ng-show="item.isOpen" class="status-open">Đang mở</span>
