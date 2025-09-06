@@ -21,7 +21,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 connec.Open();
                 try
                 {
-                    string proce = "AdminTableModuleGetAll";
+                    string proce = "AdminOrderModuleGetAll";
                     using (var cmd = new SqlCommand(proce, connec))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -29,7 +29,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                         {
                             var dataSet = new DataSet();
                             adapter.Fill(dataSet);
-                            dataSet.Tables[0].TableName = "tables";
+                            dataSet.Tables[0].TableName = "orders";
                             return dataSet;
                         }
                     }

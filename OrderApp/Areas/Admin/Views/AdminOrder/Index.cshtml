@@ -1,6 +1,34 @@
-﻿
+﻿@using System.Configuration;
+
 @{
     ViewBag.Title = "Đơn hàng";
+}
+@section css_header{
+    <style>
+        .status-close {
+            background-color: #f04e2e;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            display: inline-block;
+        }
+
+        .status-open {
+            background-color: #e5e5e5;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            display: inline-block;
+        }
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
 }
 <div class="section">
     <div class="admin-control">
@@ -36,14 +64,22 @@
             <thead>
                 <tr>
                     <td>Mã đơn</td>
-                    <td>Khách hàng</td>
+                    <td>Bàn đặt</td>
                     <td>Ngày đặt</td>
                     <td>Tổng tiền</td>
                     <td>Trạng thái</td>
                     <td>Thao tác</td>
                 </tr>
             </thead>
-            <tbody id="showOrder">
+            <tbody>
+                <tr ng-repeat="item in data.orders">
+                    <td ng-bind="item.orderId"></td>
+                    <td ng-bind="item.tableName"></td>
+                    <td ng-bind="item.orderDate | formatDateTime"></td>
+                    <td>Tổng tiền</td>
+                    <td>Trạng thái</td>
+                    <td>Thao tác</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -75,12 +111,12 @@
             <td>${item.id}</td>
             <td>${item.khachhang}</td>
             <td>${date}</td>
-            <td>${vnd(item.tongtien)}</td>                               
+            <td>${vnd(item.tongtien)}</td>
             <td>${status}</td>
             <td class="control">
             <button class="btn-detail" id="" onclick="detailOrder('${item.id}')"><i class="fa-regular fa-eye"></i> Chi tiết</button>
             </td>
-            </tr>      
+            </tr>
             `;
             });
         }
@@ -124,15 +160,6 @@
         }
         showOrder(result);
     }
-
-    function cancelSearchOrder() {
-        let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
-        document.getElementById("tinh-trang").value = 2;
-        document.getElementById("form-search-order").value = "";
-        document.getElementById("time-start").value = "";
-        document.getElementById("time-end").value = "";
-        showOrder(orders);
-    }
     // Get Order Details
     function getOrderDetails(madon) {
         let orderDetails = localStorage.getItem("orderDetails") ?
@@ -151,7 +178,7 @@
         document.querySelector(".modal.detail-order").classList.add("open");
         let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
         let products = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("products")) : [];
-        // Lấy hóa đơn 
+        // Lấy hóa đơn
         let order = orders.find((item) => item.id == id);
         // Lấy chi tiết hóa đơn
         let ctDon = getOrderDetails(id);
@@ -171,7 +198,7 @@
             <div class="order-product-right">
                 <div class="order-product-price">
                     <span class="order-product-current-price">${vnd(item.price)}</span>
-                </div>                         
+                </div>
             </div>
         </div>`;
         });
@@ -238,4 +265,75 @@
         findOrder(orders);
     }
 </script>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
 
+            $scope.init = function () {
+                $scope.methods.loadInit();
+            };
+
+            $scope.events = {
+                
+                onOpenModelTable: function (table) {
+                    
+                }
+            };
+            $scope.methods = {
+                loadInit: function (button) {
+                    $http({
+                        url: '/api/admin/order/get-all',
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            console.log('data', response.data);
+
+                            $scope.data.orders = response.data.orders;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                update: function (data, button) {
+
+                    $http({
+                        url: '/api/admin/table/update',
+                        method: "POST",
+                        data: data
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                if (response.data?.objectResponses?.id > 0) {
+                                    $scope.data.table.tableId = response.data.objectResponses.id;
+                                }
+                                $scope.methods.loadInit(button);
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}

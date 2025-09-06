@@ -13,11 +13,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
     public class AdminOrderApiController : ApiController
     {
         private AdminOrderService services = new AdminOrderService();
-        //[HttpGet]
-        //[Route("get-all")]
-        //public IHttpActionResult GetAll()
-        //{
-        //    return Ok(services.GetAll());
-        //}
+        [HttpGet]
+        [Route("get-all")]
+        public IHttpActionResult GetAll()
+        {
+            return Ok(services.GetAll());
+        }
     }
 }
