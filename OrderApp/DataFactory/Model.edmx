@@ -27,6 +27,8 @@
           <Property Name="OrderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" />
           <Property Name="ProductId" Type="int" />
+          <Property Name="OrderDetailQuantity" Type="int" />
+          <Property Name="OrderDetailNote" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -258,6 +260,8 @@
           <Property Name="ProductId" Type="Int32" />
           <NavigationProperty Name="Order" Relationship="OrderAppModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
           <NavigationProperty Name="Product" Relationship="OrderAppModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+          <Property Name="OrderDetailQuantity" Type="Int32" />
+          <Property Name="OrderDetailNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Order_Table">
           <End Type="OrderAppModel.Table" Role="Table" Multiplicity="0..1" />
@@ -351,6 +355,8 @@
           <EntitySetMapping Name="OrderDetail">
             <EntityTypeMapping TypeName="OrderAppModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="OrderDetailNote" ColumnName="OrderDetailNote" />
+                <ScalarProperty Name="OrderDetailQuantity" ColumnName="OrderDetailQuantity" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />

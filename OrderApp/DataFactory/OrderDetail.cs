@@ -17,6 +17,8 @@ namespace OrderApp.DataFactory
         public int OrderDetailId { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> ProductId { get; set; }
+        public Nullable<int> OrderDetailQuantity { get; set; }
+        public string OrderDetailNote { get; set; }
     
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
