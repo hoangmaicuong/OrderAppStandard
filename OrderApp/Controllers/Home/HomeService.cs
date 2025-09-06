@@ -59,7 +59,8 @@ namespace OrderApp.Controllers.Home
                 return result;
             }
             order.TableId = dto.Order.TableId;
-            foreach(var item in dto.OrderDetails)
+            order.OrderDate = DateTime.UtcNow.AddHours(7);
+            foreach (var item in dto.OrderDetails)
             {
                 order.OrderDetail.Add(new OrderDetail
                 {
