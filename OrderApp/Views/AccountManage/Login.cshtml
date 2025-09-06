@@ -14,7 +14,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Content/assets-login/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Content/assets-login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    @*<link rel="stylesheet" type="text/css" href="~/Content/assets-login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">*@
+    <link rel="stylesheet" href="~/assets/font/font-awesome-pro-v6-6.2.0/css/all.min.css" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Content/assets-login/vendor/animate/animate.css">
     <!--===============================================================================================-->
@@ -103,7 +104,7 @@
         document.getElementById("loginForm").addEventListener("submit", function (e) {
             const btn = this.querySelector(".login100-form-btn");
             btn.disabled = true; // tránh submit nhiều lần
-            btn.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i> &nbsp;${btn.innerHTML}`
+            btn.innerHTML = `<i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i>&nbsp;${btn.innerHTML}`
         });
     </script>
     <!--===============================================================================================-->
