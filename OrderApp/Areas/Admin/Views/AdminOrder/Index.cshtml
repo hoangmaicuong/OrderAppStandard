@@ -148,7 +148,7 @@
             <div class="modal-detail-bottom-left">
                 <div class="price-total">
                     <span class="thanhtien">Thành tiền</span>
-                    <span class="price">1.259.000&nbsp;₫</span>
+                    <span ng-bind-html="methods.totalPriceForOrder(data.order) | vnCurrency" class="price"></span>
                 </div>
             </div>
             <div class="modal-detail-bottom-right">
@@ -248,6 +248,15 @@
                     .finally(function () {
                         
                     });
+                },
+                totalPriceForOrder: function (order) {
+                    let total = 0;
+                    if (order != null && order.orderDetails != null) {
+                        for (item of order.orderDetails) {
+                            total += (item.orderDetailPrice * item.orderDetailQuantity);
+                        }
+                    }
+                    return total;
                 }
             };
             $scope.init();
