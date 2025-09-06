@@ -31,5 +31,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         {
             return Ok(services.RemoveOrderDetail(orderDetailId));
         }
+        [HttpPost]
+        [Route("change-status-to-finish")]
+        public IHttpActionResult ChangeStatusToFinish(int orderId)
+        {
+            return Ok(services.ChangeStatusToFinish(orderId));
+        }
     }
 }

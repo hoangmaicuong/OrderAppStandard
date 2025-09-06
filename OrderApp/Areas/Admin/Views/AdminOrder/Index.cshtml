@@ -154,8 +154,13 @@
                 </div>
             </div>
             <div class="modal-detail-bottom-right">
-                <button class="modal-detail-btn btn-chuaxuly" onclick="changeStatus('DH2',this)">Xác nhận</button>
-                <button class="modal-detail-btn btn-daxuly" onclick="changeStatus('DH1',this)">Hoàn thành</button>
+                @*<button class="modal-detail-btn btn-chuaxuly" onclick="changeStatus('DH2',this)">Xác nhận đơn</button>*@
+                <button ng-click="events.onChangeStatusToFinish(data.order, $event)"
+                        ng-hide="data.order.isFinish"
+                        class="modal-detail-btn btn-daxuly">
+                    Hoàn thành đơn
+                </button>
+                <span ng-show="data.order.isFinish" class="status-order-finish">Hoàn thành</span>
             </div>
         </div>
 
@@ -195,6 +200,18 @@
                     result = await $scope.methods.removeOrderDetail(orderDetail.orderDetailId);
                     if (result) {
                         $scope.data.order.orderDetails.splice(index, 1);
+                        $scope.$apply();
+                    }
+                    shareData.loadButton.loaded(button);
+                },
+                onChangeStatusToFinish: async function (order, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    let result = false;
+                    result = await $scope.methods.changeStatusToFinish(order.orderId);
+                    if (result) {
+                        $scope.data.order.isFinish = true;
                         $scope.$apply();
                     }
                     shareData.loadButton.loaded(button);
@@ -266,6 +283,29 @@
                 removeOrderDetail: async function (orderDetailId) {
                     return await $http({
                         url: '/api/admin/order/remove-order-detail?orderDetailId=' + orderDetailId,
+                        method: "Post"
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            return true;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                        return false;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+
+                    });
+                },
+                changeStatusToFinish: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/change-status-to-finish?orderId=' + orderId,
                         method: "Post"
                     })
                     .then(function (response) {
