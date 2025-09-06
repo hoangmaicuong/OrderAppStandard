@@ -5,7 +5,7 @@
 }
 @section css_header{
     <style>
-        .status-close {
+        .status-order-new {
             background-color: #f04e2e;
             color: #fff;
             padding: 5px 10px;
@@ -14,7 +14,7 @@
             display: inline-block;
         }
 
-        .status-open {
+        .status-order-finish {
             background-color: #e5e5e5;
             padding: 5px 10px;
             border-radius: 5px;
@@ -33,19 +33,19 @@
 <div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
-            <select name="tinh-trang" id="tinh-trang" onchange="findOrder()">
-                <option value="2">Tất cả</option>
-                <option value="1">Đã xử lý</option>
-                <option value="0">Chưa xử lý</option>
+            <select ng-model="selectedStatusOrder">
+                <option value="">Tất cả trạng thái</option>
+                <option value="true">Hoàn thành</option>
+                <option value="false">Đơn mới</option>
             </select>
         </div>
         <div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input id="form-search-order" type="text" class="form-search-input" placeholder="Tìm kiếm mã đơn, khách hàng..." oninput="findOrder()">
+                <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm mã đơn, khách hàng..." oninput="findOrder()">
             </form>
         </div>
-        <div class="admin-control-right">
+        @*<div class="admin-control-right">
             <form action="" class="fillter-date">
                 <div>
                     <label for="time-start">Từ</label>
@@ -57,7 +57,7 @@
                 </div>
             </form>
             <button class="btn-reset-order" onclick="cancelSearchOrder()"><i class="fa-light fa-arrow-rotate-right"></i></button>
-        </div>
+        </div>*@
     </div>
     <div class="table">
         <table width="100%">
@@ -72,13 +72,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data.orders">
+                <tr ng-repeat="item in data.orders | filter:searchText | filter:{ isFinish: selectedStatusOrder }">
                     <td ng-bind="item.orderId"></td>
                     <td ng-bind="item.tableName"></td>
                     <td ng-bind="item.orderDate | formatDateTime"></td>
                     <td>Tổng tiền</td>
-                    <td>Trạng thái</td>
-                    <td>Thao tác</td>
+                    <td>
+                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
+                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+                    </td>
+                    <td>
+                        <button class="btn-detail" id="" onclick="detailOrder('DH1')"><i class="fa-regular fa-eye"></i> Chi tiết</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
