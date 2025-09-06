@@ -82,194 +82,82 @@
                         <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
                     </td>
                     <td>
-                        <button class="btn-detail" id="" onclick="detailOrder('DH1')"><i class="fa-regular fa-eye"></i> Chi tiết</button>
+                        <button class="btn-detail"
+                                ng-click="events.onOpenModelOrder($event, item)">
+                            <i class="fa-regular fa-eye"></i>
+                            Chi tiết
+                        </button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-<script>
-    // Format Date
-    function formatDate(date) {
-        let fm = new Date(date);
-        let yyyy = fm.getFullYear();
-        let mm = fm.getMonth() + 1;
-        let dd = fm.getDate();
-        if (dd < 10) dd = "0" + dd;
-        if (mm < 10) mm = "0" + mm;
-        return dd + "/" + mm + "/" + yyyy;
-    }
-    function vnd(price) {
-        return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-    }
-    function showOrder(arr) {
-        let orderHtml = "";
-        if (arr.length == 0) {
-            orderHtml = `<td colspan="6">Không có dữ liệu</td>`
-        } else {
-            arr.forEach((item) => {
-                let status = item.trangthai == 0 ? `<span class="status-no-complete">Chưa xử lý</span>` : `<span class="status-complete">Đã xử lý</span>`;
-                let date = formatDate(item.thoigiandat);
-                orderHtml += `
-            <tr>
-            <td>${item.id}</td>
-            <td>${item.khachhang}</td>
-            <td>${date}</td>
-            <td>${vnd(item.tongtien)}</td>
-            <td>${status}</td>
-            <td class="control">
-            <button class="btn-detail" id="" onclick="detailOrder('${item.id}')"><i class="fa-regular fa-eye"></i> Chi tiết</button>
-            </td>
-            </tr>
-            `;
-            });
-        }
-        document.getElementById("showOrder").innerHTML = orderHtml;
-    }
-
-    let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
-    window.onload = showOrder(orders);
-    // Find Order
-    function findOrder() {
-        let tinhTrang = parseInt(document.getElementById("tinh-trang").value);
-        let ct = document.getElementById("form-search-order").value;
-        let timeStart = document.getElementById("time-start").value;
-        let timeEnd = document.getElementById("time-end").value;
-
-        if (timeEnd < timeStart && timeEnd != "" && timeStart != "") {
-            alert("Lựa chọn thời gian sai !");
-            return;
-        }
-        let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
-        let result = tinhTrang == 2 ? orders : orders.filter((item) => {
-            return item.trangthai == tinhTrang;
-        });
-        result = ct == "" ? result : result.filter((item) => {
-            return (item.khachhang.toLowerCase().includes(ct.toLowerCase()) || item.id.toString().toLowerCase().includes(ct.toLowerCase()));
-        });
-
-        if (timeStart != "" && timeEnd == "") {
-            result = result.filter((item) => {
-                return new Date(item.thoigiandat) >= new Date(timeStart).setHours(0, 0, 0);
-            });
-        } else if (timeStart == "" && timeEnd != "") {
-            result = result.filter((item) => {
-                return new Date(item.thoigiandat) <= new Date(timeEnd).setHours(23, 59, 59);
-            });
-        } else if (timeStart != "" && timeEnd != "") {
-            result = result.filter((item) => {
-                return (new Date(item.thoigiandat) >= new Date(timeStart).setHours(0, 0, 0) && new Date(item.thoigiandat) <= new Date(timeEnd).setHours(23, 59, 59)
-                );
-            });
-        }
-        showOrder(result);
-    }
-    // Get Order Details
-    function getOrderDetails(madon) {
-        let orderDetails = localStorage.getItem("orderDetails") ?
-            JSON.parse(localStorage.getItem("orderDetails")) : [];
-        let ctDon = [];
-        orderDetails.forEach((item) => {
-            if (item.madon == madon) {
-                ctDon.push(item);
-            }
-        });
-        return ctDon;
-    }
-
-    // Show Order Detail
-    function detailOrder(id) {
-        document.querySelector(".modal.detail-order").classList.add("open");
-        let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
-        let products = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("products")) : [];
-        // Lấy hóa đơn
-        let order = orders.find((item) => item.id == id);
-        // Lấy chi tiết hóa đơn
-        let ctDon = getOrderDetails(id);
-        let spHtml = `<div class="modal-detail-left"><div class="order-item-group">`;
-
-        ctDon.forEach((item) => {
-            let detaiSP = products.find(product => product.id == item.id);
-            spHtml += `<div class="order-product">
-            <div class="order-product-left">
-                <img src="${detaiSP.img}" alt="">
-                <div class="order-product-info">
-                    <h4>${detaiSP.title}</h4>
-                    <p class="order-product-note"><i class="fa-light fa-pen"></i> ${item.note}</p>
-                    <p class="order-product-quantity">SL: ${item.soluong}<p>
+<div class="modal detail-order">
+    <div class="modal-container">
+        <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
+        <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+        <div class="modal-detail-order">
+            <div class="modal-detail-left">
+                <div class="order-item-group">
+                    <div ng-repeat="item in data.order.orderDetails" class="order-product">
+                        <div class="order-product-left">
+                            <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                            <div class="order-product-info">
+                                <h4 ng-bind="item.productName"></h4>
+                                <p ng-bind="item.orderDetailNote" class="order-product-note">
+                                    @*<i class="fa-light fa-pen"></i> Không có ghi chú*@
+                                </p>
+                                <p ng-bind="'SL: ' + item.orderDetailQuantity" class="order-product-quantity"></p>
+                            </div>
+                        </div>
+                        <div class="order-product-right">
+                            <div class="order-product-price">
+                                <span ng-bind-html="item.orderDetailPrice | vnCurrency" class="order-product-current-price"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="order-product-right">
-                <div class="order-product-price">
-                    <span class="order-product-current-price">${vnd(item.price)}</span>
-                </div>
+            <div class="modal-detail-right">
+                <ul class="detail-order-group">
+                    <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt hàng</span>
+                        <span ng-bind="data.order.orderDate | formatDateTime" class="detail-order-item-right"></span>
+                    </li>
+                    <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-code"></i> Mã đơn</span>
+                        <span ng-bind="data.order.orderId" class="detail-order-item-right"></span>
+                    </li>
+                    <li class="detail-order-item tb">
+                        <span class="detail-order-item-left"><i class="fa-light fa-clock"></i> Thời gian giao</span>
+                        <p class="detail-order-item-b">08:00 - 05/09/2025</p>
+                    </li>
+                    <li class="detail-order-item tb">
+                        <span class="detail-order-item-t"><i class="fa-light fa-location-dot"></i> Địa chỉ nhận</span>
+                        <p class="detail-order-item-b">Bàu Bàng, TP Hồ Chí MInh</p>
+                    </li>
+                    <li class="detail-order-item tb">
+                        <span class="detail-order-item-t"><i class="fa-light fa-note-sticky"></i> Ghi chú</span>
+                        <p class="detail-order-item-b">ghi chú</p>
+                    </li>
+                </ul>
             </div>
-        </div>`;
-        });
-        spHtml += `</div></div>`;
-        spHtml += `<div class="modal-detail-right">
-        <ul class="detail-order-group">
-            <li class="detail-order-item">
-                <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt hàng</span>
-                <span class="detail-order-item-right">${formatDate(order.thoigiandat)}</span>
-            </li>
-            <li class="detail-order-item">
-                <span class="detail-order-item-left"><i class="fa-light fa-truck"></i> Hình thức giao</span>
-                <span class="detail-order-item-right">${order.hinhthucgiao}</span>
-            </li>
-            <li class="detail-order-item">
-            <span class="detail-order-item-left"><i class="fa-thin fa-person"></i> Người nhận</span>
-            <span class="detail-order-item-right">${order.tenguoinhan}</span>
-            </li>
-            <li class="detail-order-item">
-            <span class="detail-order-item-left"><i class="fa-light fa-phone"></i> Số điện thoại</span>
-            <span class="detail-order-item-right">${order.sdtnhan}</span>
-            </li>
-            <li class="detail-order-item tb">
-                <span class="detail-order-item-left"><i class="fa-light fa-clock"></i> Thời gian giao</span>
-                <p class="detail-order-item-b">${(order.thoigiangiao == "" ? "" : (order.thoigiangiao + " - ")) + formatDate(order.ngaygiaohang)}</p>
-            </li>
-            <li class="detail-order-item tb">
-                <span class="detail-order-item-t"><i class="fa-light fa-location-dot"></i> Địa chỉ nhận</span>
-                <p class="detail-order-item-b">${order.diachinhan}</p>
-            </li>
-            <li class="detail-order-item tb">
-                <span class="detail-order-item-t"><i class="fa-light fa-note-sticky"></i> Ghi chú</span>
-                <p class="detail-order-item-b">${order.ghichu}</p>
-            </li>
-        </ul>
-    </div>`;
-        document.querySelector(".modal-detail-order").innerHTML = spHtml;
-
-        let classDetailBtn = order.trangthai == 0 ? "btn-chuaxuly" : "btn-daxuly";
-        let textDetailBtn = order.trangthai == 0 ? "Chưa xử lý" : "Đã xử lý";
-        document.querySelector(
-            ".modal-detail-bottom"
-        ).innerHTML = `<div class="modal-detail-bottom-left">
-        <div class="price-total">
-            <span class="thanhtien">Thành tiền</span>
-            <span class="price">${vnd(order.tongtien)}</span>
         </div>
+        <div class="modal-detail-bottom">
+            <div class="modal-detail-bottom-left">
+                <div class="price-total">
+                    <span class="thanhtien">Thành tiền</span>
+                    <span class="price">1.259.000&nbsp;₫</span>
+                </div>
+            </div>
+            <div class="modal-detail-bottom-right">
+                <button class="modal-detail-btn btn-daxuly" onclick="changeStatus('DH1',this)">Đã xử lý</button>
+            </div>
+        </div>
+
     </div>
-    <div class="modal-detail-bottom-right">
-        <button class="modal-detail-btn ${classDetailBtn}" onclick="changeStatus('${order.id}',this)">${textDetailBtn}</button>
-    </div>`;
-    }
-    // Đổi trạng thái đơn hàng
-    function changeStatus(id, el) {
-        let orders = JSON.parse(localStorage.getItem("order"));
-        let order = orders.find((item) => {
-            return item.id == id;
-        });
-        order.trangthai = 1;
-        el.classList.remove("btn-chuaxuly");
-        el.classList.add("btn-daxuly");
-        el.innerHTML = "Đã xử lý";
-        localStorage.setItem("order", JSON.stringify(orders));
-        findOrder(orders);
-    }
-</script>
+</div>
 @section scripts_footer {
     <script>
         app.controller("mainCtrl", function ($scope, $http) {
@@ -284,9 +172,17 @@
             };
 
             $scope.events = {
-                
-                onOpenModelTable: function (table) {
-                    
+                onOpenModelOrder: async function ($event, order) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.data.order = order;
+                    $scope.data.order.orderDetails = await $scope.methods.getOrderDetails(order.orderId);
+                    $scope.$apply();
+
+                    document.querySelector(".detail-order").classList.add("open");
+                    shareData.loadButton.loaded(button);
+                    //console.log('$scope.data.order', $scope.data.order);
                 }
             };
             $scope.methods = {
@@ -297,7 +193,6 @@
                     })
                         .then(function (response) {
                             console.log('data', response.data);
-
                             $scope.data.orders = response.data.orders;
                         })
                         .catch(function (response) {
@@ -336,6 +231,23 @@
                         .finally(function () {
 
                         });
+                },
+                getOrderDetails: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/get-order-details?orderId=' + orderId,
+                        method: "Get"
+                    })
+                    .then(function (response) {
+                        
+                        return response.data.orderDetails;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        
+                    });
                 }
             };
             $scope.init();

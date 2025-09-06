@@ -19,5 +19,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         {
             return Ok(services.GetAll());
         }
+        [HttpGet]
+        [Route("get-order-details")]
+        public IHttpActionResult GetOrderDetails(int orderId)
+        {
+            return Ok(services.GetOrderDetails(orderId));
+        }
     }
 }

@@ -41,5 +41,38 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 }
             }
         }
+        public DataSet GetOrderDetails(int orderId)
+        {
+            using (var connec = dapperContext.CreateConnection())
+            {
+                connec.Open();
+                try
+                {
+                    string proce = "AdminOrderModuleGetOrderDetails";
+                    using (var cmd = new SqlCommand(proce, connec))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@id",
+                            SqlDbType = SqlDbType.Int,
+                            Value = orderId
+                        });
+                        using (var adapter = new SqlDataAdapter(cmd))
+                        {
+                            var dataSet = new DataSet();
+                            adapter.Fill(dataSet);
+                            dataSet.Tables[0].TableName = "orderDetails";
+                            return dataSet;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    throw;
+                }
+            }
+        }
     }
 }
