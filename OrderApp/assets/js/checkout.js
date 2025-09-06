@@ -173,7 +173,7 @@ function showProductBuyNow(product) {
 //    thanhtoanpage(1);
 //    closeCart();
 //    body.style.overflow = "hidden"
-})
+//})
 
 // Đặt hàng ngay
 function dathangngay() {

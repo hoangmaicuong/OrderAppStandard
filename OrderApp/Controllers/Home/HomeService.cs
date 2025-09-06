@@ -63,7 +63,9 @@ namespace OrderApp.Controllers.Home
             {
                 order.OrderDetail.Add(new OrderDetail
                 {
-                    ProductId = item.ProductId
+                    ProductId = item.ProductId,
+                    OrderDetailQuantity = item.ShoppingCartQuantity,
+                    OrderDetailNote = item.ShoppingCartNote
                 });
             }
             #endregion

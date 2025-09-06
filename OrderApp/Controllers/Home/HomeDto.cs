@@ -27,6 +27,8 @@ namespace OrderApp.Controllers.Home
             public int OrderDetailId { get; set;}
             public int OrderId { get; set; }
             public int ProductId { get; set; }
+            public string ShoppingCartNote { get; set; }
+            public int ShoppingCartQuantity { get; set; }
         }
     }
 }

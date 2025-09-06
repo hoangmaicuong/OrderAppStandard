@@ -485,6 +485,9 @@
                     })
                     .then(function (response) {
                         if (response.data.success == true) {
+                            let share = ShareService.getShare();
+                            share.shoppingCart.clear();
+                            closeModal();
                             toast({ title: 'Success', message: 'Thêm thành công sản phẩm vào giỏ hàng', type: 'success', duration: 3000 });
                         }
                         else {
