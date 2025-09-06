@@ -20,7 +20,7 @@
                    ng-click="events.onFilterByCategory(null)"
                    class="menu-link">Tất cả các món</a>
             </li>
-            <li ng-repeat="cat in data.support.categorys"
+            <li ng-repeat="cat in data.support.categorys | orderBy:'no'"
                 class="menu-list-item">
                 <a ng-bind="cat.categoryName" href="javascript:;"
                    ng-click="events.onFilterByCategory(cat.categoryId)"
