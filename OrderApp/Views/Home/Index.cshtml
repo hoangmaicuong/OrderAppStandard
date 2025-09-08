@@ -3,7 +3,11 @@
     ViewBag.Title = "Order App";
 }
 @section css_header{
-    
+    <style>
+        .active-link {
+            border-bottom: 3px solid var(--red);
+        }
+    </style>
 }
 @section scripts_header{
     <script>
@@ -16,18 +20,19 @@
 <nav class="header-bottom">
     <div class="container">
         <ul class="menu-list">
-            <li class="menu-list-item">
+            <li class="menu-list-item" ng-class="{'active-link': data.filter.categoryId == null}">
                 <a href="javascript:;"
                    ng-click="events.onFilterByCategory(null)"
                    class="menu-link">Tất cả các món</a>
             </li>
             <li ng-repeat="cat in data.support.categorys | orderBy:'no'"
+                ng-class="{'active-link': data.filter.categoryId == cat.categoryId}"
                 class="menu-list-item">
                 <a ng-bind="cat.categoryName" href="javascript:;"
                    ng-click="events.onFilterByCategory(cat.categoryId)"
                    class="menu-link"></a>
             </li>
-            <li class="menu-list-item">
+            <li class="menu-list-item" ng-class="{'active-link': data.filter.categoryId == null}">
                 <a href="javascript:;"
                    ng-click="events.onFilterByCategory(null)"
                    class="menu-link">Tất cả các món</a>
@@ -402,12 +407,21 @@
                 return $rootScope.shareSearchText;
             }, function (newVal) {
                 $scope.data.filter.searchText = newVal;
+
+                document.getElementById('trangchu').classList.remove('hide');
+                document.getElementById('order-history').classList.remove('open');
+
+                if ($scope.data.filter.categoryId == 0) {
+                    $scope.data.filter.categoryId = null; // null là hiển thị hết
+                }
             });
             $scope.$on("OpenOrderPage", function (event, data) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('trangchu').classList.add('hide');
                 $scope.methods.getOrderOfTable(context.tableId);
                 document.getElementById('order-history').classList.add('open');
+
+                $scope.data.filter.categoryId = 0; // 0 là ko hiển thị
             });
 
             $scope.events = {
