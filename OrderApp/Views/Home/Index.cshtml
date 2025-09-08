@@ -8,6 +8,7 @@
 @section scripts_header{
     <script>
         const context = {
+            tableId: '@ViewBag.TableId',
             imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
         }
     </script>
@@ -201,103 +202,34 @@
             </div>
             <div class="main-account-body">
                 <div class="order-history-section">
-                    <div class="order-history-group">
-                        <div class="order-history">
+                    <div ng-repeat="order in data.orders" class="order-history-group">
+                        <div ng-repeat="detail in order.orderDetails" class="order-history">
                             <div class="order-history-left">
-                                <img src="/assets/img/products/banh_lava_pho_mai_nuong.jpeg" alt="">
+                                <img ng-src="{{detail.fileId ? data.support.imagePath + detail.fileId : '/assets/img/blank-image.png'}}" alt="">
                                 <div class="order-history-info">
-                                    <h4>Bánh lava phô mai nướng!</h4>
-                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
-                                    <p class="order-history-quantity">x2</p>
+                                    <h4 ng-bind="detail.productName"></h4>
+                                    <p  ng-bind-html="detail.orderDetailNote || '<i class=\'fa-light fa-pen\'></i> Không có ghi chú'" class="order-history-note"></p>
+                                    <p ng-bind="'x' + detail.orderDetailQuantity" class="order-history-quantity"></p>
                                 </div>
                             </div>
                             <div class="order-history-right">
                                 <div class="order-history-price">
-                                    <span class="order-history-current-price">180.000&nbsp;₫</span>
+                                    <span ng-bind-html="detail.productPrice | vnCurrency" class="order-history-current-price"></span>
                                 </div>
                             </div>
                         </div>
-                    <div class="order-history">
-                            <div class="order-history-left">
-                                <img src="/assets/img/products/lau_thai.jpg" alt="">
-                                <div class="order-history-info">
-                                    <h4>Set lẩu thái Tomyum!</h4>
-                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
-                                    <p class="order-history-quantity">x1</p>
-                                </div>
-                            </div>
-                            <div class="order-history-right">
-                                <div class="order-history-price">
-                                    <span class="order-history-current-price">699.000&nbsp;₫</span>
-                                </div>
-                            </div>
-                        </div>
-                    <div class="order-history-control">
-                            <div class="order-history-status">
-                                <span class="order-history-status-sp" style="background-color: #f04e2e; color: var(--white);">
-                                    <i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i> 
-                                    Chờ nhân viên xác nhận
-                                </span>
-                            </div>
-                            <div class="order-history-total">
-                                <span class="order-history-total-desc">Tổng tiền: </span>
-                                <span class="order-history-toltal-price">1.059.000&nbsp;₫</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="order-history-group">
-                        <div class="order-history">
-                            <div class="order-history-left">
-                                <img src="/assets/img/products/nam-dui-ga-chay-toi.jpeg" alt="">
-                                <div class="order-history-info">
-                                    <h4>Nấm đùi gà xào cháy tỏi!</h4>
-                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
-                                    <p class="order-history-quantity">x1</p>
-                                </div>
-                            </div>
-                            <div class="order-history-right">
-                                <div class="order-history-price">
-                                    <span class="order-history-current-price">200.000&nbsp;₫</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="order-history">
-                            <div class="order-history-left">
-                                <img src="/assets/img/products/rau-xao-ngu-sac.png" alt="">
-                                <div class="order-history-info">
-                                    <h4>Rau xào ngũ sắc!</h4>
-                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> test ghi chú</p>
-                                    <p class="order-history-quantity">x2</p>
-                                </div>
-                            </div>
-                            <div class="order-history-right">
-                                <div class="order-history-price">
-                                    <span class="order-history-current-price">180.000&nbsp;₫</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="order-history">
-                            <div class="order-history-left">
-                                <img src="/assets/img/products/lau_thai.jpg" alt="">
-                                <div class="order-history-info">
-                                    <h4>Set lẩu thái Tomyum!</h4>
-                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
-                                    <p class="order-history-quantity">x1</p>
-                                </div>
-                            </div>
-                            <div class="order-history-right">
-                                <div class="order-history-price">
-                                    <span class="order-history-current-price">699.000&nbsp;₫</span>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="order-history-control">
                             <div class="order-history-status">
-                                <span class="order-history-status-sp complete">Nhân viên đã xác nhận</span>
+                                <span ng-show="order.isConfirm != true" class="order-history-status-sp" style="background-color: #f04e2e; color: var(--white);">
+                                    <i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i>
+                                    Nhân viên đang xác nhận
+                                </span>
+                                <span ng-show="order.isConfirm == true" class="order-history-status-sp complete">Nhân viên đã xác nhận</span>
                             </div>
                             <div class="order-history-total">
                                 <span class="order-history-total-desc">Tổng tiền: </span>
-                                <span class="order-history-toltal-price">1.259.000&nbsp;₫</span>
+                                <span ng-bind-html="methods.calculateOrderTotal(order) | vnCurrency" class="order-history-toltal-price"></span>
                             </div>
                         </div>
                     </div>
@@ -466,6 +398,7 @@
             $scope.$on("OpenOrderPage", function (event, data) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('trangchu').classList.add('hide');
+                $scope.methods.getOrderOfTable(context.tableId);
                 document.getElementById('order-history').classList.add('open');
             });
 
@@ -490,9 +423,6 @@
 
                     $scope.data.filter.categoryId = categoryId;
                     document.getElementById("home-title").scrollIntoView();
-                },
-                onOpenOrderPage: function () {
-
                 }
             };
             $scope.methods = {
@@ -503,7 +433,7 @@
                         method: "Get"
                     })
                     .then(function (response) {
-                        console.log('response', response);
+                        //console.log('response', response);
                         $scope.data.products = response.data.products;
                         $scope.data.support.categorys = response.data.categorys;
                     })
@@ -519,6 +449,38 @@
                 productFilter: function (product) {
                     if ($scope.data.filter.categoryId == null) return true;
                     return product.categoryId == $scope.data.filter.categoryId;
+                },
+                getOrderOfTable: function (tableId) {
+                    $http({
+                        url: '/api/home/get-order-of-table?tableId=' + tableId,
+                        method: "Get"
+                    })
+                    .then(function (response) {
+                        //console.log('response', response);
+                        let orders = response.data.orders.map(function (order) {
+                            return {
+                                ...order,
+                                orderDetails: response.data.orderDetails.filter(d => d.orderId === order.orderId)
+                            };
+                        });
+
+                        $scope.data.orders = orders;
+                        //console.log('orders', orders);
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+
+
+                    });
+                },
+                calculateOrderTotal: function (order) {
+                    if (!order || !order.orderDetails) return 0;
+                    return order.orderDetails.reduce(function (total, detail) {
+                        return total + (detail.productPrice * detail.orderDetailQuantity);
+                    }, 0);
                 }
             };
             $scope.init();

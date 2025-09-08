@@ -108,5 +108,39 @@ namespace OrderApp.Controllers.Home
             //* Kết quả hàm *
             return result;
         }
+        public DataSet GetOrderOfTable(int tableId)
+        {
+            using (var connec = dapperContext.CreateConnection())
+            {
+                connec.Open();
+                try
+                {
+                    string proce = "HomeModuleGetOrderOfTable";
+                    using (var cmd = new SqlCommand(proce, connec))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@tableId",
+                            SqlDbType = SqlDbType.Int,
+                            Value = tableId
+                        });
+                        using (var adapter = new SqlDataAdapter(cmd))
+                        {
+                            var dataSet = new DataSet();
+                            adapter.Fill(dataSet);
+                            dataSet.Tables[0].TableName = "orders";
+                            dataSet.Tables[1].TableName = "orderDetails";
+                            return dataSet;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    throw;
+                }
+            }
+        }
     }
 }
