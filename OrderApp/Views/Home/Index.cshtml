@@ -85,42 +85,40 @@
         <div class="home-title-block" id="home-title">
             <h2 class="home-title">Khám phá thực đơn của chúng tôi</h2>
         </div>
-        @*<div class="home-products" id="home-products">
-        </div>*@
-    <div class="home-products" @*id="home-products"*@>
-        <div class="no-result" ng-if="filteredProducts.length === 0">
-            <div class="no-result-h">Tìm kiếm không có kết quả</div>
-            <div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div>
-            <div class="no-result-i">
-                <i class="fa-light fa-face-sad-cry"></i>
+        <div class="home-products" id="home-products">
+            <div class="no-result" ng-if="filteredProducts.length === 0">
+                <div class="no-result-h">Tìm kiếm không có kết quả</div>
+                <div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div>
+                <div class="no-result-i">
+                    <i class="fa-light fa-face-sad-cry"></i>
+                </div>
+            </div>
+            <div ng-repeat="item in filteredProducts = (data.products | filter: methods.productFilter | filter: data.filter.searchText)" class="col-product">
+                <article class="card-product">
+                    <div class="card-header">
+                        <a href="javascript:;" class="card-image-link" ng-click="events.onOpenModelProduct(item)">
+                            <img class="card-image" ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                        </a>
+                    </div>
+                    <div class="food-info">
+                        <div class="card-content">
+                            <div class="card-title">
+                                <a href="javascript:;" ng-bind-html="item.productName"
+                                   class="card-title-link" ng-click="events.onOpenModelProduct(item)" @*onclick="detailProduct(1)"*@></a>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="product-price">
+                                <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
+                            </div>
+                            <div class="product-buy">
+                                <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
-        <div ng-repeat="item in filteredProducts = (data.products | filter: methods.productFilter | filter: data.filter.searchText)" class="col-product">
-            <article class="card-product">
-                <div class="card-header">
-                    <a href="javascript:;" class="card-image-link" ng-click="events.onOpenModelProduct(item)">
-                        <img class="card-image" ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
-                    </a>
-                </div>
-                <div class="food-info">
-                    <div class="card-content">
-                        <div class="card-title">
-                            <a href="javascript:;" ng-bind-html="item.productName"
-                               class="card-title-link" ng-click="events.onOpenModelProduct(item)" @*onclick="detailProduct(1)"*@></a>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="product-price">
-                            <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
-                        </div>
-                        <div class="product-buy">
-                            <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </div>
         <div class="page-nav">
             <ul class="page-nav-list">
             </ul>
@@ -198,11 +196,111 @@
     <div class="container" id="order-history">
         <div class="main-account">
             <div class="main-account-header">
-                <h3>Quản lý đơn hàng của bạn</h3>
+                <h3>Đơn hàng bàn số 00</h3>
                 <p>Xem chi tiết, trạng thái của những đơn hàng đã đặt.</p>
             </div>
             <div class="main-account-body">
                 <div class="order-history-section">
+                    <div class="order-history-group">
+                        <div class="order-history">
+                            <div class="order-history-left">
+                                <img src="/assets/img/products/banh_lava_pho_mai_nuong.jpeg" alt="">
+                                <div class="order-history-info">
+                                    <h4>Bánh lava phô mai nướng!</h4>
+                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
+                                    <p class="order-history-quantity">x2</p>
+                                </div>
+                            </div>
+                            <div class="order-history-right">
+                                <div class="order-history-price">
+                                    <span class="order-history-current-price">180.000&nbsp;₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="order-history">
+                            <div class="order-history-left">
+                                <img src="/assets/img/products/lau_thai.jpg" alt="">
+                                <div class="order-history-info">
+                                    <h4>Set lẩu thái Tomyum!</h4>
+                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
+                                    <p class="order-history-quantity">x1</p>
+                                </div>
+                            </div>
+                            <div class="order-history-right">
+                                <div class="order-history-price">
+                                    <span class="order-history-current-price">699.000&nbsp;₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="order-history-control">
+                            <div class="order-history-status">
+                                <span class="order-history-status-sp" style="background-color: #f04e2e; color: var(--white);">
+                                    <i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i> 
+                                    Chờ nhân viên xác nhận
+                                </span>
+                            </div>
+                            <div class="order-history-total">
+                                <span class="order-history-total-desc">Tổng tiền: </span>
+                                <span class="order-history-toltal-price">1.059.000&nbsp;₫</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-history-group">
+                        <div class="order-history">
+                            <div class="order-history-left">
+                                <img src="/assets/img/products/nam-dui-ga-chay-toi.jpeg" alt="">
+                                <div class="order-history-info">
+                                    <h4>Nấm đùi gà xào cháy tỏi!</h4>
+                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
+                                    <p class="order-history-quantity">x1</p>
+                                </div>
+                            </div>
+                            <div class="order-history-right">
+                                <div class="order-history-price">
+                                    <span class="order-history-current-price">200.000&nbsp;₫</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-history">
+                            <div class="order-history-left">
+                                <img src="/assets/img/products/rau-xao-ngu-sac.png" alt="">
+                                <div class="order-history-info">
+                                    <h4>Rau xào ngũ sắc!</h4>
+                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> test ghi chú</p>
+                                    <p class="order-history-quantity">x2</p>
+                                </div>
+                            </div>
+                            <div class="order-history-right">
+                                <div class="order-history-price">
+                                    <span class="order-history-current-price">180.000&nbsp;₫</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-history">
+                            <div class="order-history-left">
+                                <img src="/assets/img/products/lau_thai.jpg" alt="">
+                                <div class="order-history-info">
+                                    <h4>Set lẩu thái Tomyum!</h4>
+                                    <p class="order-history-note"><i class="fa-light fa-pen"></i> Không có ghi chú</p>
+                                    <p class="order-history-quantity">x1</p>
+                                </div>
+                            </div>
+                            <div class="order-history-right">
+                                <div class="order-history-price">
+                                    <span class="order-history-current-price">699.000&nbsp;₫</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-history-control">
+                            <div class="order-history-status">
+                                <span class="order-history-status-sp complete">Nhân viên đã xác nhận</span>
+                            </div>
+                            <div class="order-history-total">
+                                <span class="order-history-total-desc">Tổng tiền: </span>
+                                <span class="order-history-toltal-price">1.259.000&nbsp;₫</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -340,14 +438,6 @@
     </div>
 </div>
 
-<div class="modal detail-order">
-    <div class="modal-container mdl-cnt">
-        <h3 class="modal-container-title">Thông tin đơn hàng</h3>
-        <button class="form-close" onclick="closeModal()"><i class="fa-regular fa-xmark"></i></button>
-        <div class="detail-order-content">
-        </div>
-    </div>
-</div>
 @section scripts_footer {
     <script>
         app.controller("mainCtrl", function ($scope, $http, $rootScope, ShareService) {
@@ -373,6 +463,11 @@
             }, function (newVal) {
                 $scope.data.filter.searchText = newVal;
             });
+            $scope.$on("OpenOrderPage", function (event, data) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.getElementById('trangchu').classList.add('hide');
+                document.getElementById('order-history').classList.add('open');
+            });
 
             $scope.events = {
                 onOpenModelProduct: function (product) {
@@ -390,8 +485,14 @@
                     closeModal();
                 },
                 onFilterByCategory: function (categoryId) {
+                    document.getElementById('trangchu').classList.remove('hide');
+                    document.getElementById('order-history').classList.remove('open');
+
                     $scope.data.filter.categoryId = categoryId;
                     document.getElementById("home-title").scrollIntoView();
+                },
+                onOpenOrderPage: function () {
+
                 }
             };
             $scope.methods = {
