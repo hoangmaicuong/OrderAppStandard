@@ -197,8 +197,11 @@
     <div class="container" id="order-history">
         <div class="main-account">
             <div class="main-account-header">
-                <h3>Đơn hàng bàn số 00</h3>
-                <p>Chi tiết, trạng thái của những đơn hàng đã đặt.</p>
+                <h3>Đơn Đặt {{data.table.tableName}}</h3>
+                <p>Chi tiết và trạng thái của những đơn hàng đã đặt cho bàn này.</p>
+            </div>
+            <div ng-if="data.orders.length == 0" class="main-account-body">
+                <div class="order-history-section"><div class="empty-order-section"><img src="./assets/img/empty-order.jpg" alt="" class="empty-order-img"><p>Chưa có đơn hàng nào</p></div></div>
             </div>
             <div class="main-account-body">
                 <div class="order-history-section">
@@ -208,7 +211,7 @@
                                 <img ng-src="{{detail.fileId ? data.support.imagePath + detail.fileId : '/assets/img/blank-image.png'}}" alt="">
                                 <div class="order-history-info">
                                     <h4 ng-bind="detail.productName"></h4>
-                                    <p  ng-bind-html="detail.orderDetailNote || '<i class=\'fa-light fa-pen\'></i> Không có ghi chú'" class="order-history-note"></p>
+                                    <p ng-bind-html="detail.orderDetailNote || '<i class=\'fa-light fa-pen\'></i> Không có ghi chú'" class="order-history-note"></p>
                                     <p ng-bind="'x' + detail.orderDetailQuantity" class="order-history-quantity"></p>
                                 </div>
                             </div>
@@ -218,14 +221,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="order-history-control">
                             <div class="order-history-status">
                                 <span ng-show="order.isConfirm != true" class="order-history-status-sp" style="background-color: #f04e2e; color: var(--white);">
                                     <i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i>
-                                    Nhân viên đang xác nhận
+                                    đang xác nhận
                                 </span>
-                                <span ng-show="order.isConfirm == true" class="order-history-status-sp complete">Nhân viên đã xác nhận</span>
+                                <span ng-show="order.isConfirm == true" class="order-history-status-sp complete">
+                                    đã xác nhận
+                                </span>
                             </div>
                             <div class="order-history-total">
                                 <span class="order-history-total-desc">Tổng tiền: </span>
@@ -388,6 +393,9 @@
 
             $scope.init = function () {
                 $scope.methods.loadInit();
+                if (context.tableId > 0) {
+                    $scope.methods.getTable(context.tableId);
+                }
             };
 
             $scope.$watch(function () {
@@ -427,7 +435,6 @@
             };
             $scope.methods = {
                 loadInit: function () {
-
                     $http({
                         url: '/api/home/get-all',
                         method: "Get"
@@ -436,6 +443,25 @@
                         //console.log('response', response);
                         $scope.data.products = response.data.products;
                         $scope.data.support.categorys = response.data.categorys;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+
+
+                    });
+                },
+                getTable: function (tableId) {
+                    $http({
+                        url: '/api/home/get-table?tableId=' + tableId,
+                        method: "Get"
+                    })
+                    .then(function (response) {
+                        //console.log('response', response);
+                        $scope.data.table = response.data.tables[0];
+
                     })
                     .catch(function (response) {
                         shareData.notification.exception();

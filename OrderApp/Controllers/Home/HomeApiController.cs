@@ -29,5 +29,11 @@ namespace OrderApp.Controllers.Home
         {
             return Ok(services.GetOrderOfTable(tableId));
         }
+        [HttpGet]
+        [Route("get-table")]
+        public IHttpActionResult GetTable(int tableId)
+        {
+            return Ok(services.GetTable(tableId));
+        }
     }
 }
