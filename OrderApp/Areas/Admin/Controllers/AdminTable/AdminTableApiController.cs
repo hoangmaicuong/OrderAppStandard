@@ -32,5 +32,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
                 return Ok(services.Edit(dto));
             }
         }
+        [HttpPost]
+        [Route("create-new-token")]
+        public IHttpActionResult CreateNewToken(int tableId)
+        {
+            return Ok(services.CreateNewToken(tableId));
+        }
     }
 }

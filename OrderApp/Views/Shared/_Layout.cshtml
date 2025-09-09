@@ -32,6 +32,7 @@
             newId: 0,
             isAuthenticated: '@Request.IsAuthenticated' == 'True',
             tableId: '@ViewBag.TableId',
+            tableToken:'@ViewBag.TableToken',
             loadButton: {
                 rootText: '',
                 loading: function (button, isShowRootText) {
@@ -114,7 +115,7 @@
                                     <i class="fa-light fa-circle-xmark"></i>
                                 </div>
                             </li>
-                            <li ng-if="data.tableId > 0" ng-click="events.onOpenOrderPage()"
+                            <li ng-if="data.tableId > 0 && data.tableToken != ''" ng-click="events.onOpenOrderPage()"
                                 class="header-middle-right-item dropdown open">
                                 <i class="fa-light fa-table-picnic"></i>
                                 @*<span>Bàn số 00</span>*@
@@ -416,6 +417,7 @@
             $scope.data = {
                 share: ShareService.getShare(),
                 tableId: Number(shareData.tableId) || 0,
+                tableToken: shareData.tableToken,
                 searchText: '',
                 support: {
                     
@@ -449,7 +451,8 @@
 
                     const data = {
                         order: {
-                            tableId: shareData.tableId
+                            tableId: shareData.tableId,
+                            tableToken: shareData.tableToken
                         },
                         orderDetails: $scope.data.shoppingCarts
                     }

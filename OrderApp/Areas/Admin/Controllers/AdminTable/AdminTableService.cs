@@ -149,5 +149,59 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
             //* Kết quả hàm *
             return result;
         }
+        public Support.ResponsesAPI CreateNewToken(int tableId)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            Table table = new Table();
+
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            table = db.Table.FirstOrDefault(x => x.TableId == tableId);
+            if (table == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            table.TableToken = Guid.NewGuid();
+            #endregion
+
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true,
+                        objectResponses = new
+                        {
+                            tableToken = table.TableToken
+                        }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
+        }
     }
 }

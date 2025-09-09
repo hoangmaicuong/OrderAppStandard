@@ -25,15 +25,15 @@ namespace OrderApp.Controllers.Home
         }
         [HttpGet]
         [Route("get-order-of-table")]
-        public IHttpActionResult GetOrderOfTable(int tableId)
+        public IHttpActionResult GetOrderOfTable(int tableId, Guid tableToken)
         {
-            return Ok(services.GetOrderOfTable(tableId));
+            return Ok(services.GetOrderOfTable(tableId, tableToken));
         }
         [HttpGet]
         [Route("get-table")]
-        public IHttpActionResult GetTable(int tableId)
+        public IHttpActionResult GetTable(int tableId, Guid tableToken)
         {
-            return Ok(services.GetTable(tableId));
+            return Ok(services.GetTable(tableId, tableToken));
         }
     }
 }

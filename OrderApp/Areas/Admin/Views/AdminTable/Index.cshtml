@@ -68,7 +68,7 @@
             <tbody>
                 <tr ng-repeat="item in data.tables | filter:searchText | filter:{ isOpen: selectedStatusTable }">
                     <td>
-                        <a href="/?tableId={{item.tableId}}" class="btn-edit" target="_blank">
+                        <a href="/?tableId={{item.tableId}}&tableToken={{item.tableToken}}" class="btn-edit" target="_blank">
                             <i class="fa-light fa-utensils"></i>
                         </a>
                         <button type="button"
@@ -105,10 +105,17 @@
                     <div id="qrcode" style="display: flex; justify-content: center;"></div>
                     <div class="form-group" style="text-align: center; margin-top: 9px;">
                         <button id="qrcode-download" class="btn" style="padding: 10px 30px;">Tải QR về</button>
-                        <button class="btn" style="padding: 10px 30px;">Tạo QR mới</button>
+                        <button class="btn" 
+                                ng-click="events.onNewQR(data.table, $event)"
+                                style="padding: 10px 30px;">Tạo QR mới</button>
                     </div>
                 </div>
                 <div class="modal-content-right">
+                    <div class="form-group">
+                        <label for="" class="form-label">Token</label>
+                        <input ng-model="data.table.tableToken" disabled type="text" class="form-control">
+                        <span class="form-message-name form-message"></span>
+                    </div>
                     <div class="form-group">
                         <label for="fullname" class="form-label">Tên bàn</label>
                         <input ng-model="data.table.tableName" type="text" placeholder="VD: Bàn số 1" class="form-control">
@@ -180,7 +187,7 @@
 
                     if (qrcode != undefined && !isNew) {
                         qrcode.clear();
-                        qrcode.makeCode(`${window.location.origin}/?tableId=${table.tableId}`);
+                        qrcode.makeCode(`${window.location.origin}/?tableId=${table.tableId}&tableToken=${$scope.data.table.tableToken}`);
                         // Hàm tải ảnh
                         document.getElementById("qrcode-download").addEventListener("click", function () {
                             // lấy thẻ <img> mà qrcode.js tạo ra
@@ -195,6 +202,12 @@
                     }
                     
                     document.querySelector(".table-detail").classList.add("open");
+                },
+                onNewQR: function (table, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    $scope.methods.createNewToken(table, button);
                 }
             };
             $scope.methods = {
@@ -244,6 +257,35 @@
                         .finally(function () {
 
                         });
+                },
+                createNewToken: function (table, button) {
+                    $http({
+                        url: '/api/admin/table/create-new-token?tableId=' + table.tableId,
+                        method: "POST",
+                        //data: data
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            $scope.data.table.tableToken = response.data.objectResponses.tableToken;
+                            if (qrcode != undefined) {
+                                qrcode.clear();
+                                qrcode.makeCode(`${window.location.origin}/?tableId=${table.tableId}&tableToken=${$scope.data.table.tableToken}`);
+                            }
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        if (button != null) {
+                            shareData.loadButton.loaded(button);
+                        }
+                    });
                 }
             };
             $scope.init();

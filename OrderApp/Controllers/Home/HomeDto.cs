@@ -21,6 +21,7 @@ namespace OrderApp.Controllers.Home
         {
             public int OrderId { get; set; }
             public int TableId { get; set; }
+            public Guid? TableToken { get; set; }
         }
         public class OrderDetailDto
         {

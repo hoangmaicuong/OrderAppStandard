@@ -49,10 +49,10 @@ namespace OrderApp.Controllers.Home
             Order order = new Order();
 
             #endregion
-
+            bool existTable = db.Table.Any(x => x.TableId == dto.Order.TableId && x.TableToken == dto.Order.TableToken);
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            if (dto.Order.TableId < 1)
+            if (dto.Order.TableId < 1 && !existTable)
             {
                 result.success = false;
                 result.messageForUser = "Chưa có bàn.";
@@ -108,7 +108,7 @@ namespace OrderApp.Controllers.Home
             //* Kết quả hàm *
             return result;
         }
-        public DataSet GetOrderOfTable(int tableId)
+        public DataSet GetOrderOfTable(int tableId, Guid tableToken)
         {
             using (var connec = dapperContext.CreateConnection())
             {
@@ -124,6 +124,12 @@ namespace OrderApp.Controllers.Home
                             ParameterName = "@tableId",
                             SqlDbType = SqlDbType.Int,
                             Value = tableId
+                        });
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@tableToken",
+                            SqlDbType = SqlDbType.UniqueIdentifier,
+                            Value = tableToken
                         });
                         using (var adapter = new SqlDataAdapter(cmd))
                         {
@@ -142,7 +148,7 @@ namespace OrderApp.Controllers.Home
                 }
             }
         }
-        public DataSet GetTable(int tableId)
+        public DataSet GetTable(int tableId, Guid tableToken)
         {
             using (var connec = dapperContext.CreateConnection())
             {
@@ -158,6 +164,12 @@ namespace OrderApp.Controllers.Home
                             ParameterName = "@tableId",
                             SqlDbType = SqlDbType.Int,
                             Value = tableId
+                        });
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@tableToken",
+                            SqlDbType = SqlDbType.UniqueIdentifier,
+                            Value = tableToken
                         });
                         using (var adapter = new SqlDataAdapter(cmd))
                         {

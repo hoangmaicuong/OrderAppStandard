@@ -13,6 +13,7 @@
     <script>
         const context = {
             tableId: '@ViewBag.TableId',
+            tableToken:'@ViewBag.TableToken',
             imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
         }
     </script>
@@ -399,8 +400,8 @@
 
             $scope.init = function () {
                 $scope.methods.loadInit();
-                if (context.tableId > 0) {
-                    $scope.methods.getTable(context.tableId);
+                if (context.tableId > 0 && context.tableToken != '') {
+                    $scope.methods.getTable(context.tableId, context.tableToken);
                 }
             };
 
@@ -419,7 +420,7 @@
             $scope.$on("OpenOrderPage", function (event, data) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('trangchu').classList.add('hide');
-                $scope.methods.getOrderOfTable(context.tableId);
+                $scope.methods.getOrderOfTable(context.tableId, context.tableToken);
                 document.getElementById('order-history').classList.add('open');
 
                 $scope.data.filter.categoryId = 0; // 0 là ko hiển thị
@@ -468,9 +469,9 @@
 
                     });
                 },
-                getTable: function (tableId) {
+                getTable: function (tableId, tableToken) {
                     $http({
-                        url: '/api/home/get-table?tableId=' + tableId,
+                        url: `/api/home/get-table?tableId=${tableId}&tableToken=${tableToken}`,
                         method: "Get"
                     })
                     .then(function (response) {
@@ -491,9 +492,9 @@
                     if ($scope.data.filter.categoryId == null) return true;
                     return product.categoryId == $scope.data.filter.categoryId;
                 },
-                getOrderOfTable: function (tableId) {
+                getOrderOfTable: function (tableId, tableToken) {
                     $http({
-                        url: '/api/home/get-order-of-table?tableId=' + tableId,
+                        url: `/api/home/get-order-of-table?tableId=${tableId}&tableToken=${tableToken}`,
                         method: "Get"
                     })
                     .then(function (response) {
