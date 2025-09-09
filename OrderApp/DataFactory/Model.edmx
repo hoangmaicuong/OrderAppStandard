@@ -59,6 +59,7 @@
           <Property Name="TableId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TableName" Type="nvarchar" MaxLength="255" />
           <Property Name="IsOpen" Type="bit" />
+          <Property Name="TableToken" Type="uniqueidentifier" />
         </EntityType>
         <Association Name="FK_Order_Table">
           <End Role="Table" Type="Self.Table" Multiplicity="0..1" />
@@ -244,6 +245,7 @@
           <Property Name="TableName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsOpen" Type="Boolean" />
           <NavigationProperty Name="Order" Relationship="OrderAppModel.FK_Order_Table" FromRole="Table" ToRole="Order" />
+          <Property Name="TableToken" Type="Guid" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -344,6 +346,7 @@
           <EntitySetMapping Name="Table">
             <EntityTypeMapping TypeName="OrderAppModel.Table">
               <MappingFragment StoreEntitySet="Table">
+                <ScalarProperty Name="TableToken" ColumnName="TableToken" />
                 <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
                 <ScalarProperty Name="TableId" ColumnName="TableId" />
