@@ -177,7 +177,8 @@
                     else {
                         $scope.data.table = table;
                     }
-                    if (qrcode != undefined) {
+
+                    if (qrcode != undefined && !isNew) {
                         qrcode.clear();
                         qrcode.makeCode(`${window.location.origin}/?tableId=${table.tableId}`);
                         // Hàm tải ảnh
