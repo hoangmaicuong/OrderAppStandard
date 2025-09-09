@@ -201,6 +201,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryApiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryDto.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeApiShareController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHome\AdminHomeController.cs" />
@@ -1743,6 +1747,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\AdminTable\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminCategory\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />

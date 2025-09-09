@@ -1,0 +1,214 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Loại sản phẩm";
+}
+@section css_header{
+    <style>
+        
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
+<div class="section">
+    <div class="admin-control">
+        
+        <div class="admin-control-center">
+            <form action="" class="form-search">
+                <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
+                <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm bàn...">
+            </form>
+        </div>
+        <div class="admin-control-right">
+            <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModel()"><i class="fa-light fa-plus"></i> <span>Thêm loại mới</span></button>
+        </div>
+    </div>
+    <div class="table">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>STT</td>
+                    <td style="text-align:left">Tên loại</td>
+                    <td>#</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in data.categorys | filter:searchText">
+                    <td>
+                        <button ng-click="events.onOpenModel(item)"
+                                class="btn-edit">
+                            <i class="fa-light fa-pen-to-square"></i>
+                        </button>
+                    </td>
+                    <td ng-bind="item.no"></td>
+                    <td ng-bind="item.categoryName"  style="text-align:left"></td>
+                    <td>
+                        <button ng-click="events.onDelete(item, $event)"
+                                class="btn-delete">
+                            <i class="fa-regular fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal item-detail">
+    <div class="modal-container"  style=" width: 400px;">
+        <h3 class="modal-container-title">CHI TIẾT LOẠI</h3>
+        <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+        <div class="form-content sign-up">
+            <form action="" class="signup-form">
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Tên loại</label>
+                    <input ng-model="data.category.categoryName" type="text" placeholder="VD: Món mặn, món chay,.." class="form-control">
+                    <span class="form-message-name form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Thứ tự hiển thị</label>
+                    <input ng-model="data.category.no" type="number" class="form-control">
+                    <span class="form-message-name form-message"></span>
+                </div>
+                <button type="button"
+                        ng-click="events.onUpdate($event)"
+                        class="form-submit">
+                    <i class="fa-light fa-pencil"></i>
+                    Lưu thay đổi
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                category: {},
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
+
+            $scope.init = function () {
+                $scope.methods.loadInit();
+            };
+
+            $scope.events = {
+                onUpdate: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    const data = {
+                        category: $scope.data.category
+                    }
+                    $scope.methods.update(data, button)
+                },
+                onOpenModel: function (category) {
+                    let isNew;
+                    if (category == null || category == undefined) {
+                        isNew = true;
+                    }
+                    else isNew = false;
+
+                    if (isNew) {
+                        $scope.data.category = {
+                            
+                        };
+                    }
+                    else {
+                        $scope.data.category = category;
+                    }
+                    
+                    document.querySelector(".item-detail").classList.add("open");
+                },
+                onDelete: function (category, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.methods.delete(category.categoryId, button)
+                }
+            };
+            $scope.methods = {
+                loadInit: function (button) {
+                    $http({
+                        url: '/api/admin/category/get-all',
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            //console.log('data', response.data);
+
+                            $scope.data.categorys = response.data.categorys;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                update: function (data, button) {
+
+                    $http({
+                        url: '/api/admin/category/update',
+                        method: "POST",
+                        data: data
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                if (response.data?.objectResponses?.id > 0) {
+                                    $scope.data.category.categoryId = response.data.objectResponses.id;
+                                }
+                                $scope.methods.loadInit(button);
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
+                delete: function (categoryId, button) {
+
+                    $http({
+                        url: '/api/admin/category/delete?categoryId=' + categoryId,
+                        method: "DELETE",
+                        /*data: data*/
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            $scope.methods.loadInit(button);
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        //if (button != null) {
+                        //    shareData.loadButton.loaded(button);
+                        //}
+                    });
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}

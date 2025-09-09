@@ -106,16 +106,22 @@
                                 <div class="hidden-sidebar">Đơn hàng</div>
                             </a>
                         </li>
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminTable" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminTable", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-table-picnic"></i></div>
+                                <div class="hidden-sidebar">Các bàn</div>
+                            </a>
+                        </li>
                         <li class="sidebar-list-item tab-content @(currentController == "AdminProduct" ? "active" : "")">
                             <a href="@Url.Action("Index", "AdminProduct", new {area = "Admin"})" class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-pot-food"></i></div>
                                 <div class="hidden-sidebar">Sản phẩm</div>
                             </a>
                         </li>
-                        <li class="sidebar-list-item tab-content @(currentController == "AdminTable" ? "active" : "")">
-                            <a href="@Url.Action("Index", "AdminTable", new {area = "Admin"})" class="sidebar-link">
-                                <div class="sidebar-icon"><i class="fa-light fa-table-picnic"></i></div>
-                                <div class="hidden-sidebar">Các bàn</div>
+                        <li class="sidebar-list-item tab-content @(currentController == "AdminCategory" ? "active" : "")">
+                            <a href="@Url.Action("Index", "AdminCategory", new {area = "Admin"})" class="sidebar-link">
+                                <div class="sidebar-icon"><i class="fa-light fa-layer-group"></i></div>
+                                <div class="hidden-sidebar">Loại Sản Phẩm</div>
                             </a>
                         </li>
                         <li class="sidebar-list-item tab-content @(currentController == "AdminAccount" ? "active" : "")">
