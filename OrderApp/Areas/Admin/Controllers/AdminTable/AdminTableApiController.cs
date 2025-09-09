@@ -8,6 +8,7 @@ using System.Web.Http;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminTable
 {
+    [Authorize]
     [RoutePrefix("api/admin/table")]
     public class AdminTableApiController : ApiController
     {
