@@ -284,10 +284,11 @@
                 <span class="price" ng-bind-html="(data.shoppingCart.productPrice * data.shoppingCart.shoppingCartQuantity) | vnCurrency"></span>
             </div>
             <div class="modal-footer-control">
-                <button class="button-dathangngay" data-product="1">Đặt hàng ngay</button>
+                @*<button class="button-dathangngay" data-product="1">Đặt hàng ngay</button>*@
                 <button class="button-dat" id="add-cart" onclick="animationCart()"
                         ng-click="events.onAddShoppingCart($event)"
                         >
+                    Thêm món vào giỏ 
                 <i class="fa-light fa-basket-shopping"></i>
                 </button>
             </div>
