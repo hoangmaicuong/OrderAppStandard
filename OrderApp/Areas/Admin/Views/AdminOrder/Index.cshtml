@@ -57,15 +57,15 @@
             <thead>
                 <tr>
                     <td>#</td>
-                    <td>Trạng thái</td>
-                    <td>Xác nhận</td>
                     <td>Bàn đặt</td>
+                    <td>Xác nhận</td>
+                    <td>Trạng thái</td>
                     <td>Ngày đặt</td>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data.orders 
-                    | filter:searchText 
+                <tr ng-repeat="item in data.orders
+                    | filter:searchText
                     | filter:{ isFinish: selectedStatusOrder }
                     | filter:{ tableId: selectedTableId }">
                     <td>
@@ -74,15 +74,15 @@
                                 ng-click="events.onOpenModelOrder($event, item)">
                         </button>
                     </td>
-                    <td>
-                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
-                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
-                    </td>
+                    <td ng-bind="item.tableName"></td>
                     <td>
                         <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
                         <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
                     </td>
-                    <td ng-bind="item.tableName"></td>
+                    <td>
+                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
+                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+                    </td>
                     <td ng-bind="item.orderDate | formatDateTime"></td>
                 </tr>
             </tbody>
