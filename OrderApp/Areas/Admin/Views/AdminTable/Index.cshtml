@@ -102,10 +102,15 @@
         <div class="modal-content">
             <form action="" class="add-product-form">
                 <div class="modal-content-left">
-                    <div id="qrcode" style="display: flex; justify-content: center;"></div>
+                    <div id="qrcode" 
+                         ng-hide="data.table.tableId == null"
+                         style="display: flex; justify-content: center;"></div>
                     <div class="form-group" style="text-align: center; margin-top: 9px;">
-                        <button id="qrcode-download" class="btn" style="padding: 10px 30px;">Tải QR về</button>
+                        <button id="qrcode-download"
+                                ng-disabled="data.table.tableId == null"
+                                class="btn" disabled style="padding: 10px 30px;">Tải QR về</button>
                         <button class="btn" 
+                                ng-disabled="data.table.tableId == null"
                                 ng-click="events.onNewQR(data.table, $event)"
                                 style="padding: 10px 30px;">Tạo QR mới</button>
                     </div>
@@ -200,7 +205,6 @@
                             }
                         });
                     }
-                    
                     document.querySelector(".table-detail").classList.add("open");
                 },
                 onNewQR: function (table, $event) {
@@ -242,6 +246,7 @@
                             if (response.data.success == true) {
                                 if (response.data?.objectResponses?.id > 0) {
                                     $scope.data.table.tableId = response.data.objectResponses.id;
+                                    document.querySelector(".table-detail").classList.remove("open");
                                 }
                                 $scope.methods.loadInit(button);
                             }

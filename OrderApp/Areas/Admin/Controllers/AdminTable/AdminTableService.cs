@@ -60,6 +60,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
             }
             table.TableName = dto.Table.TableName;
             table.IsOpen = dto.Table.IsOpen;
+            table.TableToken = Guid.NewGuid();
 
             #endregion
 
