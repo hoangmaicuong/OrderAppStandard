@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --red: #B5292F;
     --lightest-gray: rgb(249, 249, 249);
 }
@@ -221,13 +221,28 @@
     .modal{
         z-index: 102;
     }
-
+    /* điều chỉnh modal chi tiết cho vừa iphone */
     .modal-container {
-        min-height: 85vh;
-    }
-
-    .add-product-form,.modal-detail-order {
+        display: flex;
         flex-direction: column;
+        min-height: calc(var(--vh, 1vh) * 100); /* luôn fit vùng nhìn thấy */
+    }
+    .modal-detail-order {
+        flex: 1 1 auto; /* chiếm phần còn lại */
+        display: flex;
+        overflow: hidden; /* tránh tràn */
+    }
+    .modal-detail-order > div {
+        flex: 1;
+        overflow-y: auto; /* cuộn được */
+        min-height: 0; /* fix bug flexbox + overflow trong safari */
+    }
+    .modal-detail-bottom {
+        flex: 0 0 auto; /* cố định dưới */
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+    .add-product-form, .modal-detail-order {
+    flex-direction: column;
     }
 
     .add-product-form>div{
