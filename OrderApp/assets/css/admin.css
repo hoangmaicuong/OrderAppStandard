@@ -970,7 +970,7 @@ label a {
     justify-content: space-between;
     margin-bottom: 20px;
     flex-wrap: wrap;
-    align-items: center;
+    /*align-items: center;*/
 }
 
 .admin-control-center {
