@@ -1058,11 +1058,11 @@ label a {
     display: flex;
 }
 
-    .modal-detail-order > div {
-        width: 50%;
-        overflow-y: auto;
-        height: 275px;
-    }
+.modal-detail-order > div {
+    width: 50%;
+    overflow-y: auto;
+    height: 350px;
+}
 
 .modal-detail-order>div::-webkit-scrollbar {
     width: 3px;
