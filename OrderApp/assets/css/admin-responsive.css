@@ -223,7 +223,7 @@
     }
 
     .modal-container {
-        min-height: 100vh;
+        min-height: 85vh;
     }
 
     .add-product-form,.modal-detail-order {
