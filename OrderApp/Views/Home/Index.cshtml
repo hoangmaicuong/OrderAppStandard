@@ -488,6 +488,10 @@
                     return product.categoryId == $scope.data.filter.categoryId;
                 },
                 getOrderOfTable: function (tableId, tableToken) {
+                    let liTag = document.getElementById("open-order-page");
+                    let liTagHtmlRoot = liTag.innerHTML;
+                    liTag.innerHTML = '<i class="fa-solid fa-loader fa-spin fa-spin-reverse"></i>';
+
                     $http({
                         url: `/api/home/get-order-of-table?tableId=${tableId}&tableToken=${tableToken}`,
                         method: "Get"
@@ -509,8 +513,7 @@
                         console.error('catch error', response);
                     })
                     .finally(function () {
-
-
+                        liTag.innerHTML = liTagHtmlRoot;
                     });
                 },
                 calculateOrderTotal: function (order) {
