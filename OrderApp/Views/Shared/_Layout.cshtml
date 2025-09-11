@@ -572,5 +572,14 @@
             };
         }]);
     </script>
+    <script>
+        // đặt lại chiều cao khi botton màn hình bị che trên dt iphone
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        window.addEventListener('resize', setVH);
+        setVH();
+    </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-@media (max-width: 991.98px) {
+﻿@media (max-width: 991.98px) {
     .col-product {
         width: 33.33%;
     }
@@ -142,8 +142,8 @@
     }
 
     .modal-container {
-        height: 100vh !important;
-        max-height: 100vh !important;
+        height: calc(var(--vh, 1vh) * 100); /* luôn fit vùng nhìn thấy */
+        max-height: calc(var(--vh, 1vh) * 100); /* luôn fit vùng nhìn thấy */
     }
 
     .modal-footer {
