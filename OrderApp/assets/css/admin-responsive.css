@@ -53,8 +53,9 @@
         z-index: 101;
     }
 
-    .sidebar{
-        height: calc(100vh - var(--header-height));
+    .sidebar {
+        /*height: calc(100vh - var(--header-height));*/
+        height: calc((var(--vh, 1vh) * 100) - var(--header-height)); /* luôn fit vùng nhìn thấy */
         top: var(--header-height);
     }
 
