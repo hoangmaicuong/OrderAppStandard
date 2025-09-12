@@ -76,7 +76,8 @@ namespace OrderApp.Controllers.AccountManage
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 //case SignInStatus.LockedOut:
-                //    return View("Lockout");
+                //    ModelState.AddModelError("", "Tài khoản khóa 5 phút, do đăng nhập sai 5 lần!");
+                //    return View(model);
                 //case SignInStatus.RequiresVerification:
                 //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 //case SignInStatus.Failure:

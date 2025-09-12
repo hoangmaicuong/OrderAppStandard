@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminAccount
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [RoutePrefix("api/admin/account")]
     public class AdminAccountApiController : ApiController
     {

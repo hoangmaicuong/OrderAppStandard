@@ -7,7 +7,8 @@ using System.Web.Mvc;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminAccount
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
+
     public class AdminAccountController : Controller
     {
         // GET: Admin/AdminAccount

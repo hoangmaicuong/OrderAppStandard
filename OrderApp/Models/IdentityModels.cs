@@ -14,6 +14,14 @@ namespace OrderApp.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+            // Lấy danh sách vai trò của người dùng
+            var roles = await manager.GetRolesAsync(this.Id);
+
+            // Thêm các vai trò vào ClaimsIdentity
+            foreach (var role in roles)
+            {
+                userIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
             return userIdentity;
         }
     }
