@@ -456,6 +456,57 @@
     <Content Include="Content\assets-login\vendor\select2\select2.min.css" />
     <Content Include="Content\assets-login\vendor\select2\select2.min.js" />
     <Content Include="Content\assets-login\vendor\tilt\tilt.jquery.min.js" />
+    <Content Include="Content\UploadFiles\0367d7e21da745578cfb4610487b3e20.jpeg" />
+    <Content Include="Content\UploadFiles\05118989f4ba4a5dbed90828b90ebbb6.png" />
+    <Content Include="Content\UploadFiles\05429f2c1ea44d1d809b45bacfa1ce7c.jpeg" />
+    <Content Include="Content\UploadFiles\076306e267c74bd79c31547cbb2122a6.jpeg" />
+    <Content Include="Content\UploadFiles\0b4dc9209bbf44538f7f8987aa352556.png" />
+    <Content Include="Content\UploadFiles\1055e6de66474b87a5dfbee4b36f7237.jpg" />
+    <Content Include="Content\UploadFiles\1266a52137954ee6af02800f96f0afa2.png" />
+    <Content Include="Content\UploadFiles\1327d23054d040feb67f2c7efda2081b.jpg" />
+    <Content Include="Content\UploadFiles\27932c41183b4bda8ac83efaa8788518.jpeg" />
+    <Content Include="Content\UploadFiles\3758208d035a478487cbde23882343aa.jpg" />
+    <Content Include="Content\UploadFiles\3c12e53a1f9f472ba3062551edf6e347.png" />
+    <Content Include="Content\UploadFiles\4cdf6af52ac846cf8946a8fb595b89b2.jpeg" />
+    <Content Include="Content\UploadFiles\512c049428fb490b9710ccec77bd4df8.png" />
+    <Content Include="Content\UploadFiles\5213258e73a246bda7bb3ea881144c70.jpeg" />
+    <Content Include="Content\UploadFiles\5328e1b0057a4ecbaa09cdaa96004f7d.png" />
+    <Content Include="Content\UploadFiles\540fa4870b564a359d4eab20aaa57057.png" />
+    <Content Include="Content\UploadFiles\556cd7227301405097815bd3dcfd87da.jpg" />
+    <Content Include="Content\UploadFiles\563abc6a7ae148efa831e157d4d73822.jpeg" />
+    <Content Include="Content\UploadFiles\5b0539e96b5d4bd689b757c83c0cd159.jpeg" />
+    <Content Include="Content\UploadFiles\5ea827461a984e72b05393d3f306b181.jpeg" />
+    <Content Include="Content\UploadFiles\65c3565157604121aa6d249832a6dc3c.jpg" />
+    <Content Include="Content\UploadFiles\6b4f9993b5304738b4d3237b3b369842.jpg" />
+    <Content Include="Content\UploadFiles\6f1cfb828b894cd79366e40579e3470a.png" />
+    <Content Include="Content\UploadFiles\86c5226c93e149bba6448d4cc7055335.png" />
+    <Content Include="Content\UploadFiles\886443e1d21f41f98cbb6b7e31aafa1f.jpeg" />
+    <Content Include="Content\UploadFiles\8a33a7b309e944e9ae523875d27fdf14.jpeg" />
+    <Content Include="Content\UploadFiles\8ab96febd38545a4b2dd5bc3b989ee21.png" />
+    <Content Include="Content\UploadFiles\94f47a3779324332b8f1f8250a9bb0ac.png" />
+    <Content Include="Content\UploadFiles\9df8f58a176548d6934198a2c6041541.jpg" />
+    <Content Include="Content\UploadFiles\9eb8ccc0c2e44fd2b35b16e8ccff596c.jpeg" />
+    <Content Include="Content\UploadFiles\a10fa947c60d4c17b540e18057cfdb3e.jpeg" />
+    <Content Include="Content\UploadFiles\a49162a4311f4896b817733b38bce746.jpg" />
+    <Content Include="Content\UploadFiles\a6a012622da1477a98e9e6c8316ade09.png" />
+    <Content Include="Content\UploadFiles\b22c93ab6f274314b028b78dc35c0dfe.png" />
+    <Content Include="Content\UploadFiles\b6a721bad38140b3acae47e03c793f34.jpeg" />
+    <Content Include="Content\UploadFiles\cdd5b618103a441e8a859f13aad81e4a.jpeg" />
+    <Content Include="Content\UploadFiles\ce83d6bbfdbe486886d7cac75306e860.jpg" />
+    <Content Include="Content\UploadFiles\cecd699fed764e779d5b26f9be15f7de.jpeg" />
+    <Content Include="Content\UploadFiles\d5912fa507c44ddeaef9999c5f4b6821.jpg" />
+    <Content Include="Content\UploadFiles\d68a739259114a069b2a698e6259a09e.jpg" />
+    <Content Include="Content\UploadFiles\dbb28e4299d5494bbec7ae4db7082296.jpeg" />
+    <Content Include="Content\UploadFiles\dbbba876b0a0451d860a7efbe1b483ca.jpeg" />
+    <Content Include="Content\UploadFiles\dcc6f22736de451ab42921575ec67d17.jpeg" />
+    <Content Include="Content\UploadFiles\de64f8b0e7894172876f8dd9b9844ba5.jpeg" />
+    <Content Include="Content\UploadFiles\e5429a0be2584bc0804c532c9c3c41b7.jpg" />
+    <Content Include="Content\UploadFiles\e702998052f248afacd6b995338ca9af.jpeg" />
+    <Content Include="Content\UploadFiles\ee6aa752edbe4fe38943661778b9f383.png" />
+    <Content Include="Content\UploadFiles\f32a511bbe184b8dbf2a9c15c0bbd47d.jpeg" />
+    <Content Include="Content\UploadFiles\f57efdda8a24483b9b1b8cff9cbd6fa9.jpg" />
+    <Content Include="Content\UploadFiles\f92ae69fc414422693d445706c66de60.png" />
+    <Content Include="Content\UploadFiles\fdd20712b1b5482cb2df1a73cca65093.jpeg" />
     <Content Include="DataFactory\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -1282,7 +1333,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Content\UploadFiles\" />
     <Folder Include="doccument\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>
