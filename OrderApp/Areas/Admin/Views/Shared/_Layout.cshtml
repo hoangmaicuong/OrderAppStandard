@@ -251,7 +251,13 @@
                 return `${day}/${month}/${year} vào lúc ${hours}:${minutes}`;
             };
         });
-
+        app.filter('formatPhoneNumber', function () {
+            return function (input) {
+                if (!input) return input; // Nếu không có input, trả về input gốc
+                input = input.toString().replace(/\D/g, ''); // Loại bỏ các ký tự không phải số
+                return input.replace(/^(\d{4})(\d{3})(\d{3})$/, '$1-$2-$3'); // Định dạng chuỗi
+            };
+        });
         app.directive('formatNumberInput', ['$filter', function ($filter) {
             return {
                 restrict: 'A',

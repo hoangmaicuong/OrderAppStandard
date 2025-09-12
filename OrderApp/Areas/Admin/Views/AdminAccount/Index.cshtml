@@ -43,7 +43,7 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>Tên đăng nhập</td>
+                    <td style="text-align:left">Tên đăng nhập</td>
                     <td>Số điện thoại</td>
                     <td>Trạng thái</td>
                     <td></td>
@@ -51,8 +51,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.aspNetUsers">
-                    <td ng-bind="item.userName"></td>
-                    <td ng-bind="item.phoneNumber"></td>
+                    <td ng-bind="item.userName" style="text-align:left"></td>
+                    <td ng-bind-html="item.phoneNumber | formatPhoneNumber"></td>
                     <td>
                         <span class="status-complete">Hoạt động</span>
                         <span class="status-no-complete">Bị khóa</span>
@@ -80,13 +80,16 @@
         <div class="form-content sign-up">
             <form action="" class="signup-form ng-pristine ng-valid">
                 <div class="form-group">
-                    <label for="fullname" class="form-label">Tên đầy đủ</label>
+                    <label for="fullname" class="form-label">Tên đăng nhập</label>
                     <input ng-model="data.aspNetUser.userName" name="fullname" type="text" placeholder=".." class="form-control">
                     <span class="form-message-name form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="phone" class="form-label">Số điện thoại</label>
-                    <input ng-model="data.aspNetUser.phoneNumber" name="phone" type="text" placeholder=".." class="form-control">
+                    <input ng-model="data.aspNetUser.phoneNumber" 
+                           format-phone-input
+                           type="text"
+                           name="phone" placeholder=".." class="form-control">
                     <span class="form-message-phone form-message"></span>
                 </div>
                 <div ng-show="data.aspNetUser.id == null" class="form-group">
@@ -175,7 +178,7 @@
                         return specialChars.charAt(index);
                     }
                     $scope.data.aspNetUser = aspNetUser;
-                    $scope.data.aspNetUser.newPassword = aspNetUser.phoneNumber + getSpecialChar();
+                    $scope.data.aspNetUser.newPassword = aspNetUser.userName + getSpecialChar();
                     document.querySelector(".item-change-password").classList.add("open");
                 },
                 onChangePassword: function ($event) {
