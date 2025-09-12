@@ -200,7 +200,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountDto.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminAccount\AdminAccountService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminCategory\AdminCategoryDto.cs" />

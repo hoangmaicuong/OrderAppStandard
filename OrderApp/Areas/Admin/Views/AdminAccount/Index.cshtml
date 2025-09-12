@@ -1,13 +1,24 @@
-﻿
+﻿@using System.Configuration;
 @{
     ViewBag.Title = "Tài khoản";
 }
-
+@section css_header{
+    <style>
+        
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
 
 <div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
-            <select name="tinh-trang-user" id="tinh-trang-user" onchange="showUser()">
+            <select name="tinh-trang-user">
                 <option value="2">Tất cả</option>
                 <option value="1">Hoạt động</option>
                 <option value="0">Bị khóa</option>
@@ -16,118 +27,246 @@
         <div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input id="form-search-user" type="text" class="form-search-input" placeholder="Tìm kiếm khách hàng..." oninput="showUser()">
+                <input id="form-search-user" type="text" class="form-search-input" placeholder="Tìm kiếm tải khoản...">
             </form>
         </div>
         <div class="admin-control-right">
-            <form action="" class="fillter-date">
-                <div>
-                    <label for="time-start">Từ</label>
-                    <input type="date" class="form-control-date" id="time-start-user" onchange="showUser()">
-                </div>
-                <div>
-                    <label for="time-end">Đến</label>
-                    <input type="date" class="form-control-date" id="time-end-user" onchange="showUser()">
-                </div>
-            </form>
-            <button class="btn-reset-order" onclick="cancelSearchUser()"><i class="fa-light fa-arrow-rotate-right"></i></button>
-            <button id="btn-add-user" class="btn-control-large" onclick="openCreateAccount()"><i class="fa-light fa-plus"></i> <span>Thêm khách hàng</span></button>
+            
+            <button ng-click="events.onReloadInit($event)"
+                    class="btn-reset-order">
+                <i class="fa-light fa-arrow-rotate-right"></i>
+            </button>
+            <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModel()"><i class="fa-light fa-plus"></i> <span>Thêm Tài Khoản</span></button>
         </div>
     </div>
     <div class="table">
         <table width="100%">
             <thead>
                 <tr>
-                    <td>STT</td>
-                    <td>Họ và tên</td>
-                    <td>Liên hệ</td>
-                    <td>Ngày tham gia</td>
-                    <td>Tình trạng</td>
+                    <td>Tên đăng nhập</td>
+                    <td>Số điện thoại</td>
+                    <td>Trạng thái</td>
                     <td></td>
                 </tr>
             </thead>
-            <tbody id="show-user">
+            <tbody>
+                <tr ng-repeat="item in data.aspNetUsers">
+                    <td ng-bind="item.userName"></td>
+                    <td ng-bind="item.phoneNumber"></td>
+                    <td>
+                        <span class="status-complete">Hoạt động</span>
+                        <span class="status-no-complete">Bị khóa</span>
+                    </td>
+                    <td>
+                        <button ng-click="events.onOpenModel(item)"
+                                class="btn-edit">
+                            <i class="fa-light fa-pen-to-square"></i>
+                        </button>
+                        <button ng-click="events.onOpenModelChangePassword(item)"
+                                class="btn-delete">
+                            <i class="fa-regular fa-key"></i>
+                        </button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
     <!-- </div> -->
 </div>
+<div class="modal item-detail">
+    <div class="modal-container">
+        <h3 class="modal-container-title">CHI TIẾT TÀI KHOẢN</h3>
+        <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+        <div class="form-content sign-up">
+            <form action="" class="signup-form ng-pristine ng-valid">
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Tên đầy đủ</label>
+                    <input ng-model="data.aspNetUser.userName" name="fullname" type="text" placeholder=".." class="form-control">
+                    <span class="form-message-name form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="form-label">Số điện thoại</label>
+                    <input ng-model="data.aspNetUser.phoneNumber" name="phone" type="text" placeholder=".." class="form-control">
+                    <span class="form-message-phone form-message"></span>
+                </div>
+                <div ng-show="data.aspNetUser.id == null" class="form-group">
+                    <label for="phone" class="form-label">Mật khẩu</label>
+                    <input ng-model="data.aspNetUser.password"  type="text" placeholder="***" class="form-control">
+                    <span class="form-message-phone form-message"></span>
+                </div>
+                @*<div class="form-group">
+            <label for="" class="form-label">Trạng thái</label>
+            <input type="checkbox" id="user-status" class="switch-input">
+            <label for="user-status" class="switch"></label>
+        </div>*@
+                <button ng-click="events.onUpdate($event)"
+                        class="form-submit">
+                    Lưu thay đổi
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal item-change-password">
+    <div class="modal-container">
+        <h3 class="modal-container-title">ĐỔI MẬT KHẨU</h3>
+        <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+        <div class="form-content sign-up">
+            <form action="" class="signup-form ng-pristine ng-valid">
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Mật khẩu mới</label>
+                    <input ng-model="data.aspNetUser.newPassword" name="fullname" type="text" placeholder="***" class="form-control">
+                    <span class="form-message-name form-message"></span>
+                </div>
+                <button ng-click="events.onChangePassword($event)"
+                        class="form-submit">
+                    Lưu thay đổi
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                aspNetUser: {},
+                support: {
+                    imagePath: context.imagePath,
+                }
+            }
 
-<script>
+            $scope.init = function () {
+                $scope.methods.loadInit();
+            };
 
-    function showUserArr(arr) {
-        let accountHtml = '';
-        if (arr.length == 0) {
-            accountHtml = `<td colspan="5">Không có dữ liệu</td>`
-        } else {
-            arr.forEach((account, index) => {
-                let tinhtrang = account.status == 0 ? `<span class="status-no-complete">Bị khóa</span>` : `<span class="status-complete">Hoạt động</span>`;
-                accountHtml += ` <tr>
-            <td>${index + 1}</td>
-            <td>${account.fullname}</td>
-            <td>${account.phone}</td>
-            <td>${formatDate(account.join)}</td>
-            <td>${tinhtrang}</td>
-            <td class="control control-table">
-            <button class="btn-edit" id="edit-account" onclick='editAccount(${account.phone})' ><i class="fa-light fa-pen-to-square"></i></button>
-            <button class="btn-delete" id="delete-account" onclick="deleteAcount(${index})"><i class="fa-regular fa-trash"></i></button>
-            </td>
-        </tr>`
-            })
-        }
-        document.getElementById('show-user').innerHTML = accountHtml;
-    }
-    function showUser() {
-        let tinhTrang = parseInt(document.getElementById("tinh-trang-user").value);
-        let ct = document.getElementById("form-search-user").value;
-        let timeStart = document.getElementById("time-start-user").value;
-        let timeEnd = document.getElementById("time-end-user").value;
+            $scope.events = {
+                onUpdate: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
 
-        if (timeEnd < timeStart && timeEnd != "" && timeStart != "") {
-            alert("Lựa chọn thời gian sai !");
-            return;
-        }
+                    const data = {
+                        aspNetUser: $scope.data.aspNetUser
+                    }
+                    $scope.methods.update(data, button)
+                },
+                onOpenModel: function (aspNetUser) {
+                    let isNew;
+                    if (aspNetUser == null || aspNetUser == undefined) {
+                        isNew = true;
+                    }
+                    else isNew = false;
 
-        let accounts = localStorage.getItem("accounts") ? JSON.parse(localStorage.getItem("accounts")).filter(item => item.userType == 0) : [];
-        let result = tinhTrang == 2 ? accounts : accounts.filter(item => item.status == tinhTrang);
+                    if (isNew) {
+                        $scope.data.aspNetUser = {
 
-        result = ct == "" ? result : result.filter((item) => {
-            return (item.fullname.toLowerCase().includes(ct.toLowerCase()) || item.phone.toString().toLowerCase().includes(ct.toLowerCase()));
+                        };
+                    }
+                    else {
+                        $scope.data.aspNetUser = aspNetUser;
+                    }
+
+                    document.querySelector(".item-detail").classList.add("open");
+                },
+                onOpenModelChangePassword: function (aspNetUser) {
+                    const getSpecialChar = () => {
+                        const specialChars = "!#$%?";
+                        const index = Math.floor(Math.random() * specialChars.length);
+                        return specialChars.charAt(index);
+                    }
+                    $scope.data.aspNetUser = aspNetUser;
+                    $scope.data.aspNetUser.newPassword = aspNetUser.phoneNumber + getSpecialChar();
+                    document.querySelector(".item-change-password").classList.add("open");
+                },
+                onChangePassword: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    const data = {
+                        aspNetUser: $scope.data.aspNetUser
+                    }
+                    $scope.methods.changePassword(data, button)
+                },
+                onReloadInit: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.methods.loadInit(button)
+                }
+            };
+            $scope.methods = {
+                loadInit: function (button) {
+                    $http({
+                        url: '/api/admin/account/get-all',
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            //console.log('data', response.data);
+
+                            $scope.data.aspNetUsers = response.data.aspNetUsers;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                update: function (data, button) {
+
+                    $http({
+                        url: '/api/admin/account/update',
+                        method: "POST",
+                        data: data
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                document.querySelector(".item-detail").classList.remove("open");
+                                $scope.methods.loadInit(button);
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
+                changePassword: function (data, button) {
+                    $http({
+                        url: '/api/admin/account/change-password',
+                        method: "POST",
+                        data: data
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        if (button != null) {
+                            shareData.loadButton.loaded(button);
+                        }
+                    });
+                }
+            };
+            $scope.init();
         });
-
-        if (timeStart != "" && timeEnd == "") {
-            result = result.filter((item) => {
-                return new Date(item.join) >= new Date(timeStart).setHours(0, 0, 0);
-            });
-        } else if (timeStart == "" && timeEnd != "") {
-            result = result.filter((item) => {
-                return new Date(item.join) <= new Date(timeEnd).setHours(23, 59, 59);
-            });
-        } else if (timeStart != "" && timeEnd != "") {
-            result = result.filter((item) => {
-                return (new Date(item.join) >= new Date(timeStart).setHours(0, 0, 0) && new Date(item.join) <= new Date(timeEnd).setHours(23, 59, 59)
-                );
-            });
-        }
-        showUserArr(result);
-    }
-    window.onload = showUser();
-    // Format Date
-    function formatDate(date) {
-        let fm = new Date(date);
-        let yyyy = fm.getFullYear();
-        let mm = fm.getMonth() + 1;
-        let dd = fm.getDate();
-        if (dd < 10) dd = "0" + dd;
-        if (mm < 10) mm = "0" + mm;
-        return dd + "/" + mm + "/" + yyyy;
-    }
-    function cancelSearchUser() {
-        let accounts = localStorage.getItem("accounts") ? JSON.parse(localStorage.getItem("accounts")).filter(item => item.userType == 0) : [];
-        showUserArr(accounts);
-        document.getElementById("tinh-trang-user").value = 2;
-        document.getElementById("form-search-user").value = "";
-        document.getElementById("time-start-user").value = "";
-        document.getElementById("time-end-user").value = "";
-    }
-</script>
+    </script>
+}

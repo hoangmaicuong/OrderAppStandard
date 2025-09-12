@@ -134,153 +134,153 @@ for (let i = 0; i < closePopup.length; i++) {
 
 
 // Format Date
-function formatDate(date) {
-    let fm = new Date(date);
-    let yyyy = fm.getFullYear();
-    let mm = fm.getMonth() + 1;
-    let dd = fm.getDate();
-    if (dd < 10) dd = "0" + dd;
-    if (mm < 10) mm = "0" + mm;
-    return dd + "/" + mm + "/" + yyyy;
-}
+//function formatDate(date) {
+//    let fm = new Date(date);
+//    let yyyy = fm.getFullYear();
+//    let mm = fm.getMonth() + 1;
+//    let dd = fm.getDate();
+//    if (dd < 10) dd = "0" + dd;
+//    if (mm < 10) mm = "0" + mm;
+//    return dd + "/" + mm + "/" + yyyy;
+//}
 
 // User
-let addAccount = document.getElementById('signup-button');
-let updateAccount = document.getElementById("btn-update-account")
+//let addAccount = document.getElementById('signup-button');
+//let updateAccount = document.getElementById("btn-update-account")
 
-document.querySelector(".modal.signup .modal-close").addEventListener("click",() => {
-    signUpFormReset();
-})
+//document.querySelector(".modal.signup .modal-close").addEventListener("click",() => {
+//    signUpFormReset();
+//})
 
-function openCreateAccount() {
-    document.querySelector(".signup").classList.add("open");
-    document.querySelectorAll(".edit-account-e").forEach(item => {
-        item.style.display = "none"
-    })
-    document.querySelectorAll(".add-account-e").forEach(item => {
-        item.style.display = "block"
-    })
-}
+//function openCreateAccount() {
+//    document.querySelector(".signup").classList.add("open");
+//    document.querySelectorAll(".edit-account-e").forEach(item => {
+//        item.style.display = "none"
+//    })
+//    document.querySelectorAll(".add-account-e").forEach(item => {
+//        item.style.display = "block"
+//    })
+//}
 
-function signUpFormReset() {
-    document.getElementById('fullname').value = ""
-    document.getElementById('phone').value = ""
-    document.getElementById('password').value = ""
-    document.querySelector('.form-message-name').innerHTML = '';
-    document.querySelector('.form-message-phone').innerHTML = '';
-    document.querySelector('.form-message-password').innerHTML = '';
-}
+//function signUpFormReset() {
+//    document.getElementById('fullname').value = ""
+//    document.getElementById('phone').value = ""
+//    document.getElementById('password').value = ""
+//    document.querySelector('.form-message-name').innerHTML = '';
+//    document.querySelector('.form-message-phone').innerHTML = '';
+//    document.querySelector('.form-message-password').innerHTML = '';
+//}
 
-function deleteAcount(phone) {
-    let accounts = JSON.parse(localStorage.getItem('accounts'));
-    let index = accounts.findIndex(item => item.phone == phone);
-    if (confirm("Bạn có chắc muốn xóa?")) {
-        accounts.splice(index, 1)
-    }
-    localStorage.setItem("accounts", JSON.stringify(accounts));
-}
+//function deleteAcount(phone) {
+//    let accounts = JSON.parse(localStorage.getItem('accounts'));
+//    let index = accounts.findIndex(item => item.phone == phone);
+//    if (confirm("Bạn có chắc muốn xóa?")) {
+//        accounts.splice(index, 1)
+//    }
+//    localStorage.setItem("accounts", JSON.stringify(accounts));
+//}
 
-let indexFlag;
-function editAccount(phone) {
-    document.querySelector(".signup").classList.add("open");
-    document.querySelectorAll(".add-account-e").forEach(item => {
-        item.style.display = "none"
-    })
-    document.querySelectorAll(".edit-account-e").forEach(item => {
-        item.style.display = "block"
-    })
-    let accounts = JSON.parse(localStorage.getItem("accounts"));
-    let index = accounts.findIndex(item => {
-        return item.phone == phone
-    })
-    indexFlag = index;
-    document.getElementById("fullname").value = accounts[index].fullname;
-    document.getElementById("phone").value = accounts[index].phone;
-    document.getElementById("password").value = accounts[index].password;
-    document.getElementById("user-status").checked = accounts[index].status == 1 ? true : false;
-}
+//let indexFlag;
+//function editAccount(phone) {
+//    document.querySelector(".signup").classList.add("open");
+//    document.querySelectorAll(".add-account-e").forEach(item => {
+//        item.style.display = "none"
+//    })
+//    document.querySelectorAll(".edit-account-e").forEach(item => {
+//        item.style.display = "block"
+//    })
+//    let accounts = JSON.parse(localStorage.getItem("accounts"));
+//    let index = accounts.findIndex(item => {
+//        return item.phone == phone
+//    })
+//    indexFlag = index;
+//    document.getElementById("fullname").value = accounts[index].fullname;
+//    document.getElementById("phone").value = accounts[index].phone;
+//    document.getElementById("password").value = accounts[index].password;
+//    document.getElementById("user-status").checked = accounts[index].status == 1 ? true : false;
+//}
 
-updateAccount.addEventListener("click", (e) => {
-    e.preventDefault();
-    let accounts = JSON.parse(localStorage.getItem("accounts"));
-    let fullname = document.getElementById("fullname").value;
-    let phone = document.getElementById("phone").value;
-    let password = document.getElementById("password").value;
-    if(fullname == "" || phone == "" || password == "") {
-        toast({ title: 'Chú ý', message: 'Vui lòng nhập đầy đủ thông tin !', type: 'warning', duration: 3000 });
-    } else {
-        accounts[indexFlag].fullname = document.getElementById("fullname").value;
-        accounts[indexFlag].phone = document.getElementById("phone").value;
-        accounts[indexFlag].password = document.getElementById("password").value;
-        accounts[indexFlag].status = document.getElementById("user-status").checked ? true : false;
-        localStorage.setItem("accounts", JSON.stringify(accounts));
-        toast({ title: 'Thành công', message: 'Thay đổi thông tin thành công !', type: 'success', duration: 3000 });
-        document.querySelector(".signup").classList.remove("open");
-        signUpFormReset();
-    }
-})
+//updateAccount.addEventListener("click", (e) => {
+//    e.preventDefault();
+//    let accounts = JSON.parse(localStorage.getItem("accounts"));
+//    let fullname = document.getElementById("fullname").value;
+//    let phone = document.getElementById("phone").value;
+//    let password = document.getElementById("password").value;
+//    if(fullname == "" || phone == "" || password == "") {
+//        toast({ title: 'Chú ý', message: 'Vui lòng nhập đầy đủ thông tin !', type: 'warning', duration: 3000 });
+//    } else {
+//        accounts[indexFlag].fullname = document.getElementById("fullname").value;
+//        accounts[indexFlag].phone = document.getElementById("phone").value;
+//        accounts[indexFlag].password = document.getElementById("password").value;
+//        accounts[indexFlag].status = document.getElementById("user-status").checked ? true : false;
+//        localStorage.setItem("accounts", JSON.stringify(accounts));
+//        toast({ title: 'Thành công', message: 'Thay đổi thông tin thành công !', type: 'success', duration: 3000 });
+//        document.querySelector(".signup").classList.remove("open");
+//        signUpFormReset();
+//    }
+//})
 
-addAccount.addEventListener("click", (e) => {
-    e.preventDefault();
-    let fullNameUser = document.getElementById('fullname').value;
-    let phoneUser = document.getElementById('phone').value;
-    let passwordUser = document.getElementById('password').value;
-        // Check validate
-        let fullNameIP = document.getElementById('fullname');
-        let formMessageName = document.querySelector('.form-message-name');
-        let formMessagePhone = document.querySelector('.form-message-phone');
-        let formMessagePassword = document.querySelector('.form-message-password');
+//addAccount.addEventListener("click", (e) => {
+//    e.preventDefault();
+//    let fullNameUser = document.getElementById('fullname').value;
+//    let phoneUser = document.getElementById('phone').value;
+//    let passwordUser = document.getElementById('password').value;
+//        // Check validate
+//        let fullNameIP = document.getElementById('fullname');
+//        let formMessageName = document.querySelector('.form-message-name');
+//        let formMessagePhone = document.querySelector('.form-message-phone');
+//        let formMessagePassword = document.querySelector('.form-message-password');
     
-        if (fullNameUser.length == 0) {
-            formMessageName.innerHTML = 'Vui lòng nhập họ vâ tên';
-            fullNameIP.focus();
-        } else if (fullNameUser.length < 3) {
-            fullNameIP.value = '';
-            formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự';
-        }
+//        if (fullNameUser.length == 0) {
+//            formMessageName.innerHTML = 'Vui lòng nhập họ vâ tên';
+//            fullNameIP.focus();
+//        } else if (fullNameUser.length < 3) {
+//            fullNameIP.value = '';
+//            formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự';
+//        }
         
-        if (phoneUser.length == 0) {
-            formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại';
-        } else if (phoneUser.length != 10) {
-            formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
-            document.getElementById('phone').value = '';
-        }
+//        if (phoneUser.length == 0) {
+//            formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại';
+//        } else if (phoneUser.length != 10) {
+//            formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
+//            document.getElementById('phone').value = '';
+//        }
         
-        if (passwordUser.length == 0) {
-            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu';
-        } else if (passwordUser.length < 6) {
-            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
-            document.getElementById('password').value = '';
-        }
+//        if (passwordUser.length == 0) {
+//            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu';
+//        } else if (passwordUser.length < 6) {
+//            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
+//            document.getElementById('password').value = '';
+//        }
 
-    if (fullNameUser && phoneUser && passwordUser) {
-        let user = {
-            fullname: fullNameUser,
-            phone: phoneUser,
-            password: passwordUser,
-            address: '',
-            email: '',
-            status: 1,
-            join: new Date(),
-            cart: [],
-            userType: 0
-        }
-        console.log(user);
-        let accounts = localStorage.getItem('accounts') ? JSON.parse(localStorage.getItem('accounts')) : [];
-        let checkloop = accounts.some(account => {
-            return account.phone == user.phone;
-        })
-        if (!checkloop) {
-            accounts.push(user);
-            localStorage.setItem('accounts', JSON.stringify(accounts));
-            toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
-            document.querySelector(".signup").classList.remove("open");
-            signUpFormReset();
-        } else {
-            toast({ title: 'Cảnh báo !', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });
-        }
-    }
-})
+//    if (fullNameUser && phoneUser && passwordUser) {
+//        let user = {
+//            fullname: fullNameUser,
+//            phone: phoneUser,
+//            password: passwordUser,
+//            address: '',
+//            email: '',
+//            status: 1,
+//            join: new Date(),
+//            cart: [],
+//            userType: 0
+//        }
+//        console.log(user);
+//        let accounts = localStorage.getItem('accounts') ? JSON.parse(localStorage.getItem('accounts')) : [];
+//        let checkloop = accounts.some(account => {
+//            return account.phone == user.phone;
+//        })
+//        if (!checkloop) {
+//            accounts.push(user);
+//            localStorage.setItem('accounts', JSON.stringify(accounts));
+//            toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
+//            document.querySelector(".signup").classList.remove("open");
+//            signUpFormReset();
+//        } else {
+//            toast({ title: 'Cảnh báo !', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });
+//        }
+//    }
+//})
 
 //document.getElementById("logout-acc").addEventListener('click', (e) => {
 //    e.preventDefault();
