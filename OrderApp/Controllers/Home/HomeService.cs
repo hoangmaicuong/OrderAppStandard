@@ -52,7 +52,7 @@ namespace OrderApp.Controllers.Home
             bool existTable = db.Table.Any(x => x.TableId == dto.Order.TableId && x.TableToken == dto.Order.TableToken);
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            if (dto.Order.TableId < 1 && !existTable)
+            if (dto.Order.TableId < 1 || !existTable)
             {
                 result.success = false;
                 result.messageForUser = "Chưa có bàn.";
