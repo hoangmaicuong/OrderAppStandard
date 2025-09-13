@@ -93,7 +93,19 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 result.messageForUser = "Data này không tồn tại.";
                 return result;
             }
-            db.OrderDetail.Remove(orderDetail);
+            var order = orderDetail.Order;
+            if(order == null)
+            {
+                result.success = false;
+                result.messageForUser = "Đơn không tồn tại.";
+                return result;
+            }
+            if (order.IsConfirm == true)
+            {
+                result.success = false;
+                result.messageForUser = "Món đã xác nhận.";
+                return result;
+            }
             #endregion
 
             #region thực thi function
@@ -101,6 +113,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             {
                 try
                 {
+                    db.OrderDetail.Remove(orderDetail);
                     db.SaveChanges();
                     transaction.Commit();
 
