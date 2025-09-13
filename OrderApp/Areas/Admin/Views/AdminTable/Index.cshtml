@@ -58,16 +58,15 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>#</td>
-                    <td>Tên bàn</td>
+                    <td style="text-align:left">Tên bàn</td>
                     <td>Trạng thái</td>
-                    <td>ID</td>
                     <td>#</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.tables | filter:searchText | filter:{ isOpen: selectedStatusTable }">
-                    <td>
+                    
+                    <td  style="text-align:left">
                         <a href="/?tableId={{item.tableId}}&tableToken={{item.tableToken}}" class="btn-edit" target="_blank">
                             <i class="fa-light fa-utensils"></i>
                         </a>
@@ -76,13 +75,12 @@
                                 class="btn-edit">
                             <i class="fa-light fa-qrcode"></i>
                         </button>
+                        {{item.tableName}}
                     </td>
-                    <td ng-bind="item.tableName">Tên bàn</td>
                     <td>
                         <span ng-show="item.isOpen" class="status-open">Đang mở</span>
                         <span ng-hide="item.isOpen" class="status-close">Đang đóng</span>
                     </td>
-                    <td ng-bind="item.tableId">ID</td>
                     <td>
                         <button ng-click="events.onOpenModelTable(item)"
                                 class="btn-edit">
