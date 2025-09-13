@@ -67,7 +67,6 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>#</td>
                     <td>Bàn đặt</td>
                     <td>Xác nhận</td>
                     <td>Trạng thái</td>
@@ -84,8 +83,8 @@
                                 ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
                                 ng-click="events.onOpenModelOrder($event, item)">
                         </button>
+                        {{item.tableName}}
                     </td>
-                    <td ng-bind="item.tableName"></td>
                     <td>
                         <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
                         <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
