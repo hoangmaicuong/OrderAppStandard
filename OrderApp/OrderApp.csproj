@@ -221,7 +221,10 @@
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductDto.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProduct\AdminProductService.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportDto.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleDto.cs" />
@@ -1801,6 +1804,7 @@
     </Content>
     <Content Include="Areas\Admin\Views\AdminTable\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminCategory\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminReport\OrderReport.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />

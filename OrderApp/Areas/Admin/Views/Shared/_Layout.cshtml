@@ -132,13 +132,13 @@
                                     <div class="hidden-sidebar">Tài khoản</div>
                                 </a>
                             </li>
+                            <li class="sidebar-list-item tab-content @(currentController == "AdminReport" ? "active" : "")">
+                                <a href="@Url.Action("OrderReport", "AdminReport", new {area = "Admin"})" class="sidebar-link">
+                                    <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
+                                    <div class="hidden-sidebar">Thống kê đơn</div>
+                                </a>
+                            </li>
                         }
-                        @*<li class="sidebar-list-item tab-content @(currentController == "AdminReport" ? "active" : "")">
-            <a href="@Url.Action("Index", "AdminReport", new {area = "Admin"})" class="sidebar-link">
-                <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
-                <div class="hidden-sidebar">Thống kê</div>
-            </a>
-        </li>*@
                     </ul>
                 </div>
                 <div class="bottom-sidebar">

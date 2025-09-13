@@ -6,11 +6,19 @@ using System.Web.Mvc;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminReport
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminReportController : Controller
     {
         // GET: Admin/AdminReport
         public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult OrderReport()
+        {
+            return View();
+        }
+        public ActionResult ProductReport()
         {
             return View();
         }

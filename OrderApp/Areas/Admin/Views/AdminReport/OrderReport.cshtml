@@ -1,0 +1,285 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Thông kê đơn";
+}
+@section css_header{
+    <style>
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
+<div class="section">
+    <div class="admin-control">
+        <div class="admin-control-left">
+            <form action="" class="fillter-date">
+                <div>
+                    <label for="time-start">Từ</label>
+                    <input type="date"
+                           ng-model="data.filter.startDate"
+                           class="form-control-date">
+                </div>
+                <div>
+                    <label for="time-end">Đến</label>
+                    <input type="date"
+                           ng-model="data.filter.endDate"
+                           class="form-control-date">
+                </div>
+            </form>
+        </div>
+        <div class="admin-control-center">
+            <div action="" class="form-search">
+                <span class="search-btn"><i class="fa-light fa-keyboard"></i></span>
+                <input type="text" ng-model="data.filter.searchKey" class="form-search-input" placeholder="Tìm kiếm bàn...">
+            </div>
+        </div>
+        <div class="admin-control-right">
+            <button ng-click="events.onSearchOrder($event)"
+                    style="width:125px"
+                    class="btn-reset-order">
+                <i class="fa-light fa-magnifying-glass"></i>
+                Tìm kiếm
+            </button>
+        </div>
+    </div>
+    @*<div class="order-statistical" id="order-statistical">
+        <div class="order-statistical-item">
+            <div class="order-statistical-item-content">
+                <p class="order-statistical-item-content-desc">Sản phẩm được bán ra</p>
+                <h4 class="order-statistical-item-content-h" id="quantity-product"></h4>
+            </div>
+            <div class="order-statistical-item-icon">
+                <i class="fa-light fa-salad"></i>
+            </div>
+        </div>
+        <div class="order-statistical-item">
+            <div class="order-statistical-item-content">
+                <p class="order-statistical-item-content-desc">Số lượng bán ra</p>
+                <h4 class="order-statistical-item-content-h" id="quantity-order"></h4>
+            </div>
+            <div class="order-statistical-item-icon">
+                <i class="fa-light fa-file-lines"></i>
+            </div>
+        </div>
+        <div class="order-statistical-item">
+            <div class="order-statistical-item-content">
+                <p class="order-statistical-item-content-desc">Doanh thu</p>
+                <h4 class="order-statistical-item-content-h" id="quantity-sale"></h4>
+            </div>
+            <div class="order-statistical-item-icon">
+                <i class="fa-light fa-dollar-sign"></i>
+            </div>
+        </div>
+    </div>*@
+    <div class="table">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Bàn đặt</td>
+                    <td>Ngày đặt</td>
+                    <td>Xác nhận</td>
+                    <td>Trạng thái</td>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in data.orders
+                                | filter:searchText
+                                | filter:{ isFinish: selectedStatusOrder }
+                                | filter:{ tableId: selectedTableId }">
+                    <td>
+                        <button class="btn-detail"
+                                ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
+                                ng-click="events.onOpenModelOrder($event, item)">
+                        </button>
+                    </td>
+                    <td ng-bind="item.tableName"></td>
+                    <td ng-bind="item.orderDate | formatDateTime"></td>
+                    <td>
+                        <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
+                        <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
+                    </td>
+                    <td>
+                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
+                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal detail-order">
+    <div class="modal-container">
+        <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
+        <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+        <div class="modal-detail-order">
+            <div class="modal-detail-left">
+                <div class="order-item-group">
+                    <div ng-repeat="item in data.order.orderDetails" class="order-product">
+                        <div class="order-product-left">
+                            <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                            <div class="order-product-info">
+                                <h4 ng-bind="item.productName"></h4>
+                                <p ng-show="item.orderDetailNote != null"
+                                   ng-bind="item.orderDetailNote"
+                                   class="order-product-note">
+                                </p>
+                                <p ng-show="item.orderDetailNote == null"
+                                   class="order-product-note">
+                                    <i class="fa-light fa-pen"></i> Không có ghi chú
+                                </p>
+                                <p ng-bind="'SL: ' + item.orderDetailQuantity" class="order-product-quantity"></p>
+                            </div>
+                        </div>
+                        <div class="order-product-right">
+                            <div class="order-product-price">
+                                <span ng-bind-html="item.productPrice | vnCurrency" class="order-product-current-price"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-detail-right">
+                <ul class="detail-order-group">
+                    <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-table-picnic"></i> Bàn đặt</span>
+                        <span ng-bind="data.order.tableName" class="detail-order-item-right">
+                        </span>
+
+                    </li>
+                    <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-code"></i> Mã đơn</span>
+                        <span ng-bind="data.order.orderId" class="detail-order-item-right"></span>
+                    </li>
+                    <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt</span>
+                        <span ng-bind="data.order.orderDate | formatDateTime" class="detail-order-item-right"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-detail-bottom">
+            <div class="modal-detail-bottom-left">
+                <div class="price-total">
+                    <span class="thanhtien">Thành tiền</span>
+                    <span ng-bind-html="methods.totalPriceForOrder(data.order) | vnCurrency" class="price"></span>
+                </div>
+            </div>
+            <div class="modal-detail-bottom-right">
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                    sortBy: {
+                        priceAscendingCode: 'PriceAscending',
+                        priceDescendingCode: 'PriceDescending'
+                    },
+                },
+                filter: {
+                    searchKey: null,
+                    startDate: new Date(),
+                    endDate: new Date()
+                },
+            }
+
+            $scope.init = function () {
+                // Lấy ngày đầu và cuối tháng
+                const today = new Date();
+                const start = new Date(today.getFullYear(), today.getMonth(), 1);
+                const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+                // Gán vào model (định dạng yyyy-MM-dd để <input type="date"> hiểu đúng)
+                $scope.data.filter.startDate = new Date(start.toISOString().split("T")[0]);
+                $scope.data.filter.endDate = new Date(end.toISOString().split("T")[0]);
+            };
+
+            $scope.events = {
+                onSearchOrder: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.methods.getFilter(button)
+                },
+                onOpenModelOrder: async function ($event, order) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.data.order = order;
+                    $scope.data.order.orderDetails = await $scope.methods.getOrderDetails(order.orderId);
+                    $scope.$apply();
+
+                    document.querySelector(".detail-order").classList.add("open");
+                    shareData.loadButton.loaded(button);
+                    //console.log('$scope.data.order', $scope.data.order);
+                },
+            };
+            $scope.methods = {
+                getFilter: function (button) {
+                    const filter = $scope.data.filter;
+                    const formatDate = $scope.methods.formatDate;
+                    $http({
+                        url: `/api/admin/report/get-filter?startDate=${formatDate(filter.startDate)}
+                        &endDate=${formatDate(filter.endDate)}
+                        &searchKey=${filter.searchKey}`,
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            console.log('data', response.data);
+                            $scope.data.orders = response.data.orders;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                getOrderDetails: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/get-order-details?orderId=' + orderId,
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            return response.data.orderDetails;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
+                formatDate(date) {
+                    return date.toISOString().split("T")[0]; // yyyy-MM-dd
+                },
+                totalPriceForOrder: function (order) {
+                    let total = 0;
+                    if (order != null && order.orderDetails != null) {
+                        for (item of order.orderDetails) {
+                            total += (item.productPrice * item.orderDetailQuantity);
+                        }
+                    }
+                    return total;
+                }
+            };
+            $scope.init();
+        });
+    </script>
+}
