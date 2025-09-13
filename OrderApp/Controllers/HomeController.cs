@@ -28,5 +28,10 @@ namespace OrderApp.Controllers
 
             return View();
         }
+        [Route("not-found")]
+        public ActionResult NotFound()
+        {
+            return View();
+        }
     }
 }

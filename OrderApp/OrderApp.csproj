@@ -459,6 +459,8 @@
     <Content Include="Content\assets-login\vendor\select2\select2.min.css" />
     <Content Include="Content\assets-login\vendor\select2\select2.min.js" />
     <Content Include="Content\assets-login\vendor\tilt\tilt.jquery.min.js" />
+    <Content Include="Content\assets-not-found\css\style.css" />
+    <Content Include="Content\assets-not-found\img\emoji.png" />
     <Content Include="Content\UploadFiles\0367d7e21da745578cfb4610487b3e20.jpeg" />
     <Content Include="Content\UploadFiles\05118989f4ba4a5dbed90828b90ebbb6.png" />
     <Content Include="Content\UploadFiles\05429f2c1ea44d1d809b45bacfa1ce7c.jpeg" />
@@ -1821,6 +1823,7 @@
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Views\AccountManage\Login.cshtml" />
+    <Content Include="Views\Home\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
