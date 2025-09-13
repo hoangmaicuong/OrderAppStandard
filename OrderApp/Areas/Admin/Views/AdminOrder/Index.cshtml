@@ -67,9 +67,9 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>Bàn đặt</td>
-                    <td>Xác nhận</td>
-                    <td>Trạng thái</td>
+                    <td style="text-align:left">Bàn đặt</td>
+                    <td style="text-align:left">Trạng thái</td>
+                    @*<td>Trạng thái</td>*@
                     <td>Ngày đặt</td>
                 </tr>
             </thead>
@@ -78,21 +78,24 @@
                     | filter:searchText
                     | filter:{ isFinish: selectedStatusOrder }
                     | filter:{ tableId: selectedTableId }">
-                    <td>
+                    <td style="text-align:left">
                         <button class="btn-detail"
                                 ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
                                 ng-click="events.onOpenModelOrder($event, item)">
                         </button>
                         {{item.tableName}}
                     </td>
-                    <td>
+                    <td style="text-align:left">
+                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
+                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+
                         <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
                         <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
                     </td>
-                    <td>
+                    @*<td>
                         <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
                         <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
-                    </td>
+                    </td>*@
                     <td ng-bind="item.orderDate | formatDateTime"></td>
                 </tr>
             </tbody>
