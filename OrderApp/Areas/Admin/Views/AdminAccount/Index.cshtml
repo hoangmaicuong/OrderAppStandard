@@ -19,28 +19,30 @@
     <div class="admin-control">
         <div class="admin-control-left">
             @*<select name="tinh-trang-user">
-                <option value="2">Tất cả</option>
-                <option value="1">Hoạt động</option>
-                <option value="0">Bị khóa</option>
-            </select>*@
+            <option value="2">Tất cả</option>
+            <option value="1">Hoạt động</option>
+            <option value="0">Bị khóa</option>
+        </select>*@
+            <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModel()"><i class="fa-light fa-plus"></i> <span>Thêm Tài Khoản</span></button>
+
+            <button ng-click="events.onReloadInit($event)"
+                    style="width: 133px; height: 40px; border-radius:5px"
+                    class="btn-reset-order">
+                <i class="fa-light fa-arrow-rotate-right"></i> Tải lại trang
+            </button>
         </div>
-        <div class="admin-control-center">
-            @*<form action="" class="form-search">
+        @*<div class="admin-control-center">
+            <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
                 <input type="text" class="form-search-input" placeholder="Tìm kiếm tải khoản...">
-            </form>*@
-        </div>
-        <div class="admin-control-right">
-            
-            <button ng-click="events.onReloadInit($event)"
-                    class="btn-reset-order">
-                <i class="fa-light fa-arrow-rotate-right"></i>
-            </button>
+            </form>
+        </div>*@
+        @*<div class="admin-control-right">
             <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModel()"><i class="fa-light fa-plus"></i> <span>Thêm Tài Khoản</span></button>
-        </div>
+        </div>*@
     </div>
     <div class="table">
-        <table width="100%">
+        <table @*width="100%"*@ style="width:auto;min-width:50%">
             <thead>
                 <tr>
                     <td style="text-align:left">Tên đăng nhập</td>
