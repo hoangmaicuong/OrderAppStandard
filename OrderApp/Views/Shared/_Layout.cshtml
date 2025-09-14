@@ -128,7 +128,7 @@
                                     <i class="fa-light fa-basket-shopping"></i>
                                     <span class="count-product-cart" ng-bind="data.share.shoppingCart.totalQuantity()"></span>
                                 </div>
-                                <span>Giỏ hàng</span>
+                                <span>Món đã chọn</span>
                             </li>
                         </ul>
                     </div>
@@ -137,13 +137,13 @@
             <div class="modal-cart">
                 <div class="cart-container">
                     <div class="cart-header">
-                        <h3 class="cart-header-title"><i class="fa-regular fa-basket-shopping-simple"></i> Giỏ hàng</h3>
+                        <h3 class="cart-header-title"><i class="fa-regular fa-basket-shopping-simple"></i>Các món bạn đã chọn</h3>
                         <button class="cart-close" onclick="closeCart()"><i class="fa-sharp fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="cart-body">
                         <div ng-show="data.shoppingCarts.length == 0" class="gio-hang-trong">
                             <i class="fa-thin fa-cart-xmark"></i>
-                            <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
+                            <p>Bạn chưa chọn món nào hết á 😣</p>
                         </div>
                         <ul class="cart-list">
                             <li ng-repeat="item in data.shoppingCarts track by $index" class="cart-item">
