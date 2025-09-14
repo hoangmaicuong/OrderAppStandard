@@ -46,11 +46,20 @@
             </button>
         </div>
     </div>
-    <div class="order-statistical" id="order-statistical">
+    <div class="order-statistical">
+        <div class="order-statistical-item">
+            <div class="order-statistical-item-content">
+                <p class="order-statistical-item-content-desc">Doanh thu</p>
+                <h4 class="order-statistical-item-content-h" ng-bind-html="data.totals.totalRevenue | vnCurrency"></h4>
+            </div>
+            <div class="order-statistical-item-icon">
+                <i class="fa-light fa-dollar-sign"></i>
+            </div>
+        </div>
         <div class="order-statistical-item">
             <div class="order-statistical-item-content">
                 <p class="order-statistical-item-content-desc">Sản phẩm được bán ra</p>
-                <h4 class="order-statistical-item-content-h">500</h4>
+                <h4 class="order-statistical-item-content-h" ng-bind="data.totals.totalProductsSold"></h4>
             </div>
             <div class="order-statistical-item-icon">
                 <i class="fa-light fa-salad"></i>
@@ -59,19 +68,10 @@
         <div class="order-statistical-item">
             <div class="order-statistical-item-content">
                 <p class="order-statistical-item-content-desc">Số lượng bán ra</p>
-                <h4 class="order-statistical-item-content-h">500</h4>
+                <h4 class="order-statistical-item-content-h" ng-bind="data.totals.totalProductsQuantitySold"></h4>
             </div>
             <div class="order-statistical-item-icon">
                 <i class="fa-light fa-file-lines"></i>
-            </div>
-        </div>
-        <div class="order-statistical-item">
-            <div class="order-statistical-item-content">
-                <p class="order-statistical-item-content-desc">Doanh thu</p>
-                <h4 class="order-statistical-item-content-h">500</h4>
-            </div>
-            <div class="order-statistical-item-icon">
-                <i class="fa-light fa-dollar-sign"></i>
             </div>
         </div>
     </div>
@@ -80,11 +80,13 @@
             <thead>
                 <tr>
                     <td>Đơn đặt</td>
-                    <td>Bàn đặt</td>
-                    <td>Ngày đặt</td>
-                    <td>Xác nhận</td>
+                    <td style="text-align:right">Tổng giá</td>
                     <td>Trạng thái</td>
-
+                    <td>Xác nhận</td>
+                    <td>SL Sản Phẩm</td>
+                    <td>SL đặt</td>
+                    <td>Ngày đặt</td>
+                    <td>Bàn đặt</td>
                 </tr>
             </thead>
             <tbody>
@@ -98,16 +100,19 @@
                                 ng-click="events.onOpenModelOrder($event, item)">
                         </button>
                     </td>
-                    <td ng-bind="item.tableName"></td>
-                    <td ng-bind="item.orderDate | formatDateTime"></td>
-                    <td>
-                        <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
-                        <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
-                    </td>
+                    <td ng-bind-html="item.totalRevenue | vnCurrency" style="text-align:right"></td>
                     <td>
                         <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
                         <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
                     </td>
+                    <td>
+                        <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
+                        <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
+                    </td>
+                    <td ng-bind="item.totalProductsQuantitySold"></td>
+                    <td ng-bind="item.totalProductsSold"></td>
+                    <td ng-bind="item.orderDate | formatDateTime"></td>
+                    <td ng-bind="item.tableName"></td>
                 </tr>
             </tbody>
         </table>
@@ -193,6 +198,11 @@
                     startDate: new Date(),
                     endDate: new Date()
                 },
+                totals : {
+                    totalProductsQuantitySold: 0,
+                    totalProductsSold: 0,
+                    totalRevenue: 0
+                }
             }
 
             $scope.init = function () {
@@ -237,8 +247,19 @@
                         method: "Get"
                     })
                         .then(function (response) {
-                            console.log('data', response.data);
+                            //console.log('data', response.data);
                             $scope.data.orders = response.data.orders;
+
+                            $scope.data.totals = {
+                                totalProductsQuantitySold: 0,
+                                totalProductsSold: 0,
+                                totalRevenue: 0
+                            }
+                            $scope.data.orders.forEach(o => {
+                                $scope.data.totals.totalProductsQuantitySold += o.totalProductsQuantitySold;
+                                $scope.data.totals.totalProductsSold += o.totalProductsSold;
+                                $scope.data.totals.totalRevenue += o.totalRevenue;
+                            });
                         })
                         .catch(function (response) {
                             shareData.notification.exception();
