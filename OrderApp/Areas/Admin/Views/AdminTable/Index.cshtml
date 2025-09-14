@@ -38,24 +38,26 @@
 <div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
+            <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModelTable()"><i class="fa-light fa-plus"></i> <span>Thêm bàn mới</span></button>
+
             <select ng-model="selectedStatusTable">
                 <option value="">Tất cả trạng thái</option>
                 <option value="true">Đang mở</option>
                 <option value="false">Đang đóng</option>
             </select>
         </div>
-        <div class="admin-control-center">
+        @*<div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
                 <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm bàn...">
             </form>
-        </div>
-        <div class="admin-control-right">
+        </div>*@
+        @*<div class="admin-control-right">
             <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModelTable()"><i class="fa-light fa-plus"></i> <span>Thêm bàn mới</span></button>
-        </div>
+        </div>*@
     </div>
     <div class="table">
-        <table width="100%">
+        <table @*width="100%"*@ style="width:auto; min-width:50%">
             <thead>
                 <tr>
                     <td style="text-align:left">Tên bàn</td>
