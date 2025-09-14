@@ -16,38 +16,37 @@
 }
 <div class="section">
     <div class="admin-control">
-        
-        <div class="admin-control-center">
+        <div class="admin-control-left">
+            <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModel()"><i class="fa-light fa-plus"></i> <span>Thêm loại mới</span></button>
+        </div>
+        @*<div class="admin-control-center">
             <form action="" class="form-search">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
                 <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm bàn...">
             </form>
-        </div>
-        <div class="admin-control-right">
+        </div>*@
+        @*<div class="admin-control-right">
             <button id="btn-add-user" class="btn-control-large" ng-click="events.onOpenModel()"><i class="fa-light fa-plus"></i> <span>Thêm loại mới</span></button>
-        </div>
+        </div>*@
     </div>
     <div class="table">
-        <table width="100%">
+        <table @*width="100%"*@ style="width:auto;min-width:50%">
             <thead>
                 <tr>
-                    <td>#</td>
-                    <td>STT</td>
-                    <td style="text-align:left">Tên loại</td>
+                    <td>Thứ tự hiển thị</td>
+                    <td style="text-align:left">Tên loại món</td>
                     <td>#</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.categorys | filter:searchText">
+                    <td ng-bind="item.no"></td>
+                    <td ng-bind="item.categoryName"  style="text-align:left"></td>
                     <td>
                         <button ng-click="events.onOpenModel(item)"
                                 class="btn-edit">
                             <i class="fa-light fa-pen-to-square"></i>
                         </button>
-                    </td>
-                    <td ng-bind="item.no"></td>
-                    <td ng-bind="item.categoryName"  style="text-align:left"></td>
-                    <td>
                         <button ng-click="events.onDelete(item, $event)"
                                 class="btn-delete">
                             <i class="fa-regular fa-trash"></i>
