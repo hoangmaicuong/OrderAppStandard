@@ -38,19 +38,11 @@
 <div class="section">
     <div class="admin-control">
         <div class="admin-control-left">
-            <button ng-click="events.onReloadOrder($event)"
-                    class="btn-reset-order">
-                <i class="fa-light fa-arrow-rotate-right"></i>
-            </button>
-        </div>
-        <div class="admin-control-left">
             <select ng-model="selectedStatusOrder">
                 <option value="">Tất cả trạng thái</option>
                 <option value="true">Hoàn thành</option>
                 <option value="false">Đơn mới</option>
             </select>
-        </div>
-        <div class="admin-control-left">
             <select ng-model="selectedTableId">
                 <option value="">Tất cả bàn</option>
                 <option ng-repeat="item in data.support.tables" value="{{item.tableId}}">{{item.tableName}}</option>
@@ -61,6 +53,13 @@
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
                 <input ng-model="searchText" type="text" class="form-search-input" placeholder="Tìm kiếm mã đơn, khách hàng...">
             </form>
+        </div>
+        <div class="admin-control-right">
+            <button ng-click="events.onReloadOrder($event)"
+                    style="width: 133px"
+                    class="btn-reset-order">
+                <i class="fa-light fa-arrow-rotate-right"></i> Tải lại trang
+            </button>
         </div>
     </div>
     <div class="table">
