@@ -71,7 +71,7 @@
                     
                     <td  style="text-align:left">
                         <a href="/{{data.support.companySlug}}?tableId={{item.tableId}}&tableToken={{item.tableToken}}" class="btn-edit" target="_blank">
-                            <i class="fa-light fa-utensils"></i>
+                            <i class="fa-light fa-utensils"></i> {{item.tableId}}
                         </a>&nbsp;
                         @*<button type="button"
                                 ng-click="events.onOpenModelTable(item)"
@@ -219,7 +219,7 @@
             $scope.methods = {
                 loadInit: function (button) {
                     $http({
-                        url: '/api/admin/table/get-all',
+                        url: '/api/admin/table/get-all?companySlug=' + context.companySlug,
                         method: "Get"
                     })
                     .then(function (response) {
