@@ -278,7 +278,7 @@
             $scope.methods = {
                 loadInit: function (button) {
                     $http({
-                        url: '/api/admin/order/get-all',
+                        url: '/api/admin/order/get-all?companySlug=' + context.companySlug,
                         method: "Get"
                     })
                         .then(function (response) {
