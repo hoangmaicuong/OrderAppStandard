@@ -13,9 +13,9 @@ namespace OrderApp.Controllers.Home
         private HomeService services = new HomeService();
         [HttpGet]
         [Route("get-all")]
-        public IHttpActionResult GetAll()
+        public IHttpActionResult GetAll(string companySlug)
         {
-            return Ok(services.GetAll());
+            return Ok(services.GetAll(companySlug));
         }
         [HttpPost]
         [Route("create-order")]

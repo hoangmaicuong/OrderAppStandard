@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 using OrderApp.Areas.Admin.Controllers.AdminProduct;
+using System.Web.UI.WebControls;
 
 namespace OrderApp.Controllers.Home
 {
@@ -14,7 +15,7 @@ namespace OrderApp.Controllers.Home
     {
         private OrderAppEntities db = new OrderAppEntities();
         private DapperContext dapperContext = new DapperContext();
-        public DataSet GetAll()
+        public DataSet GetAll(string companySlug)
         {
             using (var connec = dapperContext.CreateConnection())
             {
@@ -25,6 +26,12 @@ namespace OrderApp.Controllers.Home
                     using (var cmd = new SqlCommand(proce, connec))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@companySlug",
+                            SqlDbType = SqlDbType.VarChar,
+                            Value = companySlug
+                        });
                         using (var adapter = new SqlDataAdapter(cmd))
                         {
                             var dataSet = new DataSet();

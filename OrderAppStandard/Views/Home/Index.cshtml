@@ -13,7 +13,8 @@
     <script>
         const context = {
             tableId: '@ViewBag.TableId',
-            tableToken:'@ViewBag.TableToken',
+            tableToken: '@ViewBag.TableToken',
+            companySlug: '@ViewBag.CompanySlug',
             imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
         }
     </script>
@@ -446,7 +447,7 @@
             $scope.methods = {
                 loadInit: function () {
                     $http({
-                        url: '/api/home/get-all',
+                        url: '/api/home/get-all?companySlug=' + context.companySlug,
                         method: "Get"
                     })
                     .then(function (response) {
