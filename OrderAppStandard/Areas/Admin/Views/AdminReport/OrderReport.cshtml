@@ -30,7 +30,7 @@
     </script>
 }
 <div class="section">
-    <div class="admin-control">
+    <div class="admin-control" style=" justify-content:normal">
         <div class="admin-control-left">
             <form action="" class="fillter-date">
                 <div>
@@ -46,12 +46,6 @@
                            class="form-control-date">
                 </div>
             </form>
-        </div>
-        <div class="admin-control-center">
-            <div action="" class="form-search">
-                <span class="search-btn"><i class="fa-light fa-keyboard"></i></span>
-                <input type="text" ng-model="data.filter.searchKey" class="form-search-input" placeholder="Tìm kiếm bàn...">
-            </div>
         </div>
         <div class="admin-control-right">
             <button ng-click="events.onSearchOrder($event)"
