@@ -19,9 +19,9 @@ namespace OrderApp.Controllers.Home
         }
         [HttpPost]
         [Route("create-order")]
-        public IHttpActionResult CreateOrder(HomeDto.CreateOrderDto dto)
+        public IHttpActionResult CreateOrder(string companySlug, HomeDto.CreateOrderDto dto)
         {
-            return Ok(services.CreateOrder(dto));
+            return Ok(services.CreateOrder(companySlug, dto));
         }
         [HttpGet]
         [Route("get-order-of-table")]

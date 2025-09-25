@@ -34,7 +34,8 @@
             newId: 0,
             isAuthenticated: '@Request.IsAuthenticated' == 'True',
             tableId: '@ViewBag.TableId',
-            tableToken:'@ViewBag.TableToken',
+            tableToken: '@ViewBag.TableToken',
+            companySlug: '@ViewBag.CompanySlug',
             loadButton: {
                 rootText: '',
                 loading: function (button, isShowRootText) {
@@ -484,7 +485,7 @@
                 },
                 createOrder: function (data, button) {
                     $http({
-                        url: '/api/home/create-order',
+                        url: '/api/home/create-order?companySlug=' + shareData.companySlug,
                         method: "POST",
                         data: data
                     })

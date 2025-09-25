@@ -49,7 +49,7 @@ namespace OrderApp.Controllers.Home
                 }
             }
         }
-        public Support.ResponsesAPI CreateOrder(HomeDto.CreateOrderDto dto)
+        public Support.ResponsesAPI CreateOrder(string companySlug, HomeDto.CreateOrderDto dto)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
@@ -65,7 +65,15 @@ namespace OrderApp.Controllers.Home
                 result.messageForUser = "Chưa có bàn.";
                 return result;
             }
+            var company = db.Company.FirstOrDefault(x => x.Slug == companySlug);
+            if (company == null)
+            {
+                result.success = false;
+                result.messageForUser = "Chưa có quán.";
+                return result;
+            }
             order.TableId = dto.Order.TableId;
+            order.CompanyId = company.CompanyId;
             order.OrderDate = DateTime.UtcNow.AddHours(7);
             order.IsFinish = false;
 
