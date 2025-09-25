@@ -31,6 +31,7 @@
     <script src="~/Scripts/qrcode.min.js"></script>
     <script>
         const context = {
+            companySlug: '@ViewBag.CompanySlug',
             imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
         }
     </script>
@@ -69,7 +70,7 @@
                 <tr ng-repeat="item in data.tables | filter:searchText | filter:{ isOpen: selectedStatusTable }">
                     
                     <td  style="text-align:left">
-                        <a href="/?tableId={{item.tableId}}&tableToken={{item.tableToken}}" class="btn-edit" target="_blank">
+                        <a href="/{{data.support.companySlug}}?tableId={{item.tableId}}&tableToken={{item.tableToken}}" class="btn-edit" target="_blank">
                             <i class="fa-light fa-utensils"></i>
                         </a>&nbsp;
                         @*<button type="button"
@@ -156,6 +157,7 @@
                 },
                 support: {
                     imagePath: context.imagePath,
+                    companySlug: context.companySlug
                 }
             }
 
@@ -192,7 +194,7 @@
 
                     if (qrcode != undefined && !isNew) {
                         qrcode.clear();
-                        qrcode.makeCode(`${window.location.origin}/?tableId=${table.tableId}&tableToken=${$scope.data.table.tableToken}`);
+                        qrcode.makeCode(`${window.location.origin}/${context.companySlug}?tableId=${table.tableId}&tableToken=${$scope.data.table.tableToken}`);
                         // Hàm tải ảnh
                         document.getElementById("qrcode-download").addEventListener("click", function () {
                             // lấy thẻ <img> mà qrcode.js tạo ra
