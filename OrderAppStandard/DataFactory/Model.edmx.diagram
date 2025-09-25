@@ -16,6 +16,12 @@
         <AssociationConnector Association="OrderAppModel.FK_Order_Table" />
         <AssociationConnector Association="OrderAppModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="OrderAppModel.FK_OrderDetail_Product" />
+        <EntityTypeShape EntityType="OrderAppModel.AspNetUsers" Width="1.5" PointX="5.375" PointY="5" />
+        <EntityTypeShape EntityType="OrderAppModel.Company" Width="1.5" PointX="7.625" PointY="5.75" />
+        <EntityTypeShape EntityType="OrderAppModel.UserExtension" Width="1.5" PointX="9.875" PointY="6" />
+        <AssociationConnector Association="OrderAppModel.FK_Company_AspNetUsers" />
+        <AssociationConnector Association="OrderAppModel.FK_UserExtension_AspNetUsers" />
+        <AssociationConnector Association="OrderAppModel.FK_UserExtension_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

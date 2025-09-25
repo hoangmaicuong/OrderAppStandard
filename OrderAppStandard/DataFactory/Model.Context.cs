@@ -31,5 +31,8 @@ namespace OrderApp.DataFactory
         public virtual DbSet<Table> Table { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderDetail> OrderDetail { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
+        public virtual DbSet<UserExtension> UserExtension { get; set; }
     }
 }

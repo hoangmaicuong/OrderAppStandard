@@ -27,6 +27,7 @@ namespace OrderApp.DataFactory
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> ProductImageId { get; set; }
         public Nullable<int> CategoryId { get; set; }
+        public Nullable<int> CompanyId { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual ProductImage ProductImage { get; set; }

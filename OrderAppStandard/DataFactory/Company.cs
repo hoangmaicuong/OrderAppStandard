@@ -12,23 +12,21 @@ namespace OrderApp.DataFactory
     using System;
     using System.Collections.Generic;
     
-    public partial class Order
+    public partial class Company
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
+        public Company()
         {
-            this.OrderDetail = new HashSet<OrderDetail>();
+            this.UserExtension = new HashSet<UserExtension>();
         }
     
-        public int OrderId { get; set; }
-        public Nullable<int> TableId { get; set; }
-        public Nullable<System.DateTime> OrderDate { get; set; }
-        public Nullable<bool> IsFinish { get; set; }
-        public Nullable<bool> IsConfirm { get; set; }
-        public Nullable<int> CompanyId { get; set; }
+        public int CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public string CompanyOwnerId { get; set; }
+        public string Slug { get; set; }
     
-        public virtual Table Table { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<UserExtension> UserExtension { get; set; }
     }
 }

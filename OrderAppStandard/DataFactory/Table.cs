@@ -24,6 +24,7 @@ namespace OrderApp.DataFactory
         public string TableName { get; set; }
         public Nullable<bool> IsOpen { get; set; }
         public Nullable<System.Guid> TableToken { get; set; }
+        public Nullable<int> CompanyId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Order { get; set; }

@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="OrderAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -12,6 +29,16 @@
           <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="225" />
           <Property Name="No" Type="int" />
+          <Property Name="CompanyId" Type="int" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CompanyOwnerId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Slug" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -22,6 +49,7 @@
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="IsFinish" Type="bit" />
           <Property Name="IsConfirm" Type="bit" />
+          <Property Name="CompanyId" Type="int" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -44,6 +72,7 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="ProductImageId" Type="int" />
           <Property Name="CategoryId" Type="int" />
+          <Property Name="CompanyId" Type="int" />
         </EntityType>
         <EntityType Name="ProductImage">
           <Key>
@@ -60,7 +89,27 @@
           <Property Name="TableName" Type="nvarchar" MaxLength="255" />
           <Property Name="IsOpen" Type="bit" />
           <Property Name="TableToken" Type="uniqueidentifier" />
+          <Property Name="CompanyId" Type="int" />
         </EntityType>
+        <EntityType Name="UserExtension">
+          <Key>
+            <PropertyRef Name="AspNetUserId" />
+          </Key>
+          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Company_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CompanyOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_Table">
           <End Role="Table" Type="Self.Table" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -121,13 +170,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserExtension_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserExtension" Type="Self.UserExtension" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserExtension">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExtension_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="UserExtension" Type="Self.UserExtension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="UserExtension">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="OrderAppModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductImage" EntityType="Self.ProductImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserExtension" EntityType="Self.UserExtension" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Company_AspNetUsers" Association="Self.FK_Company_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
           <AssociationSet Name="FK_Order_Table" Association="Self.FK_Order_Table">
             <End Role="Table" EntitySet="Table" />
             <End Role="Order" EntitySet="Order" />
@@ -148,6 +228,14 @@
             <End Role="ProductImage" EntitySet="ProductImage" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserExtension_AspNetUsers" Association="Self.FK_UserExtension_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserExtension" EntitySet="UserExtension" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExtension_Company" Association="Self.FK_UserExtension_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="UserExtension" EntitySet="UserExtension" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -161,6 +249,7 @@
           <Property Name="CategoryName" Type="String" MaxLength="225" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
           <Property Name="No" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -176,6 +265,7 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="ProductImage" Relationship="Self.FK_Product_ProductImage" FromRole="Product" ToRole="ProductImage" />
           <NavigationProperty Name="OrderDetail" Relationship="OrderAppModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+          <Property Name="CompanyId" Type="Int32" />
         </EntityType>
         <EntityType Name="ProductImage">
           <Key>
@@ -236,6 +326,21 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="OrderAppModel.AspNetUsers" />
+          <EntitySet Name="Company" EntityType="OrderAppModel.Company" />
+          <EntitySet Name="UserExtension" EntityType="OrderAppModel.UserExtension" />
+          <AssociationSet Name="FK_Company_AspNetUsers" Association="OrderAppModel.FK_Company_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExtension_AspNetUsers" Association="OrderAppModel.FK_UserExtension_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserExtension" EntitySet="UserExtension" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExtension_Company" Association="OrderAppModel.FK_UserExtension_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="UserExtension" EntitySet="UserExtension" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Table">
           <Key>
@@ -246,6 +351,7 @@
           <Property Name="IsOpen" Type="Boolean" />
           <NavigationProperty Name="Order" Relationship="OrderAppModel.FK_Order_Table" FromRole="Table" ToRole="Order" />
           <Property Name="TableToken" Type="Guid" />
+          <Property Name="CompanyId" Type="Int32" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -258,6 +364,7 @@
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="IsFinish" Type="Boolean" />
           <Property Name="IsConfirm" Type="Boolean" />
+          <Property Name="CompanyId" Type="Int32" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -307,6 +414,81 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company" Relationship="OrderAppModel.FK_Company_AspNetUsers" FromRole="AspNetUsers" ToRole="Company" />
+          <NavigationProperty Name="UserExtension" Relationship="OrderAppModel.FK_UserExtension_AspNetUsers" FromRole="AspNetUsers" ToRole="UserExtension" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyOwnerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Slug" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="OrderAppModel.FK_Company_AspNetUsers" FromRole="Company" ToRole="AspNetUsers" />
+          <NavigationProperty Name="UserExtension" Relationship="OrderAppModel.FK_UserExtension_Company" FromRole="Company" ToRole="UserExtension" />
+        </EntityType>
+        <EntityType Name="UserExtension">
+          <Key>
+            <PropertyRef Name="AspNetUserId" />
+          </Key>
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" />
+          <NavigationProperty Name="AspNetUsers" Relationship="OrderAppModel.FK_UserExtension_AspNetUsers" FromRole="UserExtension" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Company" Relationship="OrderAppModel.FK_UserExtension_Company" FromRole="UserExtension" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_Company_AspNetUsers">
+          <End Type="OrderAppModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+          <End Type="OrderAppModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CompanyOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExtension_AspNetUsers">
+          <End Type="OrderAppModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+          <End Type="OrderAppModel.UserExtension" Role="UserExtension" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserExtension">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExtension_Company">
+          <End Type="OrderAppModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="OrderAppModel.UserExtension" Role="UserExtension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="UserExtension">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -316,6 +498,7 @@
           <EntitySetMapping Name="Category">
             <EntityTypeMapping TypeName="OrderAppModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="No" ColumnName="No" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
@@ -325,6 +508,7 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="OrderAppModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
@@ -346,6 +530,7 @@
           <EntitySetMapping Name="Table">
             <EntityTypeMapping TypeName="OrderAppModel.Table">
               <MappingFragment StoreEntitySet="Table">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="TableToken" ColumnName="TableToken" />
                 <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
@@ -356,6 +541,7 @@
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="OrderAppModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="IsConfirm" ColumnName="IsConfirm" />
                 <ScalarProperty Name="IsFinish" ColumnName="IsFinish" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
@@ -372,6 +558,42 @@
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="OrderAppModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="OrderAppModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Slug" ColumnName="Slug" />
+                <ScalarProperty Name="CompanyOwnerId" ColumnName="CompanyOwnerId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserExtension">
+            <EntityTypeMapping TypeName="OrderAppModel.UserExtension">
+              <MappingFragment StoreEntitySet="UserExtension">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

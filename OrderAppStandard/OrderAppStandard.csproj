@@ -245,7 +245,13 @@
     <Compile Include="Controllers\Product\ProductController.cs" />
     <Compile Include="Controllers\Product\ProductDto.cs" />
     <Compile Include="Controllers\Product\ProductService.cs" />
+    <Compile Include="DataFactory\AspNetUsers.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFactory\Category.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataFactory\Company.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFactory\DapperContext.cs" />
@@ -277,6 +283,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFactory\Table.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataFactory\UserExtension.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
