@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using OrderApp.DataFactory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,11 +15,14 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
     public class AdminProductApiController : ApiController
     {
         private AdminProductService services = new AdminProductService();
+        private OrderAppEntities db = new OrderAppEntities();
         [HttpGet]
         [Route("get-all")]
         public IHttpActionResult GetAll()
         {
-            return Ok(services.GetAll());
+            string userId = User.Identity.GetUserId();
+            int companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
+            return Ok(services.GetAll(companyId));
         }
         [HttpPost]
         [Route("update")]
