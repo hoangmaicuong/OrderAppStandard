@@ -8,8 +8,12 @@ namespace OrderApp.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
         [Route("{CompanySlug}")]
-        public ActionResult Index( string CompanySlug, int tableId = 0, Guid? tableToken = null)
+        public ActionResult Shop( string CompanySlug, int tableId = 0, Guid? tableToken = null)
         {
             ViewBag.TableId = tableId;
             ViewBag.TableToken = tableToken;
