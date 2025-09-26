@@ -16,12 +16,17 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
     {
         private AdminReportService services = new AdminReportService();
         private OrderAppEntities db = new OrderAppEntities();
+        private string userId = null;
+        private int companyId = 0;
+        private AdminReportApiController()
+        {
+            userId = User.Identity.GetUserId();
+            companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
+        }
         [HttpGet]
         [Route("get-filter")]
         public IHttpActionResult GetFilter(DateTime startDate, DateTime endDate, string searchKey = null)
         {
-            string userId = User.Identity.GetUserId();
-            int companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
             return Ok(services.GetFilter(companyId, startDate, endDate,searchKey));
         }
     }

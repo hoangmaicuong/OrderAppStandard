@@ -15,12 +15,17 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
     {
         private AdminAccountService services = new AdminAccountService();
         private OrderAppEntities db = new OrderAppEntities();
+        private string userId = null;
+        private int companyId = 0;
+        private AdminAccountApiController()
+        {
+            userId = User.Identity.GetUserId();
+            companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
+        }
         [HttpGet]
         [Route("get-all")]
         public IHttpActionResult GetAll()
         {
-            string userId = User.Identity.GetUserId();
-            int companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
             return Ok(services.GetAll(companyId));
         }
 
