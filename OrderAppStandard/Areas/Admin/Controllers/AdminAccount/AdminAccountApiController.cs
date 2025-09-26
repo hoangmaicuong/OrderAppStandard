@@ -35,7 +35,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
         {
             if (string.IsNullOrEmpty(dto.AspNetUser.Id))
             {
-                return Ok(await services.Create(dto));
+                return Ok(await services.Create(companyId ,dto));
             }
             else
             {

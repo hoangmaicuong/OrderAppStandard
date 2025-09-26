@@ -57,7 +57,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                 }
             }
         }
-        public async Task<Support.ResponsesAPI> Create(AdminAccountDto.UpdateDto dto)
+        public async Task<Support.ResponsesAPI> Create(int companyId, AdminAccountDto.UpdateDto dto)
         {
             var response = new Support.ResponsesAPI();
             #region Khởi tạo tham số
@@ -66,6 +66,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                 UserName = dto.AspNetUser.UserName,
                 PhoneNumber = dto.AspNetUser.PhoneNumber
             };
+            UserExtension userExtension;
             #endregion
 
             #region Kiểm tra điều kiện
@@ -91,6 +92,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                         response.messageForUser = string.Join(", ", identityResult.Errors);
                         return response;
                     }
+                    userExtension = new UserExtension
+                    {
+                        AspNetUserId = user.Id,
+                        CompanyId = companyId,
+                    };
+                    db.UserExtension.Add(userExtension);
+                    db.SaveChanges();
 
                     transaction.Commit();
 
