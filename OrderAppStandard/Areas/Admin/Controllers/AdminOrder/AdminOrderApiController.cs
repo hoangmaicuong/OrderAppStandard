@@ -1,4 +1,6 @@
-﻿using OrderApp.Areas.Admin.Controllers.AdminTable;
+﻿using Microsoft.AspNet.Identity;
+using OrderApp.Areas.Admin.Controllers.AdminTable;
+using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,14 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
     public class AdminOrderApiController : ApiController
     {
         private AdminOrderService services = new AdminOrderService();
+        private OrderAppEntities db = new OrderAppEntities();
         [HttpGet]
         [Route("get-all")]
-        public IHttpActionResult GetAll(string companySlug)
+        public IHttpActionResult GetAll()
         {
-            return Ok(services.GetAll(companySlug));
+            string userId = User.Identity.GetUserId();
+            int companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
+            return Ok(services.GetAll(companyId));
         }
         [HttpGet]
         [Route("get-order-details")]
