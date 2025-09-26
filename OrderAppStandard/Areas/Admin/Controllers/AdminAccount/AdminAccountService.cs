@@ -24,7 +24,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
         {
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
-        public DataSet GetAll()
+        public DataSet GetAll(int companyId)
         {
             using (var connec = dapperContext.CreateConnection())
             {
@@ -35,6 +35,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                     using (var cmd = new SqlCommand(proce, connec))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@companyId",
+                            SqlDbType = SqlDbType.Int,
+                            Value = companyId
+                        });
                         using (var adapter = new SqlDataAdapter(cmd))
                         {
                             var dataSet = new DataSet();

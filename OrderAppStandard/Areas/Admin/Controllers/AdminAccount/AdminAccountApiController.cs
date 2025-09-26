@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using OrderApp.DataFactory;
 using OrderApp.Models;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -13,11 +14,14 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
     public class AdminAccountApiController : ApiController
     {
         private AdminAccountService services = new AdminAccountService();
+        private OrderAppEntities db = new OrderAppEntities();
         [HttpGet]
         [Route("get-all")]
         public IHttpActionResult GetAll()
         {
-            return Ok(services.GetAll());
+            string userId = User.Identity.GetUserId();
+            int companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
+            return Ok(services.GetAll(companyId));
         }
 
         [HttpPost]
