@@ -48,7 +48,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
                 }
             }
         }
-        public Support.ResponsesAPI Create(AdminCategoryDto.UpdateDto dto)
+        public Support.ResponsesAPI Create(int companyId, AdminCategoryDto.UpdateDto dto)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
@@ -64,6 +64,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
                 result.messageForUser = "Tên không được bỏ trống.";
                 return result;
             }
+            category.CompanyId = companyId;
             category.CategoryName = dto.Category.CategoryName;
             category.No = dto.Category?.No;
 
