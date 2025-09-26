@@ -14,7 +14,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
         private OrderAppEntities db = new OrderAppEntities();
         private DapperContext dapperContext = new DapperContext();
         string imagePath = ConfigurationManager.AppSettings["ProductImageUploadPath"];
-        public DataSet GetFilter(DateTime startDate, DateTime endDate, string searchKey = null)
+        public DataSet GetFilter(int companyId, DateTime startDate, DateTime endDate, string searchKey = null)
         {
             using (var connec = dapperContext.CreateConnection())
             {
@@ -25,6 +25,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
                     using (var cmd = new SqlCommand(proce, connec))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@companyId",
+                            SqlDbType = SqlDbType.Int,
+                            Value = companyId
+                        });
                         cmd.Parameters.Add(new SqlParameter
                         {
                             ParameterName = "@startDate",
