@@ -93,6 +93,11 @@ namespace OrderApp.Controllers.AccountManage
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "AccountManage");
         }
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
         private IAuthenticationManager AuthenticationManager
         {
             get
