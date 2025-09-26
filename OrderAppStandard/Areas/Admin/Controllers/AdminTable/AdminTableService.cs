@@ -49,7 +49,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
                 }
             }
         }
-        public Support.ResponsesAPI Create(AdminTableDto.UpdateDto dto)
+        public Support.ResponsesAPI Create(int companyId, AdminTableDto.UpdateDto dto)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
@@ -65,6 +65,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
                 result.messageForUser = "Tên không được bỏ trống.";
                 return result;
             }
+            table.CompanyId = companyId;
             table.TableName = dto.Table.TableName;
             table.IsOpen = dto.Table.IsOpen;
             table.TableToken = Guid.NewGuid();
