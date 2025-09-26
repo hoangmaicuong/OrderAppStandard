@@ -51,7 +51,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
                 }
             }
         }
-        public Support.ResponsesAPI Create(AdminProductDto.UpdateDto dto)
+        public Support.ResponsesAPI Create(int companyId, AdminProductDto.UpdateDto dto)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
@@ -67,6 +67,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
                 result.messageForUser = "Tên không được bỏ trống.";
                 return result;
             }
+            product.CompanyId = companyId;
             product.ProductName = dto.Product.ProductName;
             product.ProductPrice = dto.Product.ProductPrice;
             product.ProductDescription = dto.Product.ProductDescription;

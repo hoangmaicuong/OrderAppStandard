@@ -35,7 +35,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
         {
             if (dto.Product.ProductId < 1)
             {
-                return Ok(services.Create(dto));
+                return Ok(services.Create(companyId, dto));
             }
             else
             {
