@@ -219,7 +219,7 @@
             $scope.methods = {
                 loadInit: function (button) {
                     $http({
-                        url: '/api/admin/table/get-all?companySlug=' + context.companySlug,
+                        url: '/api/admin/table/get-all',
                         method: "Get"
                     })
                     .then(function (response) {

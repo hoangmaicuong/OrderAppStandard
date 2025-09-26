@@ -15,8 +15,9 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
         private OrderAppEntities db = new OrderAppEntities();
         private DapperContext dapperContext = new DapperContext();
         string imagePath = ConfigurationManager.AppSettings["ProductImageUploadPath"];
-        public DataSet GetAll(string companySlug)
+        public DataSet GetAll(int companyId)
         {
+
             using (var connec = dapperContext.CreateConnection())
             {
                 connec.Open();
@@ -28,9 +29,9 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter
                         {
-                            ParameterName = "@companySlug",
-                            SqlDbType = SqlDbType.VarChar,
-                            Value = companySlug
+                            ParameterName = "@companyId",
+                            SqlDbType = SqlDbType.Int,
+                            Value = companyId
                         });
                         using (var adapter = new SqlDataAdapter(cmd))
                         {
