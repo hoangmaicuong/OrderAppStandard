@@ -276,7 +276,7 @@
                             $scope.data.table.tableToken = response.data.objectResponses.tableToken;
                             if (qrcode != undefined) {
                                 qrcode.clear();
-                                qrcode.makeCode(`${window.location.origin}/?tableId=${table.tableId}&tableToken=${$scope.data.table.tableToken}`);
+                                qrcode.makeCode(`${window.location.origin}/${context.companySlug}?tableId=${table.tableId}&tableToken=${$scope.data.table.tableToken}`);
                             }
                         }
                         else {
