@@ -118,7 +118,12 @@ namespace OrderApp.Controllers.AccountManage
                         CompanyName = model.CompanyName,
                         Slug = model.CompanySlug
                     };
-                    db.Company.Add(company);
+                    UserExtension userExtension = new UserExtension
+                    {
+                        AspNetUserId = user.Id,
+                        Company = company
+                    };
+                    db.UserExtension.Add(userExtension);
                     db.SaveChanges();
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
