@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using OrderApp.DataFactory;
 using OrderApp.Models;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace OrderApp.Controllers.AccountManage
         // GET: AccountManage
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private OrderAppEntities db = new OrderAppEntities();
         public AccountManageController() { }
         public AccountManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -97,6 +99,42 @@ namespace OrderApp.Controllers.AccountManage
         public ActionResult Register()
         {
             return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, "admin");
+                    Company company = new Company
+                    {
+                        CompanyOwnerId = user.Id,
+                        CompanyName = model.CompanyName,
+                        Slug = model.CompanySlug
+                    };
+                    db.Company.Add(company);
+                    db.SaveChanges();
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Login", "AccountManage");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
         private IAuthenticationManager AuthenticationManager
         {
