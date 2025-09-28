@@ -26,6 +26,8 @@ namespace OrderApp.DataFactory
         public Nullable<bool> IsFinish { get; set; }
         public Nullable<bool> IsConfirm { get; set; }
         public Nullable<int> CompanyId { get; set; }
+        public Nullable<bool> IsInProcess { get; set; }
+        public Nullable<bool> IsDelivered { get; set; }
     
         public virtual Table Table { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

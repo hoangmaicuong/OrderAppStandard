@@ -50,6 +50,8 @@
           <Property Name="IsFinish" Type="bit" />
           <Property Name="IsConfirm" Type="bit" />
           <Property Name="CompanyId" Type="int" />
+          <Property Name="IsInProcess" Type="bit" />
+          <Property Name="IsDelivered" Type="bit" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -365,6 +367,8 @@
           <Property Name="IsFinish" Type="Boolean" />
           <Property Name="IsConfirm" Type="Boolean" />
           <Property Name="CompanyId" Type="Int32" />
+          <Property Name="IsInProcess" Type="Boolean" />
+          <Property Name="IsDelivered" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -541,6 +545,8 @@
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="OrderAppModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
+                <ScalarProperty Name="IsInProcess" ColumnName="IsInProcess" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="IsConfirm" ColumnName="IsConfirm" />
                 <ScalarProperty Name="IsFinish" ColumnName="IsFinish" />
