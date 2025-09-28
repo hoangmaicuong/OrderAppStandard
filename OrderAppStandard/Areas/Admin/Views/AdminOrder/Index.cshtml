@@ -86,11 +86,20 @@
                         {{item.tableName}}
                     </td>
                     <td style="text-align:left">
-                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
-                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+                        <div>
+                            <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
+                            <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
 
-                        <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
-                        <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
+                            <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
+                            <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
+                        </div>
+                        <div style="margin-top:3px">
+                            <span ng-hide="item.isInProcess" class="status-order-new">Chưa sử lý</span>
+                            <span ng-show="item.isInProcess" class="status-order-finish">Đang sử lý</span>
+
+                            <span ng-hide="item.isDelivered" class="status-order-new">Chưa giao</span>
+                            <span ng-show="item.isDelivered" class="status-order-finish">Đã giao</span>
+                        </div>
                     </td>
                     @*<td>
                         <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
@@ -177,8 +186,18 @@
                         class="modal-detail-btn btn-chuaxuly">
                     Xác nhận đơn
                 </button>
+                <button ng-hide="data.order.isInProcess == true || data.order.isConfirm != true"
+                        ng-click="events.onOrderInProcess(data.order, $event)"
+                        class="modal-detail-btn btn-chuaxuly">
+                    Đang sử lý
+                </button>
+                <button ng-hide="data.order.isDelivered == true || data.order.isInProcess != true"
+                        ng-click="events.onOrderDelivered(data.order, $event)"
+                        class="modal-detail-btn btn-chuaxuly">
+                    Đã giao
+                </button>
                 <button ng-click="events.onChangeStatusToFinish(data.order, $event)"
-                        ng-hide="data.order.isFinish || data.order.isConfirm != true"
+                        ng-hide="data.order.isFinish || data.order.isConfirm != true || data.order.isInProcess != true|| data.order.isDelivered != true"
                         class="modal-detail-btn btn-daxuly">
                     Hoàn thành đơn
                 </button>
@@ -252,6 +271,30 @@
                     result = await $scope.methods.orderConfirm(order.orderId);
                     if (result) {
                         $scope.data.order.isConfirm = true;
+                        $scope.$apply();
+                    }
+                    shareData.loadButton.loaded(button);
+                },
+                onOrderInProcess: async function (order, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    let result = false;
+                    result = await $scope.methods.orderInProcess(order.orderId);
+                    if (result) {
+                        $scope.data.order.isInProcess = true;
+                        $scope.$apply();
+                    }
+                    shareData.loadButton.loaded(button);
+                },
+                onOrderDelivered: async function (order, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    let result = false;
+                    result = await $scope.methods.orderDelivered(order.orderId);
+                    if (result) {
+                        $scope.data.order.isDelivered = true;
                         $scope.$apply();
                     }
                     shareData.loadButton.loaded(button);
@@ -388,6 +431,52 @@
                 orderConfirm: async function (orderId) {
                     return await $http({
                         url: '/api/admin/order/order-confirm?orderId=' + orderId,
+                        method: "Post"
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
+                orderInProcess: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/order-in-process?orderId=' + orderId,
+                        method: "Post"
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
+                orderDelivered: async function (orderId) {
+                    return await $http({
+                        url: '/api/admin/order/order-delivered?orderId=' + orderId,
                         method: "Post"
                     })
                         .then(function (response) {

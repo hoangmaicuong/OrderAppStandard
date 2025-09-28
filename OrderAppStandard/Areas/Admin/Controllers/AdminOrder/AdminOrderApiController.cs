@@ -54,6 +54,18 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             return Ok(services.OrderConfirm(orderId));
         }
         [HttpPost]
+        [Route("order-in-process")]
+        public IHttpActionResult OrderInProcess(int orderId)
+        {
+            return Ok(services.OrderInProcess(orderId));
+        }
+        [HttpPost]
+        [Route("order-delivered")]
+        public IHttpActionResult OrderDelivered(int orderId)
+        {
+            return Ok(services.OrderDelivered(orderId));
+        }
+        [HttpPost]
         [Route("restore-order")]
         public IHttpActionResult RestoreOrder(int orderId)
         {

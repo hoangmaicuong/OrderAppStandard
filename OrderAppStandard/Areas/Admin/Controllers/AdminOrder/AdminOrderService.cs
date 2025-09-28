@@ -245,6 +245,106 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
+        public Support.ResponsesAPI OrderInProcess(int orderId)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            Order order = new Order();
+
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            order.IsInProcess = true;
+            #endregion
+
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
+        }
+        public Support.ResponsesAPI OrderDelivered(int orderId)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            Order order = new Order();
+
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            order.IsDelivered = true;
+            #endregion
+
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
+        }
         public Support.ResponsesAPI RestoreOrder(int orderId)
         {
             var result = new Support.ResponsesAPI();

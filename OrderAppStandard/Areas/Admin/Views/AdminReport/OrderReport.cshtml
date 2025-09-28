@@ -91,8 +91,8 @@
                 <tr>
                     <td>Đơn đặt</td>
                     <td style="text-align:right">Tổng giá</td>
-                    <td>Trạng thái</td>
-                    <td>Xác nhận</td>
+                    @*<td>Trạng thái</td>
+                    <td>Xác nhận</td>*@
                     <td>SL Sản Phẩm</td>
                     <td>SL đặt</td>
                     <td>Ngày đặt</td>
@@ -111,14 +111,14 @@
                         </button>
                     </td>
                     <td ng-bind-html="item.totalRevenue | vnCurrency" style="text-align:right"></td>
-                    <td>
+                    @*<td>
                         <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
                         <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
                     </td>
                     <td>
                         <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
                         <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
-                    </td>
+                    </td>*@
                     <td ng-bind="item.totalProductsQuantitySold"></td>
                     <td ng-bind="item.totalProductsSold"></td>
                     <td ng-bind="item.orderDate | formatDateTime"></td>
