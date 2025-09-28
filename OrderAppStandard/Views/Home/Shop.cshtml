@@ -199,7 +199,7 @@
     <div class="container" id="order-history">
         <div class="main-account">
             <div class="main-account-header">
-                <h3>Đơn Đặt {{data.table.tableName}}</h3>
+                <h3>Đơn Đặt {{data.table.tableName}} - <span style="color: var(--red); " ng-bind-html="methods.calculateOrdersTotal(data.orders) | vnCurrency"></span></h3>
                 <p>Chi tiết và trạng thái của những đơn hàng đã đặt cho bàn này.</p>
             </div>
             <div ng-if="data.orders.length == 0" class="main-account-body">
@@ -519,6 +519,14 @@
                     if (!order || !order.orderDetails) return 0;
                     return order.orderDetails.reduce(function (total, detail) {
                         return total + (detail.productPrice * detail.orderDetailQuantity);
+                    }, 0);
+                },
+                calculateOrdersTotal: function (orders) {
+                    if (!orders || !orders.length) return 0;
+                    return orders.reduce(function (grandTotal, order) {
+                        return grandTotal + (order.orderDetails || []).reduce(function (total, detail) {
+                            return total + (detail.productPrice * detail.orderDetailQuantity);
+                        }, 0);
                     }, 0);
                 }
             };
