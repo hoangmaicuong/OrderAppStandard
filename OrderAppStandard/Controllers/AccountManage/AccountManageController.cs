@@ -107,6 +107,14 @@ namespace OrderApp.Controllers.AccountManage
         {
             if (ModelState.IsValid)
             {
+                // 🔎 Kiểm tra Slug đã tồn tại chưa
+                bool slugExists = db.Company.Any(c => c.Slug == model.CompanySlug);
+                if (slugExists)
+                {
+                    ModelState.AddModelError("CompanySlug", "Tên miền (Slug) đã tồn tại, vui lòng chọn tên khác.");
+                    return View(model);
+                }
+
                 var user = new ApplicationUser { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
