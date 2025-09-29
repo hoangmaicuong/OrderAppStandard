@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderApp.DataFactory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace OrderApp.Controllers
 {
     public class HomeController : Controller
     {
+        private OrderAppEntities db = new OrderAppEntities();
         public ActionResult Index()
         {
             return View();
@@ -15,6 +17,12 @@ namespace OrderApp.Controllers
         [Route("{CompanySlug}")]
         public ActionResult Shop( string CompanySlug, int tableId = 0, Guid? tableToken = null)
         {
+            var company = db.Company.FirstOrDefault(x => x.Slug == CompanySlug);
+            if(company == null)
+            {
+                return RedirectToAction("NotFound", "Home");
+            }
+
             ViewBag.TableId = tableId;
             ViewBag.TableToken = tableToken;
             ViewBag.CompanySlug = CompanySlug;
