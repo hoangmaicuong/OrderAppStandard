@@ -511,6 +511,7 @@
     <Content Include="Content\assets-register\vendor\select2\select2.js" />
     <Content Include="Content\assets-register\vendor\select2\select2.min.css" />
     <Content Include="Content\assets-register\vendor\select2\select2.min.js" />
+    <Content Include="Content\favicon.svg" />
     <Content Include="Content\UploadFiles\0367d7e21da745578cfb4610487b3e20.jpeg" />
     <Content Include="Content\UploadFiles\05118989f4ba4a5dbed90828b90ebbb6.png" />
     <Content Include="Content\UploadFiles\05429f2c1ea44d1d809b45bacfa1ce7c.jpeg" />
@@ -562,6 +563,7 @@
     <Content Include="Content\UploadFiles\f57efdda8a24483b9b1b8cff9cbd6fa9.jpg" />
     <Content Include="Content\UploadFiles\f92ae69fc414422693d445706c66de60.png" />
     <Content Include="Content\UploadFiles\fdd20712b1b5482cb2df1a73cca65093.jpeg" />
+    <Content Include="Content\UploadFiles\pngtree-girl-order-food-from-mobile-app-png-image_12594389.png" />
     <Content Include="DataFactory\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>

@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='/assets/img/favicon.png' rel='icon' type='image/x-icon' />
     <title>QR Menu - Giải pháp gọi món thông minh</title>
+    <link rel="icon" type="image/svg+xml" href="~/Content/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -19,10 +19,10 @@
             position: relative;
         }
 
-        .gradient-bg > * {
-            position: relative;
-            z-index: 2;
-        }
+            .gradient-bg > * {
+                position: relative;
+                z-index: 2;
+            }
 
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
@@ -32,18 +32,23 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            }
 
         .qr-animation {
             animation: pulse 2s infinite;
         }
 
         @@keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .floating {
@@ -51,8 +56,13 @@
         }
 
         @@keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            0%, 100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .floating-icon {
@@ -62,190 +72,337 @@
             opacity: 0.6;
         }
 
-        .floating-icon-1 { animation: floatAround1 15s linear infinite; }
-        .floating-icon-2 { animation: floatAround2 18s linear infinite; }
-        .floating-icon-3 { animation: floatAround3 20s linear infinite; }
-        .floating-icon-4 { animation: floatAround4 22s linear infinite; }
-        .floating-icon-5 { animation: floatAround5 16s linear infinite; }
-        .floating-icon-6 { animation: floatAround6 19s linear infinite; }
+        .floating-icon-1 {
+            animation: floatAround1 15s linear infinite;
+        }
+
+        .floating-icon-2 {
+            animation: floatAround2 18s linear infinite;
+        }
+
+        .floating-icon-3 {
+            animation: floatAround3 20s linear infinite;
+        }
+
+        .floating-icon-4 {
+            animation: floatAround4 22s linear infinite;
+        }
+
+        .floating-icon-5 {
+            animation: floatAround5 16s linear infinite;
+        }
+
+        .floating-icon-6 {
+            animation: floatAround6 19s linear infinite;
+        }
 
         @@keyframes floatAround1 {
-            0% { top: 10%; left: -5%; transform: rotate(0deg); }
-            25% { top: 80%; left: 20%; transform: rotate(90deg); }
-            50% { top: 70%; left: 90%; transform: rotate(180deg); }
-            75% { top: 20%; left: 70%; transform: rotate(270deg); }
-            100% { top: 10%; left: -5%; transform: rotate(360deg); }
+            0% {
+                top: 10%;
+                left: -5%;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                top: 80%;
+                left: 20%;
+                transform: rotate(90deg);
+            }
+
+            50% {
+                top: 70%;
+                left: 90%;
+                transform: rotate(180deg);
+            }
+
+            75% {
+                top: 20%;
+                left: 70%;
+                transform: rotate(270deg);
+            }
+
+            100% {
+                top: 10%;
+                left: -5%;
+                transform: rotate(360deg);
+            }
         }
 
         @@keyframes floatAround2 {
-            0% { top: 90%; left: 10%; transform: rotate(0deg); }
-            25% { top: 30%; left: 80%; transform: rotate(90deg); }
-            50% { top: 10%; left: 50%; transform: rotate(180deg); }
-            75% { top: 60%; left: 5%; transform: rotate(270deg); }
-            100% { top: 90%; left: 10%; transform: rotate(360deg); }
+            0% {
+                top: 90%;
+                left: 10%;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                top: 30%;
+                left: 80%;
+                transform: rotate(90deg);
+            }
+
+            50% {
+                top: 10%;
+                left: 50%;
+                transform: rotate(180deg);
+            }
+
+            75% {
+                top: 60%;
+                left: 5%;
+                transform: rotate(270deg);
+            }
+
+            100% {
+                top: 90%;
+                left: 10%;
+                transform: rotate(360deg);
+            }
         }
 
         @@keyframes floatAround3 {
-            0% { top: 50%; left: 100%; transform: rotate(0deg); }
-            25% { top: 20%; left: 30%; transform: rotate(90deg); }
-            50% { top: 80%; left: 10%; transform: rotate(180deg); }
-            75% { top: 40%; left: 60%; transform: rotate(270deg); }
-            100% { top: 50%; left: 100%; transform: rotate(360deg); }
+            0% {
+                top: 50%;
+                left: 100%;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                top: 20%;
+                left: 30%;
+                transform: rotate(90deg);
+            }
+
+            50% {
+                top: 80%;
+                left: 10%;
+                transform: rotate(180deg);
+            }
+
+            75% {
+                top: 40%;
+                left: 60%;
+                transform: rotate(270deg);
+            }
+
+            100% {
+                top: 50%;
+                left: 100%;
+                transform: rotate(360deg);
+            }
         }
 
         @@keyframes floatAround4 {
-            0% { top: 30%; left: -3%; transform: rotate(0deg); }
-            25% { top: 70%; left: 40%; transform: rotate(90deg); }
-            50% { top: 20%; left: 85%; transform: rotate(180deg); }
-            75% { top: 90%; left: 25%; transform: rotate(270deg); }
-            100% { top: 30%; left: -3%; transform: rotate(360deg); }
+            0% {
+                top: 30%;
+                left: -3%;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                top: 70%;
+                left: 40%;
+                transform: rotate(90deg);
+            }
+
+            50% {
+                top: 20%;
+                left: 85%;
+                transform: rotate(180deg);
+            }
+
+            75% {
+                top: 90%;
+                left: 25%;
+                transform: rotate(270deg);
+            }
+
+            100% {
+                top: 30%;
+                left: -3%;
+                transform: rotate(360deg);
+            }
         }
 
         @@keyframes floatAround5 {
-            0% { top: 80%; left: 95%; transform: rotate(0deg); }
-            25% { top: 15%; left: 60%; transform: rotate(90deg); }
-            50% { top: 60%; left: 5%; transform: rotate(180deg); }
-            75% { top: 35%; left: 80%; transform: rotate(270deg); }
-            100% { top: 80%; left: 95%; transform: rotate(360deg); }
+            0% {
+                top: 80%;
+                left: 95%;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                top: 15%;
+                left: 60%;
+                transform: rotate(90deg);
+            }
+
+            50% {
+                top: 60%;
+                left: 5%;
+                transform: rotate(180deg);
+            }
+
+            75% {
+                top: 35%;
+                left: 80%;
+                transform: rotate(270deg);
+            }
+
+            100% {
+                top: 80%;
+                left: 95%;
+                transform: rotate(360deg);
+            }
         }
 
         @@keyframes floatAround6 {
-            0% { top: 60%; left: 15%; transform: rotate(0deg); }
-            25% { top: 10%; left: 75%; transform: rotate(90deg); }
-            50% { top: 85%; left: 60%; transform: rotate(180deg); }
-            75% { top: 25%; left: 10%; transform: rotate(270deg); }
-            100% { top: 60%; left: 15%; transform: rotate(360deg); }
+            0% {
+                top: 60%;
+                left: 15%;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                top: 10%;
+                left: 75%;
+                transform: rotate(90deg);
+            }
+
+            50% {
+                top: 85%;
+                left: 60%;
+                transform: rotate(180deg);
+            }
+
+            75% {
+                top: 25%;
+                left: 10%;
+                transform: rotate(270deg);
+            }
+
+            100% {
+                top: 60%;
+                left: 15%;
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Floating Food Icons -->
-    <div class="floating-icon floating-icon-1 w-12 h-12">
-        <svg viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="45" fill="#FF6B35" />
-            <circle cx="50" cy="50" r="35" fill="#FFD23F" />
-            <circle cx="35" cy="35" r="4" fill="#FF6B35" />
-            <circle cx="65" cy="40" r="3" fill="#FF6B35" />
-            <circle cx="45" cy="60" r="3" fill="#FF6B35" />
-            <circle cx="60" cy="65" r="4" fill="#FF6B35" />
-        </svg>
-    </div>
+<body class="bg-white">
 
-    <div class="floating-icon floating-icon-2 w-10 h-10">
-        <svg viewBox="0 0 100 100" fill="none">
-            <ellipse cx="50" cy="25" rx="35" ry="8" fill="#D4A574" />
-            <rect x="15" y="25" width="70" height="40" rx="5" fill="#8B4513" />
-            <rect x="20" y="30" width="60" height="8" fill="#228B22" />
-            <rect x="20" y="40" width="60" height="15" fill="#FF6B35" />
-            <ellipse cx="50" cy="75" rx="35" ry="8" fill="#D4A574" />
-        </svg>
-    </div>
-
-    <div class="floating-icon floating-icon-3 w-14 h-14">
-        <svg viewBox="0 0 100 100" fill="none">
-            <ellipse cx="50" cy="85" rx="35" ry="10" fill="#8B4513" />
-            <rect x="15" y="40" width="70" height="45" rx="5" fill="#FFB6C1" />
-            <rect x="20" y="35" width="60" height="10" fill="#FFFFFF" />
-            <circle cx="30" cy="55" r="3" fill="#FF1493" />
-            <circle cx="50" cy="60" r="4" fill="#FF1493" />
-            <circle cx="70" cy="55" r="3" fill="#FF1493" />
-            <rect x="45" y="15" width="10" height="25" fill="#FFFF00" />
-        </svg>
-    </div>
-
-    <div class="floating-icon floating-icon-4 w-8 h-8">
-        <svg viewBox="0 0 100 100" fill="none">
-            <ellipse cx="50" cy="85" rx="30" ry="8" fill="#8B4513" />
-            <rect x="20" y="40" width="60" height="45" rx="5" fill="#FFFFFF" />
-            <rect x="25" y="35" width="50" height="50" rx="3" fill="#8B4513" />
-            <ellipse cx="50" cy="30" rx="25" ry="8" fill="#FFFFFF" />
-            <path d="M15 25 Q20 15 25 25" stroke="#8B4513" stroke-width="3" fill="none" />
-        </svg>
-    </div>
-
-    <div class="floating-icon floating-icon-5 w-11 h-11">
-        <svg viewBox="0 0 100 100" fill="none">
-            <ellipse cx="50" cy="85" rx="35" ry="10" fill="#8B4513" />
-            <rect x="15" y="40" width="70" height="45" rx="5" fill="#FFFFFF" />
-            <circle cx="30" cy="55" r="6" fill="#FF6347" />
-            <circle cx="50" cy="60" r="5" fill="#32CD32" />
-            <circle cx="70" cy="55" r="4" fill="#FFD700" />
-            <path d="M25 50 Q30 45 35 50" stroke="#228B22" stroke-width="2" fill="none" />
-            <path d="M45 65 Q50 60 55 65" stroke="#228B22" stroke-width="2" fill="none" />
-            <path d="M65 60 Q70 55 75 60" stroke="#228B22" stroke-width="2" fill="none" />
-        </svg>
-    </div>
-
-    <div class="floating-icon floating-icon-6 w-9 h-9">
-        <svg viewBox="0 0 100 100" fill="none">
-            <ellipse cx="50" cy="80" rx="40" ry="15" fill="#8B4513" />
-            <rect x="10" y="30" width="80" height="50" rx="5" fill="#FFD700" />
-            <circle cx="30" cy="45" r="3" fill="#FF6B35" />
-            <circle cx="50" cy="50" r="4" fill="#228B22" />
-            <circle cx="70" cy="45" r="3" fill="#FF0000" />
-            <path d="M20 20 Q50 10 80 20 L75 30 L25 30 Z" fill="#87CEEB" />
-        </svg>
-    </div>
-    <!-- Header -->
-    <header class="gradient-bg text-white">
-        <nav class="container mx-auto px-6 py-4">
+    <!-- Navigation -->
+    <nav class="bg-white border-b-4 border-red-500 fixed top-0 left-0 right-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
+                <!-- Logo -->
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                        @*<svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                        </svg>*@
-                        <img src="/assets/img/favicon.png"class="rounded-lg"/>
-                    </div>
-                    <span class="text-xl font-bold">Gọi món</span>
+                    <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 100 100" fill="none">
+                        <rect x="10" y="10" width="80" height="80" fill="black" />
+                        <rect x="15" y="15" width="70" height="70" fill="white" />
+                        <rect x="20" y="20" width="15" height="15" fill="black" />
+                        <rect x="65" y="20" width="15" height="15" fill="black" />
+                        <rect x="20" y="65" width="15" height="15" fill="black" />
+                        <rect x="25" y="25" width="5" height="5" fill="white" />
+                        <rect x="70" y="25" width="5" height="5" fill="white" />
+                        <rect x="25" y="70" width="5" height="5" fill="white" />
+                        <rect x="40" y="40" width="20" height="20" fill="black" />
+                        <rect x="45" y="45" width="10" height="10" fill="white" />
+                        <rect x="50" y="50" width="5" height="5" fill="black" />
+                    </svg>
+                    <span class="text-lg md:text-xl font-bold text-black">Gọi món</span>
                 </div>
-                <div class="hidden md:flex space-x-6">
-                    <a href="#features" class="hover:text-yellow-300 transition-colors text-shadow">Tính năng</a>
-                    <a href="#pricing" class="hover:text-yellow-300 transition-colors text-shadow">Bảng giá</a>
-                    <a href="#contact" class="hover:text-yellow-300 transition-colors text-shadow">Liên hệ</a>
+
+                <!-- Desktop Menu - Centered -->
+                <div class="hidden lg:flex items-center justify-center flex-1">
+                    <div class="flex items-center space-x-8">
+                        <a href="#about" class="hover:text-red-600 transition-colors text-black font-semibold">Về chúng tôi</a>
+                        <a href="#goals" class="hover:text-red-600 transition-colors text-black font-semibold">Mục tiêu</a>
+                        <a href="#features" class="hover:text-red-600 transition-colors text-black font-semibold">Tính năng</a>
+                        <a href="#pricing" class="hover:text-red-600 transition-colors text-black font-semibold">Bảng giá</a>
+                        <a href="#contact" class="hover:text-red-600 transition-colors text-black font-semibold">Liên hệ</a>
+                    </div>
+                </div>
+
+                <!-- Login & Mobile Menu Button -->
+                <div class="flex items-center space-x-4">
+                    <!-- Login Button - Always visible -->
+                    <button onclick="window.location.href='@Url.Action("Login","AccountManage")';" class="flex items-center space-x-2 bg-white border-2 border-red-600 text-red-600 px-3 py-2 lg:px-4 lg:py-2 rounded-full hover:bg-red-50 transition-all transform hover:scale-105 font-semibold">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9M19 21H5V3H13V9H19Z" />
+                        </svg>
+                        <span class="text-xs lg:text-sm">Đăng nhập</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors">
+                        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-        </nav>
 
-        <!-- Hero Section -->
-        <div class="container mx-auto px-6 py-20">
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-red-200">
+                <div class="flex flex-col space-y-3 pt-4">
+                    <a href="#about" class="hover:text-red-600 transition-colors text-black font-semibold py-2">Về chúng tôi</a>
+                    <a href="#goals" class="hover:text-red-600 transition-colors text-black font-semibold py-2">Mục tiêu</a>
+                    <a href="#features" class="hover:text-red-600 transition-colors text-black font-semibold py-2">Tính năng</a>
+                    <a href="#pricing" class="hover:text-red-600 transition-colors text-black font-semibold py-2">Bảng giá</a>
+                    <a href="#contact" class="hover:text-red-600 transition-colors text-black font-semibold py-2">Liên hệ</a>
+
+                    <!-- Mobile Login Button -->
+                    @*<button id="mobile-login-btn" class="flex items-center space-x-2 bg-white border-2 border-red-600 text-red-600 px-4 py-3 rounded-full mt-4 justify-center hover:bg-red-50 transition-all font-semibold w-full">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9M19 21H5V3H13V9H19Z" />
+                        </svg>
+                        <span>Đăng nhập hệ thống</span>
+                    </button>*@
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white pt-20">
+        <div class="container mx-auto px-6 py-20 bg-white">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Left Column - Content -->
                 <div class="text-left">
-                    <h1 class="text-5xl lg:text-7xl font-black mb-8 text-shadow leading-tight">
+                    <h1 class="text-5xl lg:text-7xl font-black mb-8 leading-tight text-black">
                         Tạo Website
-                        <span class="text-yellow-300 block lg:inline">
+                        <span class="text-red-600 block lg:inline">
                             Gọi Món Online
                         </span>
-                        <span class="text-3xl lg:text-4xl block mt-2 font-semibold text-yellow-100">
+                        <span class="text-3xl lg:text-4xl block mt-2 font-semibold text-black">
                             Chỉ Trong 5 Phút!
                         </span>
                     </h1>
-                    <p class="text-2xl mb-10 text-yellow-50 text-shadow leading-relaxed max-w-2xl">
-                        <strong>✔️Tăng doanh thu 300%</strong> với website gọi món QR Code<br>
-                        <strong>✔️0đ chi phí setup</strong> - Dùng thử miễn phí 7 ngày<br>
+                    <p class="text-2xl mb-10 text-black leading-relaxed max-w-2xl">
+                        <strong>Tăng doanh thu 300%</strong> với website gọi món QR Code<br>
+                        <strong>0đ chi phí setup</strong> - Dùng thử miễn phí 7 ngày<br>
                         Khách hàng quét mã → Đặt món → Bạn nhận tiền
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
-                        <button onclick="window.location.href='@Url.Action("Register","AccountManage")';"
-                                class="bg-gradient-to-r from-red-500 to-red-600 text-white px-12 py-5 rounded-2xl font-bold text-xl hover:from-red-600 hover:to-red-700 transition-all transform hover:scale-105 shadow-2xl border-4 border-yellow-300">
+                        <button onclick="window.location.href = '@Url.Action("Register","AccountManage")';"  class="bg-red-600 text-white px-12 py-5 rounded-2xl font-bold text-xl hover:bg-red-700 transition-all transform hover:scale-105 shadow-2xl">
                             TẠO WEBSITE MIỄN PHÍ
                         </button>
-                        <button class="border-3 border-yellow-300 bg-yellow-300 text-gray-900 px-10 py-5 rounded-2xl font-bold text-xl hover:bg-yellow-400 transition-all transform hover:scale-105 shadow-xl">
+                        <button onclick="alert('Chúng tôi sẽ sớm làm video demo. \nHiện tại bạn có thể liên hệ dev.maicuong@gmail.com để yêu cầu')" class="border-3 border-red-600 bg-white text-red-600 px-10 py-5 rounded-2xl font-bold text-xl hover:bg-red-50 transition-all transform hover:scale-105 shadow-xl">
                             XEM DEMO NGAY
                         </button>
                     </div>
-                    <div class="mt-6 flex items-center space-x-4 text-yellow-100">
-                        <span class="flex items-center"><span class="text-green-400 mr-2">🏷️</span> Không cần thẻ tín dụng</span>
-                        <span class="flex items-center"><span class="text-green-400 mr-2">🏷️</span> Setup trong 5 phút</span>
-                        <span class="flex items-center"><span class="text-green-400 mr-2">🏷️</span> Hỗ trợ 24/7</span>
+                    <div class="mt-6 flex items-center space-x-4 text-black">
+                        <span class="flex items-center"><span class="text-red-600 mr-2">✓</span> Không cần thẻ tín dụng</span>
+                        <span class="flex items-center"><span class="text-red-600 mr-2">✓</span> Setup trong 5 phút</span>
+                        <span class="flex items-center"><span class="text-red-600 mr-2">✓</span> Hỗ trợ 24/7</span>
                     </div>
                 </div>
 
                 <!-- Right Column - Image -->
                 <div class="relative flex justify-center lg:justify-end">
                     <!-- Main Image - Girl -->
-                    <img src="https://png.pngtree.com/png-vector/20240602/ourmid/pngtree-girl-order-food-from-mobile-app-png-image_12594389.png"
+                    <img src="/Content/UploadFiles/pngtree-girl-order-food-from-mobile-app-png-image_12594389.png"
                          alt="Cô gái đặt món qua app"
                          class="w-full max-w-md lg:max-w-lg floating z-10 relative"
                          onerror="this.src=''; this.alt='Hình ảnh không tải được'; this.style.display='none';">
@@ -322,206 +479,316 @@
         </div>
     </header>
 
+    <!-- About Section -->
+    <section id="about" class="bg-white py-20 border-t-4 border-red-500">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-black text-black mb-6">Về Chúng Tôi</h2>
+                <p class="text-2xl text-black font-semibold max-w-4xl mx-auto">Đội ngũ chuyên gia công nghệ với 10+ năm kinh nghiệm, cam kết mang đến giải pháp gọi món online tốt nhất cho nhà hàng Việt Nam</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-black">10+ Năm Kinh Nghiệm</h3>
+                    <p class="text-black">Đội ngũ phát triển với hơn 10 năm kinh nghiệm trong lĩnh vực công nghệ F&B</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V7h9v14z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-black">5,000+ Nhà Hàng</h3>
+                    <p class="text-black">Được tin tưởng bởi hơn 5,000 nhà hàng trên toàn quốc từ quán nhỏ đến chuỗi lớn</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-black">Cam Kết Chất Lượng</h3>
+                    <p class="text-black">Hỗ trợ 24/7, cập nhật liên tục và cam kết hoàn tiền nếu không hài lòng</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section id="goals" class="bg-white py-20 border-t-4 border-red-500">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-black text-black mb-6">Mục Tiêu Của Chúng Tôi</h2>
+                <p class="text-2xl text-black font-semibold max-w-4xl mx-auto">Số hóa toàn bộ ngành F&B Việt Nam, giúp mọi nhà hàng đều có thể kinh doanh online hiệu quả</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="space-y-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-white font-bold text-lg">1</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3 text-black">Dân Chủ Hóa Công Nghệ</h3>
+                                <p class="text-black text-lg">Mang công nghệ gọi món online đến với mọi nhà hàng, từ quán vỉa hè đến nhà hàng cao cấp</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-white font-bold text-lg">2</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3 text-black">Tăng Doanh Thu Bền Vững</h3>
+                                <p class="text-black text-lg">Giúp 100,000 nhà hàng tăng doanh thu trung bình 300% trong 3 năm tới</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-white font-bold text-lg">3</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3 text-black">Xây Dựng Hệ Sinh Thái</h3>
+                                <p class="text-black text-lg">Kết nối nhà hàng - khách hàng - đối tác giao hàng trong một nền tảng thống nhất</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-red-50 rounded-3xl p-8 border-4 border-red-200">
+                        <h3 class="text-3xl font-black text-red-600 mb-6">Tầm Nhìn 2030</h3>
+                        <div class="space-y-4">
+                            <div class="text-4xl font-black text-black">100,000+</div>
+                            <div class="text-lg text-black font-semibold">Nhà hàng sử dụng</div>
+
+                            <div class="text-4xl font-black text-black mt-6">50 Tỷ+</div>
+                            <div class="text-lg text-black font-semibold">Doanh thu tạo ra hàng năm</div>
+
+                            <div class="text-4xl font-black text-black mt-6">#1</div>
+                            <div class="text-lg text-black font-semibold">Nền tảng gọi món Đông Nam Á</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Stats Section -->
-    <section class="bg-white py-16 border-t-4 border-yellow-400">
+    <section class="bg-white py-16 border-t-4 border-red-500">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8 text-center">
                 <div class="p-6">
-                    <div class="text-4xl font-black text-blue-600 mb-2">5,000+</div>
-                    <div class="text-gray-600 font-semibold">Nhà hàng tin dùng</div>
+                    <div class="text-4xl font-black text-red-600 mb-2">5,000+</div>
+                    <div class="text-black font-semibold">Nhà hàng tin dùng</div>
                 </div>
                 <div class="p-6">
-                    <div class="text-4xl font-black text-green-600 mb-2">300%</div>
-                    <div class="text-gray-600 font-semibold">Tăng doanh thu trung bình</div>
+                    <div class="text-4xl font-black text-red-600 mb-2">300%</div>
+                    <div class="text-black font-semibold">Tăng doanh thu trung bình</div>
                 </div>
                 <div class="p-6">
                     <div class="text-4xl font-black text-red-600 mb-2">5 phút</div>
-                    <div class="text-gray-600 font-semibold">Thời gian tạo website</div>
+                    <div class="text-black font-semibold">Thời gian tạo website</div>
                 </div>
                 <div class="p-6">
-                    <div class="text-4xl font-black text-purple-600 mb-2">24/7</div>
-                    <div class="text-gray-600 font-semibold">Hỗ trợ khách hàng</div>
+                    <div class="text-4xl font-black text-red-600 mb-2">24/7</div>
+                    <div class="text-black font-semibold">Hỗ trợ khách hàng</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-gray-50">
+    <section id="features" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-5xl font-black text-gray-800 mb-6">Tại Sao 5,000+ Nhà Hàng Chọn Chúng Tôi?</h2>
-                <p class="text-2xl text-gray-600 font-semibold">Giải pháp #1 tại Việt Nam - Tăng doanh thu ngay từ ngày đầu!</p>
+                <h2 class="text-5xl font-black text-black mb-6">Tại Sao 5,000+ Nhà Hàng Chọn Chúng Tôi?</h2>
+                <p class="text-2xl text-black font-semibold">Giải pháp #1 tại Việt Nam - Tăng doanh thu ngay từ ngày đầu!</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-blue-500 hover:border-blue-600">
-                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                        <span class="text-3xl">🏷️</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-4 text-gray-800">Setup Siêu Nhanh</h3>
-                    <p class="text-gray-600 text-lg leading-relaxed"><strong>5 phút</strong> là đủ! Không cần code, không cần thiết kế. Chỉ cần upload menu và bắt đầu nhận đơn hàng ngay!</p>
-                    <div class="mt-4 text-blue-600 font-bold">⏱️ Tiết kiệm 95% thời gian</div>
-                </div>
-
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-green-500 hover:border-green-600">
-                    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                        <span class="text-3xl">🏷️</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-4 text-gray-800">QR Code Thông Minh</h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">Khách quét mã → Xem menu → Đặt món → Thanh toán. <strong>Không cần app</strong>, không cần tải về!</p>
-                    <div class="mt-4 text-green-600 font-bold">🏷️ Tăng 300% đơn hàng</div>
-                </div>
-
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-purple-500 hover:border-purple-600">
-                    <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                        <span class="text-3xl">🏷️</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-4 text-gray-800">Tăng Doanh Thu Ngay</h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">Bán 24/7 không cần nhân viên. <strong>Giảm 70% chi phí</strong> vận hành, tăng lợi nhuận tối đa!</p>
-                    <div class="mt-4 text-purple-600 font-bold">🏷️ ROI 500% trong 3 tháng</div>
-                </div>
-
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-10 h-10 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Quản lý đơn hàng</h3>
-                    <p class="text-gray-600">Theo dõi đơn hàng realtime, thống kê doanh thu, quản lý menu và khuyến mãi một cách dễ dàng</p>
-                </div>
-
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-10 h-10 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500 hover:border-red-600">
+                    <div class="w-20 h-20 bg-red-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Thiết kế đẹp mắt</h3>
-                    <p class="text-gray-600">Giao diện website hiện đại, responsive trên mọi thiết bị, tùy chỉnh màu sắc và logo theo thương hiệu</p>
+                    <h3 class="text-2xl font-black mb-4 text-black">Setup Siêu Nhanh</h3>
+                    <p class="text-black text-lg leading-relaxed"><strong>5 phút</strong> là đủ! Không cần code, không cần thiết kế. Chỉ cần upload menu và bắt đầu nhận đơn hàng ngay!</p>
+                    <div class="mt-4 text-red-600 font-bold">Tiết kiệm 95% thời gian</div>
                 </div>
 
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-16 h-16 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-10 h-10 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500 hover:border-red-600">
+                    <div class="w-20 h-20 bg-red-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2zm12 4c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zm-9 8c0-2 4-3.1 6-3.1s6 1.1 6 3.1v1H6v-1z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4 text-black">QR Code Thông Minh</h3>
+                    <p class="text-black text-lg leading-relaxed">Khách quét mã → Xem menu → Đặt món → Thanh toán. <strong>Không cần app</strong>, không cần tải về!</p>
+                    <div class="mt-4 text-red-600 font-bold">Tăng 300% đơn hàng</div>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500 hover:border-red-600">
+                    <div class="w-20 h-20 bg-red-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4 text-black">Tăng Doanh Thu Ngay</h3>
+                    <p class="text-black text-lg leading-relaxed">Bán 24/7 không cần nhân viên. <strong>Giảm 70% chi phí</strong> vận hành, tăng lợi nhuận tối đa!</p>
+                    <div class="mt-4 text-red-600 font-bold">ROI 500% trong 3 tháng</div>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500">
+                    <div class="w-16 h-16 bg-red-600 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-black">Quản lý đơn hàng</h3>
+                    <p class="text-black">Theo dõi đơn hàng realtime, thống kê doanh thu, quản lý menu và khuyến mãi một cách dễ dàng</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500">
+                    <div class="w-16 h-16 bg-red-600 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-black">Thiết kế đẹp mắt</h3>
+                    <p class="text-black">Giao diện website hiện đại, responsive trên mọi thiết bị, tùy chỉnh màu sắc và logo theo thương hiệu</p>
+                </div>
+
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500">
+                    <div class="w-16 h-16 bg-red-600 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Cập nhật realtime</h3>
-                    <p class="text-gray-600">Thay đổi menu, giá cả, trạng thái món ăn ngay lập tức, khách hàng luôn thấy thông tin mới nhất</p>
+                    <h3 class="text-xl font-bold mb-4 text-black">Cập nhật realtime</h3>
+                    <p class="text-black">Thay đổi menu, giá cả, trạng thái món ăn ngay lập tức, khách hàng luôn thấy thông tin mới nhất</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- How it works -->
-    <section class="bg-gray-100 py-20">
+    <section class="bg-white py-20 border-t-4 border-red-500">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">Cách thức hoạt động</h2>
-                <p class="text-xl text-gray-600">Bắt đầu kinh doanh online chỉ với 3 bước đơn giản</p>
+                <h2 class="text-4xl font-bold text-black mb-4">Cách thức hoạt động</h2>
+                <p class="text-xl text-black">Bắt đầu kinh doanh online chỉ với 3 bước đơn giản</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center">
-                    <div class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative">
                         <span class="text-white text-2xl font-bold">1</span>
                         <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
                             </svg>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Tạo website</h3>
-                    <p class="text-gray-600">Đăng ký tài khoản và tạo website gọi món cho quán của bạn trong 5 phút</p>
+                    <h3 class="text-xl font-bold mb-4 text-black">Tạo website</h3>
+                    <p class="text-black">Đăng ký tài khoản và tạo website gọi món cho quán của bạn trong 5 phút</p>
                 </div>
 
                 <div class="text-center">
-                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative">
                         <span class="text-white text-2xl font-bold">2</span>
                         <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.20-1.10-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
                             </svg>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Thêm menu</h3>
-                    <p class="text-gray-600">Upload hình ảnh món ăn, thêm mô tả và giá cả để tạo menu trực tuyến</p>
+                    <h3 class="text-xl font-bold mb-4 text-black">Thêm menu</h3>
+                    <p class="text-black">Upload hình ảnh món ăn, thêm mô tả và giá cả để tạo menu trực tuyến</p>
                 </div>
 
                 <div class="text-center">
-                    <div class="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative">
                         <span class="text-white text-2xl font-bold">3</span>
                         <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M7 4V2C7 1.45 7.45 1 8 1h8c.55 0 1 .45 1 1v2h5v2h-2v13c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6H2V4h5zM9 3v1h6V3H9zm7 3H8v11h8V6z" />
                                 <path d="M9 8v2h2V8H9zm4 0v2h2V8h-2zm-4 4v2h2v-2H9zm4 0v2h2v-2h-2z" />
                             </svg>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Nhận đơn hàng</h3>
-                    <p class="text-gray-600">Khách hàng quét QR code để đặt món, bạn nhận thông báo và xử lý đơn hàng</p>
+                    <h3 class="text-xl font-bold mb-4 text-black">Nhận đơn hàng</h3>
+                    <p class="text-black">Khách hàng quét QR code để đặt món, bạn nhận thông báo và xử lý đơn hàng</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing -->
-    <section id="pricing" class="py-20">
+    <section id="pricing" class="py-20 bg-white border-t-4 border-red-500">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-5xl font-black text-gray-800 mb-6">💎 Bảng Giá Siêu Ưu Đãi</h2>
-                <p class="text-2xl text-gray-600 font-semibold">Chỉ từ 199k/tháng - Hoàn vốn trong 1 tuần!</p>
+                <h2 class="text-5xl font-black text-black mb-6">Bảng Giá Siêu Ưu Đãi</h2>
+                <p class="text-2xl text-black font-semibold">Chỉ từ 199k/tháng - Hoàn vốn trong 1 tuần!</p>
                 <div class="mt-4 inline-block bg-red-500 text-white px-6 py-2 rounded-full font-bold text-lg animate-pulse">
-                    🔥 GIẢM 50% CHO 100 KHÁCH HÀNG ĐẦU TIÊN
+                    GIẢM 50% CHO 100 KHÁCH HÀNG ĐẦU TIÊN
                 </div>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4">Gói Khởi nghiệp</h3>
-                    <div class="text-4xl font-bold text-blue-600 mb-6">199k<span class="text-lg text-gray-500">/tháng</span></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-gray-200">
+                    <h3 class="text-2xl font-bold mb-4 text-black">Gói Khởi nghiệp</h3>
+                    <div class="text-4xl font-bold text-red-600 mb-6">199k<span class="text-lg text-black">/tháng</span></div>
                     <ul class="space-y-3 mb-8">
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Website gọi món cơ bản</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Tối đa 100 món</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> QR Code miễn phí</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Hỗ trợ email</li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Website gọi món cơ bản</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Tối đa 100 món</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> QR Code miễn phí</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Hỗ trợ email</span></li>
                     </ul>
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <button class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition-colors">
                         Bắt đầu ngay
                     </button>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl shadow-lg border-4 border-blue-500 relative">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                <div class="bg-white p-8 rounded-xl shadow-lg border-4 border-red-500 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-1 rounded-full text-sm">
                         Được chọn nhiều nhất
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Gói Chuyên nghiệp</h3>
-                    <div class="text-4xl font-bold text-blue-600 mb-6">399k<span class="text-lg text-gray-500">/tháng</span></div>
+                    <h3 class="text-2xl font-bold mb-4 text-black">Gói Chuyên nghiệp</h3>
+                    <div class="text-4xl font-bold text-red-600 mb-6">399k<span class="text-lg text-black">/tháng</span></div>
                     <ul class="space-y-3 mb-8">
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Website cao cấp</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Không giới hạn món</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Quản lý đơn hàng</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Thống kê doanh thu</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Hỗ trợ 24/7</li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Website cao cấp</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Không giới hạn món</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Quản lý đơn hàng</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Thống kê doanh thu</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Hỗ trợ 24/7</span></li>
                     </ul>
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <button class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition-colors">
                         Chọn gói này
                     </button>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4">Gói Doanh nghiệp</h3>
-                    <div class="text-4xl font-bold text-blue-600 mb-6">799k<span class="text-lg text-gray-500">/tháng</span></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-gray-200">
+                    <h3 class="text-2xl font-bold mb-4 text-black">Gói Doanh nghiệp</h3>
+                    <div class="text-4xl font-bold text-red-600 mb-6">799k<span class="text-lg text-black">/tháng</span></div>
                     <ul class="space-y-3 mb-8">
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Tất cả tính năng Pro</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Nhiều chi nhánh</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Tùy chỉnh giao diện</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Tích hợp thanh toán</li>
-                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Hỗ trợ ưu tiên</li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Tất cả tính năng Pro</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Nhiều chi nhánh</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Tùy chỉnh giao diện</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Tích hợp thanh toán</span></li>
+                        <li class="flex items-center"><span class="text-red-600 mr-2">✓</span><span class="text-black"> Hỗ trợ ưu tiên</span></li>
                     </ul>
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <button class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition-colors">
                         Liên hệ tư vấn
                     </button>
                 </div>
@@ -530,113 +797,259 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="gradient-bg text-white py-20">
+    <section class="bg-white py-20 border-t-4 border-red-500">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-6xl font-black mb-8 text-shadow">Đừng Để Đối Thủ Vượt Mặt!</h2>
-            <p class="text-3xl mb-4 text-yellow-300 text-shadow font-bold">Hơn 1,000 nhà hàng đã tăng doanh thu 300% với chúng tôi</p>
-            <p class="text-xl mb-10 text-white text-shadow">Chỉ còn <strong class="text-yellow-300">48 giờ</strong> để nhận ưu đãi đặc biệt!</p>
+            <h2 class="text-6xl font-black mb-8 text-black">Đừng Để Đối Thủ Vượt Mặt!</h2>
+            <p class="text-3xl mb-4 text-red-600 font-bold">Hơn 1,000 nhà hàng đã tăng doanh thu 300% với chúng tôi</p>
+            <p class="text-xl mb-10 text-black">Chỉ còn <strong class="text-red-600">48 giờ</strong> để nhận ưu đãi đặc biệt!</p>
 
-            <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 mb-8 max-w-4xl mx-auto">
+            <div class="bg-red-50 border-2 border-red-200 rounded-3xl p-8 mb-8 max-w-4xl mx-auto">
                 <div class="grid md:grid-cols-3 gap-6 text-center">
                     <div>
-                        <div class="text-4xl font-black text-yellow-300 mb-2">MIỄN PHÍ</div>
-                        <div class="text-white">Setup & Thiết kế</div>
+                        <div class="text-4xl font-black text-red-600 mb-2">✓ MIỄN PHÍ</div>
+                        <div class="text-black">Setup & Thiết kế</div>
                     </div>
                     <div>
-                        <div class="text-4xl font-black text-yellow-300 mb-2">MIỄN PHÍ</div>
-                        <div class="text-white">7 ngày dùng thử</div>
+                        <div class="text-4xl font-black text-red-600 mb-2">✓ MIỄN PHÍ</div>
+                        <div class="text-black">7 ngày dùng thử</div>
                     </div>
                     <div>
-                        <div class="text-4xl font-black text-yellow-300 mb-2">MIỄN PHÍ</div>
-                        <div class="text-white">Hỗ trợ 24/7</div>
+                        <div class="text-4xl font-black text-red-600 mb-2">✓ MIỄN PHÍ</div>
+                        <div class="text-black">Hỗ trợ 24/7</div>
                     </div>
                 </div>
             </div>
 
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <button class="bg-gradient-to-r from-red-500 to-red-600 text-white px-16 py-6 rounded-3xl font-black text-2xl hover:from-red-600 hover:to-red-700 transition-all transform hover:scale-105 shadow-2xl border-4 border-yellow-300 animate-pulse">
+                <button onclick="window.location.href = '@Url.Action("Register","AccountManage")';" class="bg-red-600 text-white px-16 py-6 rounded-3xl font-black text-2xl hover:bg-red-700 transition-all transform hover:scale-105 shadow-2xl animate-pulse">
                     TẠO WEBSITE NGAY - MIỄN PHÍ
                 </button>
-                <button class="border-4 border-yellow-300 bg-yellow-300 text-gray-900 px-12 py-6 rounded-3xl font-black text-xl hover:bg-yellow-400 transition-all transform hover:scale-105 shadow-xl">
+                <button class="border-4 border-red-600 bg-white text-red-600 px-12 py-6 rounded-3xl font-black text-xl hover:bg-red-50 transition-all transform hover:scale-105 shadow-xl">
                     GỌI TƯ VẤN: 0987.654.321
                 </button>
             </div>
 
-            <div class="mt-8 text-yellow-100 text-lg">
+            <div class="mt-8 text-black text-lg">
                 <p><strong>Cam kết:</strong> Tăng doanh thu 200% trong 30 ngày hoặc hoàn tiền 100%</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-gray-800 text-white py-12">
+    <footer id="contact" class="bg-white border-t-4 border-red-500 py-12">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                            @*<svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>*@
-                            <img src="/assets/img/favicon.png" class="rounded-lg" />
-                        </div>
-                        <span class="text-xl font-bold">Gọi món</span>
+                        <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none">
+                            <rect x="10" y="10" width="80" height="80" fill="black" />
+                            <rect x="15" y="15" width="70" height="70" fill="white" />
+                            <rect x="20" y="20" width="15" height="15" fill="black" />
+                            <rect x="65" y="20" width="15" height="15" fill="black" />
+                            <rect x="20" y="65" width="15" height="15" fill="black" />
+                            <rect x="25" y="25" width="5" height="5" fill="white" />
+                            <rect x="70" y="25" width="5" height="5" fill="white" />
+                            <rect x="25" y="70" width="5" height="5" fill="white" />
+                            <rect x="40" y="40" width="20" height="20" fill="black" />
+                            <rect x="45" y="45" width="10" height="10" fill="white" />
+                            <rect x="50" y="50" width="5" height="5" fill="black" />
+                        </svg>
+                        <span class="text-xl font-bold text-black">Gọi món</span>
                     </div>
-                    <p class="text-gray-400">Nền tảng tạo website gọi món online hàng đầu Việt Nam</p>
+                    <p class="text-black">Nền tảng tạo website gọi món online hàng đầu Việt Nam</p>
                 </div>
 
                 <div>
-                    <h4 class="font-bold mb-4">Sản phẩm</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Tính năng</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Bảng giá</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Demo</a></li>
+                    <h4 class="font-bold mb-4 text-black">Sản phẩm</h4>
+                    <ul class="space-y-2 text-black">
+                        <li><a href="#" class="hover:text-red-600 transition-colors">Tính năng</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition-colors">Bảng giá</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition-colors">Demo</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-bold mb-4">Hỗ trợ</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Hướng dẫn</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Liên hệ</a></li>
+                    <h4 class="font-bold mb-4 text-black">Hỗ trợ</h4>
+                    <ul class="space-y-2 text-black">
+                        <li><a href="#" class="hover:text-red-600 transition-colors">Hướng dẫn</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition-colors">Liên hệ</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-bold mb-4">Liên hệ</h4>
-                    <div class="space-y-2 text-gray-400">
-                        <p class="flex items-center"><span class="mr-2">✔️</span> 0987 654 321</p>
-                        <p class="flex items-center"><span class="mr-2">✔️</span> dev.maicuong@gmail.com</p>
-                        <p class="flex items-center"><span class="mr-2">✔️</span> TP. Hồ Chí Minh, Việt Nam</p>
+                    <h4 class="font-bold mb-4 text-black">Liên hệ</h4>
+                    <div class="space-y-2 text-black">
+                        <p class="flex items-center">0987 654 321</p>
+                        <p class="flex items-center">dev.maicuong@gmail.com</p>
+                        <p class="flex items-center">TP. Hồ Chí Minh, Việt Nam</p>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <div class="border-t border-red-200 mt-8 pt-8 text-center text-black">
                 <p>&copy; 2024 Gọi món. Tất cả quyền được bảo lưu.</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', function () {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function () {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    const navHeight = 80; // Height of fixed navigation
+                    window.scrollTo({
+                        top: target.offsetTop - navHeight,
+                        behavior: 'smooth'
                     });
                 }
             });
         });
 
+        // Login button handlers
+        //document.getElementById('login-btn').addEventListener('click', function (e) {
+        //    e.preventDefault();
+        //    showLoginModal();
+        //});
+
+        //document.getElementById('mobile-login-btn').addEventListener('click', function(e) {
+        //    e.preventDefault();
+        //    // Close mobile menu first
+        //    mobileMenu.classList.add('hidden');
+        //    showLoginModal();
+        //});
+
+        // Login modal function
+        function showLoginModal() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl transform transition-all">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9M19 21H5V3H13V9H19Z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-black mb-2">Đăng nhập hệ thống</h2>
+                            <p class="text-gray-600">Truy cập vào bảng điều khiển quản lý nhà hàng</p>
+                        </div>
+
+                        <form id="login-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-black mb-2">Email hoặc Số điện thoại</label>
+                                <input type="text" id="login-email" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-red-500 focus:outline-none transition-colors" placeholder="Nhập email hoặc số điện thoại" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-black mb-2">Mật khẩu</label>
+                                <div class="relative">
+                                    <input type="password" id="login-password" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-red-500 focus:outline-none transition-colors pr-12" placeholder="Nhập mật khẩu" required>
+                                    <button type="button" id="toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500">
+                                    <span class="ml-2 text-sm text-black">Ghi nhớ đăng nhập</span>
+                                </label>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-700 font-semibold">Quên mật khẩu?</a>
+                            </div>
+
+                            <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors transform hover:scale-105">
+                                Đăng nhập
+                            </button>
+
+                            <div class="text-center pt-4 border-t border-gray-200">
+                                <p class="text-sm text-gray-600">Chưa có tài khoản?
+                                    <a href="#" class="text-red-600 hover:text-red-700 font-semibold">Đăng ký miễn phí</a>
+                                </p>
+                            </div>
+                        </form>
+
+                        <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+
+            document.body.appendChild(modal);
+
+            // Close modal handlers
+            modal.querySelector('#close-modal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+
+            // Password toggle
+            modal.querySelector('#toggle-password').addEventListener('click', function () {
+                const passwordInput = modal.querySelector('#login-password');
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+            });
+
+            // Form submit
+            modal.querySelector('#login-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const email = modal.querySelector('#login-email').value;
+                const password = modal.querySelector('#login-password').value;
+
+                if (email && password) {
+                    // Simulate login process
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    submitBtn.textContent = 'Đang đăng nhập...';
+                    submitBtn.disabled = true;
+
+                    setTimeout(() => {
+                        document.body.removeChild(modal);
+                        alert('🎉 Đăng nhập thành công!\n\nChào mừng bạn quay trở lại hệ thống quản lý Gọi món. Bạn sẽ được chuyển đến bảng điều khiển.');
+                    }, 1500);
+                }
+            });
+
+            // Focus on email input
+            setTimeout(() => {
+                modal.querySelector('#login-email').focus();
+            }, 100);
+        }
+
         // Button click handlers
         document.querySelectorAll('button').forEach(button => {
             button.addEventListener('click', function (e) {
+                // Skip mobile menu button and login buttons (handled separately)
+                if (this.id === 'mobile-menu-btn' || this.id === 'login-btn' || this.id === 'mobile-login-btn') return;
+
                 e.preventDefault();
                 const buttonText = this.textContent.trim();
 
@@ -649,7 +1062,40 @@
                 }
             });
         });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Back to top button
+        const backToTopBtn = document.createElement('button');
+        backToTopBtn.innerHTML = '↑';
+        backToTopBtn.className = 'fixed bottom-6 right-6 w-12 h-12 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-110 z-50 opacity-0 pointer-events-none';
+        backToTopBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        document.body.appendChild(backToTopBtn);
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', function () {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.pointerEvents = 'auto';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.pointerEvents = 'none';
+            }
+        });
+
+        // Back to top functionality
+        backToTopBtn.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     </script>
-    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'98517cd566e120ea',t:'MTc1ODg3NjM1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9868fd41268a5df0',t:'MTc1OTEyMjc4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 </body>
 </html>
