@@ -10,15 +10,15 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
     public class AdminReportController : Controller
     {
         // GET: Admin/AdminReport
-        public ActionResult Index()
-        {
-            return View();
-        }
         public ActionResult OrderReport()
         {
             return View();
         }
         public ActionResult ProductReport()
+        {
+            return View();
+        }
+        public ActionResult DayOfWeekReport()
         {
             return View();
         }

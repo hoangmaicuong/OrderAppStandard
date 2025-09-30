@@ -1,0 +1,132 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Day Of Week Report";
+}
+@section css_header{
+    <style>
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
+<div class="section">
+    <div class="admin-control" style=" justify-content:normal">
+        <div class="admin-control-left">
+            <form action="" class="fillter-date">
+                <div>
+                    <label for="time-start">Từ</label>
+                    <input type="date"
+                           ng-model="data.filter.startDate"
+                           class="form-control-date">
+                </div>
+                <div>
+                    <label for="time-end">Đến</label>
+                    <input type="date"
+                           ng-model="data.filter.endDate"
+                           class="form-control-date">
+                </div>
+            </form>
+        </div>
+        @*<div class="admin-control-center">
+                <div action="" class="form-search">
+                    <span class="search-btn"><i class="fa-light fa-keyboard"></i></span>
+                    <input type="text" ng-model="data.filter.searchKey" class="form-search-input" placeholder="Tìm kiếm tên bàn...">
+                </div>
+            </div>*@
+        <div class="admin-control-right">
+            <button ng-click="events.onSearch($event)"
+                    style="width:125px"
+                    class="btn-reset-order">
+                <i class="fa-light fa-magnifying-glass"></i>
+                Tìm kiếm
+            </button>
+        </div>
+    </div>
+    <div class="table">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td style="text-align:left">Tên thứ</td>
+                    <td style="text-align:right">SL Sản phẩm</td>
+                    <td style="text-align:right">Số lượng bán</td>
+                    <td style="text-align:right">Tổng giá bán</td>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in data.dayOfWeek">
+                    <td ng-bind="item.dayOfWeek" style="text-align:left"></td>
+                    <td ng-bind-html="item.totalProductsSold | vnNumber" style="text-align:right"></td>
+                    <td ng-bind-html="item.totalProductsQuantitySold | vnNumber" style="text-align:right"></td>
+                    <td ng-bind-html="item.totalRevenue | vnCurrency" style="text-align:right"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                },
+                filter: {
+                    searchKey: null,
+                    startDate: new Date(),
+                    endDate: new Date()
+                }
+            }
+
+            $scope.init = function () {
+                // Lấy ngày đầu và cuối tháng
+                const today = new Date();
+                $scope.data.filter.startDate = today;
+                $scope.data.filter.endDate = today;
+            };
+
+            $scope.events = {
+                onSearch: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.methods.getTableReport(button)
+                }
+            };
+            $scope.methods = {
+                getTableReport: function (button) {
+                    const filter = $scope.data.filter;
+                    const formatDate = $scope.methods.formatDate;
+                    $http({
+                        url: `/api/admin/report/get-day-of-week-report?startDate=${formatDate(filter.startDate)}
+                        &endDate=${formatDate(filter.endDate)}
+                        &searchKey=${filter.searchKey}`,
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            console.log('data', response.data);
+                            $scope.data.dayOfWeek = response.data.dayOfWeek;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                formatDate(date) {
+                    return date.toISOString().split("T")[0]; // yyyy-MM-dd
+                },
+            };
+            $scope.init();
+        });
+    </script>
+}
+

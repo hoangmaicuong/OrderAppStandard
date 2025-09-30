@@ -1,0 +1,154 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Thông kê sản phẩm";
+}
+@section css_header{
+    <style>
+        tr img {
+            max-width: 180px;
+            min-width: 180px;
+            height: 110px; /* giữ đúng tỉ lệ */
+            object-fit: cover; /* ảnh không méo */
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* đổ bóng nhẹ */
+            margin: 5px;
+            border-radius: 5px
+        }
+
+        @@media only screen and (max-width: 470px) {
+            tr img {
+                min-width: 80px;
+                max-width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
+<div class="section">
+    <div class="admin-control">
+        <div class="admin-control-left">
+            <form action="" class="fillter-date">
+                <div>
+                    <label for="time-start">Từ</label>
+                    <input type="date"
+                           ng-model="data.filter.startDate"
+                           class="form-control-date">
+                </div>
+                <div>
+                    <label for="time-end">Đến</label>
+                    <input type="date"
+                           ng-model="data.filter.endDate"
+                           class="form-control-date">
+                </div>
+            </form>
+        </div>
+        <div class="admin-control-center">
+            <div action="" class="form-search">
+                <span class="search-btn"><i class="fa-light fa-keyboard"></i></span>
+                <input type="text" ng-model="data.filter.searchKey" class="form-search-input" placeholder="Tìm kiếm sản phẩm...">
+            </div>
+        </div>
+        <div class="admin-control-right">
+            <button ng-click="events.onSearch($event)"
+                    style="width:125px"
+                    class="btn-reset-order">
+                <i class="fa-light fa-magnifying-glass"></i>
+                Tìm kiếm
+            </button>
+        </div>
+    </div>
+    <div class="table">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td style="text-align:left">Sản phẩm</td>
+                    <td style="text-align:right">Số lượng bán</td>
+                    <td style="text-align:right">Tổng giá bán</td>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in data.products">
+                    <td style="float:left">
+                        <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                    </td>
+                    <td ng-bind="item.productName" style="text-align:left"></td>
+                    <td ng-bind-html="item.totalQuantitySold | vnNumber" style="text-align:right"></td>
+                    <td ng-bind-html="item.totalRevenue | vnCurrency" style="text-align:right"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts_footer {
+    <script>
+        app.controller("mainCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+                    imagePath: context.imagePath,
+                    sortBy: {
+                        priceAscendingCode: 'PriceAscending',
+                        priceDescendingCode: 'PriceDescending'
+                    },
+                },
+                filter: {
+                    searchKey: null,
+                    startDate: new Date(),
+                    endDate: new Date()
+                }
+            }
+
+            $scope.init = function () {
+                const today = new Date();
+                $scope.data.filter.startDate = today;
+                $scope.data.filter.endDate = today;
+            };
+
+            $scope.events = {
+                onSearch: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, false);
+
+                    $scope.methods.getProductReport(button)
+                }
+            };
+            $scope.methods = {
+                getProductReport: function (button) {
+                    const filter = $scope.data.filter;
+                    const formatDate = $scope.methods.formatDate;
+                    $http({
+                        url: `/api/admin/report/get-product-report?startDate=${formatDate(filter.startDate)}
+                        &endDate=${formatDate(filter.endDate)}
+                        &searchKey=${filter.searchKey}`,
+                        method: "Get"
+                    })
+                        .then(function (response) {
+                            //console.log('data', response.data);
+                            $scope.data.products = response.data.products;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
+                },
+                formatDate(date) {
+                    return date.toISOString().split("T")[0]; // yyyy-MM-dd
+                },
+            };
+            $scope.init();
+        });
+    </script>
+}
+

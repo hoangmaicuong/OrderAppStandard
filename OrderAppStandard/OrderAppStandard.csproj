@@ -1848,7 +1848,6 @@
     <Content Include="Areas\Admin\Views\AdminProduct\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminAccount\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminOrder\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminReport\Index.cshtml" />
     <EntityDeploy Include="DataFactory\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
@@ -1920,6 +1919,8 @@
     <Content Include="Content\assets-register\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
     <Content Include="Content\assets-register\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Content\assets-register\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Areas\Admin\Views\AdminReport\ProductReport.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminReport\DayOfWeekReport.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />

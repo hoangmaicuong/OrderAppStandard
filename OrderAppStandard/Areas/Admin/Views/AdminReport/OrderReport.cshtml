@@ -216,14 +216,9 @@
             }
 
             $scope.init = function () {
-                // Lấy ngày đầu và cuối tháng
                 const today = new Date();
-                const start = new Date(today.getFullYear(), today.getMonth(), 1);
-                const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-                // Gán vào model (định dạng yyyy-MM-dd để <input type="date"> hiểu đúng)
-                $scope.data.filter.startDate = new Date(start.toISOString().split("T")[0]);
-                $scope.data.filter.endDate = new Date(end.toISOString().split("T")[0]);
+                $scope.data.filter.startDate = today;
+                $scope.data.filter.endDate = today;
             };
 
             $scope.events = {
@@ -231,7 +226,7 @@
                     const button = $event.currentTarget;
                     shareData.loadButton.loading(button, false);
 
-                    $scope.methods.getFilter(button)
+                    $scope.methods.getOrderReport(button)
                 },
                 onOpenModelOrder: async function ($event, order) {
                     const button = $event.currentTarget;
@@ -247,11 +242,11 @@
                 },
             };
             $scope.methods = {
-                getFilter: function (button) {
+                getOrderReport: function (button) {
                     const filter = $scope.data.filter;
                     const formatDate = $scope.methods.formatDate;
                     $http({
-                        url: `/api/admin/report/get-filter?startDate=${formatDate(filter.startDate)}
+                        url: `/api/admin/report/get-order-report?startDate=${formatDate(filter.startDate)}
                         &endDate=${formatDate(filter.endDate)}
                         &searchKey=${filter.searchKey}`,
                         method: "Get"

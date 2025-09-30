@@ -24,10 +24,30 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }
         [HttpGet]
-        [Route("get-filter")]
-        public IHttpActionResult GetFilter(DateTime startDate, DateTime endDate, string searchKey = null)
+        [Route("get-order-report")]
+        public IHttpActionResult GetOrderReport(DateTime startDate, DateTime endDate, string searchKey = null)
         {
-            return Ok(services.GetFilter(companyId, startDate, endDate,searchKey));
+            return Ok(services.GetOrderReport(companyId, startDate, endDate,searchKey));
+        }
+        [HttpGet]
+        [Route("get-product-report")]
+        public IHttpActionResult GetProductReport(DateTime startDate, DateTime endDate, string searchKey = null)
+        {
+            if (searchKey == "null")
+            {
+                searchKey = null;
+            }
+            return Ok(services.GetProductReport(companyId, startDate, endDate, searchKey));
+        }
+        [HttpGet]
+        [Route("get-day-of-week-report")]
+        public IHttpActionResult GetDayOfWeekReport(DateTime startDate, DateTime endDate, string searchKey = null)
+        {
+            if (searchKey == "null")
+            {
+                searchKey = null;
+            }
+            return Ok(services.GetDayOfWeekReport(companyId, startDate, endDate, searchKey));
         }
     }
 }
