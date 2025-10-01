@@ -48,5 +48,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
         {
             return Ok(services.CreateNewToken(tableId));
         }
+        [HttpGet]
+        [Route("get-order-of-table")]
+        public IHttpActionResult GetOrderOfTable(int tableId, Guid tableToken)
+        {
+            return Ok(services.GetOrderOfTable(tableId, tableToken));
+        }
     }
 }

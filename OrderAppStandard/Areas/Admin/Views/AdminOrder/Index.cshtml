@@ -83,7 +83,9 @@
                                 ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
                                 ng-click="events.onOpenModelOrder($event, item)">
                         </button>
-                        {{item.tableName}}
+                        <a href="/Admin/AdminTable/TableOfCurrentOrderList?tableId={{item.tableId}}&tableToken={{item.tableToken}}">
+                            {{item.tableName}}
+                        </a>
                     </td>
                     <td style="text-align:left">
                         <div>

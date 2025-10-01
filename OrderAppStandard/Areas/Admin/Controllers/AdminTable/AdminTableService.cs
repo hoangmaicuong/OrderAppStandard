@@ -212,5 +212,45 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
             //* Kết quả hàm *
             return result;
         }
+        public DataSet GetOrderOfTable(int tableId, Guid tableToken)
+        {
+            using (var connec = dapperContext.CreateConnection())
+            {
+                connec.Open();
+                try
+                {
+                    string proce = "AdminTableModuleGetOrderOfTable";
+                    using (var cmd = new SqlCommand(proce, connec))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@tableId",
+                            SqlDbType = SqlDbType.Int,
+                            Value = tableId
+                        });
+                        cmd.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@tableToken",
+                            SqlDbType = SqlDbType.UniqueIdentifier,
+                            Value = tableToken
+                        });
+                        using (var adapter = new SqlDataAdapter(cmd))
+                        {
+                            var dataSet = new DataSet();
+                            adapter.Fill(dataSet);
+                            dataSet.Tables[0].TableName = "orders";
+                            dataSet.Tables[1].TableName = "orderDetails";
+                            return dataSet;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    throw;
+                }
+            }
+        }
     }
 }
