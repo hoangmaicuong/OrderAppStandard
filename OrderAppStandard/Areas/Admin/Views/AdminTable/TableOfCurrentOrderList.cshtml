@@ -49,7 +49,7 @@
     <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Bàn số 5</h1>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">@ViewBag.TableName</h1>
                 @*<p class="text-gray-600">Khu vực: Tầng 1 - VIP</p>*@
             <p class="text-gray-600">
                 Chi tiết và trạng thái của những đơn hàng đã đặt cho bàn này.
@@ -83,8 +83,13 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-800" ng-bind-html="'Đơn hàng #' + order.orderId"></h3>
                     <div class="flex items-center space-x-2 mt-2 md:mt-0">
-                        <span ng-bind-html="methods.getOrderStatus(order)"
+                        <span ng-show="order.isDelivered != true"
+                              ng-bind-html="methods.getOrderStatus(order)"
                               class="status-preparing text-red-800 px-3 py-1 rounded-full text-sm font-medium">
+                        </span>
+                        <span ng-show="order.isDelivered == true"
+                              class="status-served text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                            Đã giao
                         </span>
                         <span class="text-sm text-gray-500" ng-bind-html="methods.getHourMinute(order.orderDate)"></span>
                     </div>
@@ -102,7 +107,7 @@
                             <p class="text-sm text-gray-600" ng-bind-html="detail.orderDetailNote || '<i class=\'fa-light fa-pen\'></i> Không có ghi chú'"></p>
                             <div class="flex items-center justify-between mt-1">
                                 <span class="text-sm text-gray-500" ng-bind="'SL: ' + detail.orderDetailQuantity"></span>
-                                <span class="font-semibold text-gray-800" ng-bind-html="detail.productPrice | vnCurrency"></span>
+                                <span class="font-semibold text-gray-800" ng-bind-html="(detail.productPrice * detail.orderDetailQuantity) | vnCurrency"></span>
                             </div>
                         </div>
                     </div>

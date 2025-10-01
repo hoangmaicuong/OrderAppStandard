@@ -26,7 +26,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
             var table = db.Table.FirstOrDefault(x => x.TableId == tableId && x.TableToken == tableToken);
             if (table == null)
             {
-                return RedirectToAction("NotFound", "Home");
+                return RedirectToAction("NotFound", "Home", new { area = "" });
             }
             ViewBag.TableId = tableId;
             ViewBag.TableToken = tableToken;
