@@ -70,8 +70,8 @@
             <div class="text-sm opacity-90">Tổng tiền</div>
         </div>
         <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white">
-            <div class="text-2xl font-bold" id="totalItems" ng-bind-html="methods.calculateOrderDetailsCount(data.orders) | vnNumber"></div>
-            <div class="text-sm opacity-90">Tổng món</div>
+            <div class="text-2xl font-bold" id="totalItems" ng-bind-html="(methods.countOrders(data.orders) | vnNumber) + ' / ' + (methods.countDeliveredOrders(data.orders) | vnNumber)"></div>
+            <div class="text-sm opacity-90">Đơn đặt / Đơn giao</div>
         </div>
     </div>
 
@@ -295,6 +295,17 @@
                     if (order.isInProcess) return "Đang chuẩn bị";
                     if (order.isConfirm) return "Đã xác nhận";
                     return "Chờ xác nhận";
+                },
+                // Đếm số đơn đã đặt (tất cả đơn)
+                countOrders: function (orders) {
+                    if (!orders || !orders.length) return 0;
+                    return orders.length;
+                },
+
+                // Đếm số đơn đã giao
+                countDeliveredOrders: function (orders) {
+                    if (!orders || !orders.length) return 0;
+                    return orders.filter(order => order.isDelivered).length;
                 }
             };
             $scope.init();
