@@ -483,6 +483,10 @@
             <div class="modal-detail-right">
                 <ul class="detail-order-group">
                     <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-bowl-food"></i> Tổng món</span>
+                        <span ng-bind="data.order.orderDetails.length + ' món'" class="detail-order-item-right"></span>
+                    </li>
+                    <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-table-picnic"></i> Bàn đặt</span>
                         <span @*ng-bind="data.order.tableName"*@ class="detail-order-item-right">
                             {{data.order.tableName}}
@@ -494,7 +498,7 @@
                     </li>
                     <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-code"></i> Mã đơn</span>
-                        <span ng-bind="data.order.orderId" class="detail-order-item-right"></span>
+                        <span ng-bind="'#' + data.order.orderId" class="detail-order-item-right"></span>
                     </li>
                     <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt</span>
