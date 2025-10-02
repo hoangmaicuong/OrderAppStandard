@@ -1922,6 +1922,7 @@
     <Content Include="Areas\Admin\Views\AdminReport\ProductReport.cshtml" />
     <Content Include="Areas\Admin\Views\AdminReport\DayOfWeekReport.cshtml" />
     <Content Include="Areas\Admin\Views\AdminTable\TableOfCurrentOrderList.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminOrder\IndexV2.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />

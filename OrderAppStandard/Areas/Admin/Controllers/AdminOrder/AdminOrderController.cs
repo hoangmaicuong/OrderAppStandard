@@ -20,5 +20,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             ViewBag.CompanySlug = userExtension?.Company.Slug;
             return View();
         }
+        public ActionResult IndexV2()
+        {
+            string userId = User.Identity.GetUserId();
+            var userExtension = db.UserExtension.FirstOrDefault(x => x.AspNetUserId == userId);
+            ViewBag.CompanySlug = userExtension?.Company.Slug;
+            return View();
+        }
     }
 }
