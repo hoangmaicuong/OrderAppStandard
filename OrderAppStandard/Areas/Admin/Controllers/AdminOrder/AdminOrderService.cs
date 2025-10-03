@@ -106,10 +106,10 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 result.messageForUser = "Đơn không tồn tại.";
                 return result;
             }
-            if (order.IsConfirm == true)
+            if (order.IsDelivered == true || order.IsFinish == true)
             {
                 result.success = false;
-                result.messageForUser = "Món đã xác nhận.";
+                result.messageForUser = "Món đã giao.";
                 return result;
             }
             #endregion

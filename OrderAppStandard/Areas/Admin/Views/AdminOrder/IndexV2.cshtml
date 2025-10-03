@@ -563,7 +563,7 @@
             $scope.events = {
                 onOpenModelOrder: async function ($event, order) {
                     const button = $event.currentTarget;
-                    shareData.loadButton.loading(button, false);
+                    shareData.loadButton.loading(button, true);
 
                     $scope.data.order = order;
                     $scope.data.order.orderDetails = await $scope.methods.getOrderDetails(order.orderId);
@@ -574,6 +574,9 @@
                     //console.log('$scope.data.order', $scope.data.order);
                 },
                 onRemoveOrderDetail: async function (index, orderDetail, $event) {
+                    if (!confirm('Nếu bạn muốn xóa món này!\nNhấn OK hoặc Cancel để trở lại.')) {
+                        return;
+                    } 
                     const button = $event.currentTarget;
                     shareData.loadButton.loading(button, false);
 
