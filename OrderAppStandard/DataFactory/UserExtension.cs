@@ -16,6 +16,7 @@ namespace OrderApp.DataFactory
     {
         public string AspNetUserId { get; set; }
         public Nullable<int> CompanyId { get; set; }
+        public string FirebaseToken { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Company Company { get; set; }

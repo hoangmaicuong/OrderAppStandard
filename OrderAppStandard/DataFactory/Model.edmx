@@ -99,6 +99,7 @@
           </Key>
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CompanyId" Type="int" />
+          <Property Name="FirebaseToken" Type="varchar" MaxLength="512" />
         </EntityType>
         <Association Name="FK_Company_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
@@ -456,6 +457,7 @@
           <Property Name="CompanyId" Type="Int32" />
           <NavigationProperty Name="AspNetUsers" Relationship="OrderAppModel.FK_UserExtension_AspNetUsers" FromRole="UserExtension" ToRole="AspNetUsers" />
           <NavigationProperty Name="Company" Relationship="OrderAppModel.FK_UserExtension_Company" FromRole="UserExtension" ToRole="Company" />
+          <Property Name="FirebaseToken" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Company_AspNetUsers">
           <End Type="OrderAppModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
@@ -598,6 +600,7 @@
           <EntitySetMapping Name="UserExtension">
             <EntityTypeMapping TypeName="OrderAppModel.UserExtension">
               <MappingFragment StoreEntitySet="UserExtension">
+                <ScalarProperty Name="FirebaseToken" ColumnName="FirebaseToken" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
               </MappingFragment>
