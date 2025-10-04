@@ -489,7 +489,7 @@
                     .then(function (response) {
                         //console.log('response', response);
                         $scope.data.table = response.data.tables[0];
-
+                        document.getElementById('headerTableName').innerText = $scope.data.table.tableName;
                     })
                     .catch(function (response) {
                         shareData.notification.exception();
