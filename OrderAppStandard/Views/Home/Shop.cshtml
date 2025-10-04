@@ -218,13 +218,18 @@
                                 <img ng-src="{{detail.fileId ? data.support.imagePath + detail.fileId : '/assets/img/blank-image.png'}}" alt="">
                                 <div class="order-history-info">
                                     <h4 ng-bind="detail.productName"></h4>
-                                    <p ng-bind-html="detail.orderDetailNote || '<i class=\'fa-light fa-pen\'></i> Không có ghi chú'" class="order-history-note"></p>
-                                    <p ng-bind="'x' + detail.orderDetailQuantity" class="order-history-quantity"></p>
+                                    <p ng-bind-html="detail.orderDetailNote != '' ? '<i class=\'fa-light fa-pen\'></i> ' + detail.orderDetailNote : ''" class="order-history-note"></p>
+                                    <p class="order-history-quantity">
+                                        <span ng-bind="'SL: ' + detail.orderDetailQuantity"></span>
+                                        <span style="margin-left: 5px; margin-right: 5px; ">•</span>
+                                        <span ng-bind-html="'Đơn giá: ' + (detail.productPrice | vnCurrency)"></span>
+                                    </p>
+                                    
                                 </div>
                             </div>
                             <div class="order-history-right">
                                 <div class="order-history-price">
-                                    <span ng-bind-html="detail.productPrice | vnCurrency" class="order-history-current-price"></span>
+                                    <span ng-bind-html="(detail.productPrice * detail.orderDetailQuantity) | vnCurrency" class="order-history-current-price"></span>
                                 </div>
                             </div>
                         </div>
