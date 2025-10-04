@@ -24,7 +24,7 @@ function closeModal() {
     modalContainer.forEach(item => {
         item.classList.remove('open');
     });
-    console.log(modalContainer)
+    //console.log(modalContainer)
     body.style.overflow = "auto";
 }
 

@@ -115,7 +115,12 @@
                                 <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
                             </div>
                             <div class="product-buy">
-                                <button type="button" ng-click="events.onOpenModelProduct(item)" class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i> Đặt món</button>
+                                <button type="button" 
+                                        ng-click="events.onAddShoppingCart($event, item)"
+                                        class="card-button order-item">
+                                    <i class="fa-regular fa-cart-shopping-fast"></i> 
+                                    Chọn món
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -282,8 +287,8 @@
             </div>
             <div class="modal-footer-control">
                 @*<button class="button-dathangngay" data-product="1">Đặt hàng ngay</button>*@
-                <button class="button-dat" id="add-cart" onclick="animationCart()"
-                        ng-click="events.onAddShoppingCart($event)">
+                <button class="button-dat" id="add-cart"
+                        ng-click="events.onAddShoppingCart($event, data.shoppingCart)">
                     Chọn món này <i class="fa-light fa-basket-shopping"></i>
                 </button>
             </div>
@@ -429,10 +434,18 @@
                     document.querySelector(".modal.product-detail").classList.add("open");
                     body.style.overflow = "hidden";
                 },
-                onAddShoppingCart: function ($event) {
+                onAddShoppingCart: function ($event, shoppingCart) {
                     //const button = $event.currentTarget;
                     //shareData.loadButton.loading(button);
-                    $scope.data.share.shoppingCart.add($scope.data.shoppingCart);
+                    if (shoppingCart.shoppingCartQuantity == undefined) {
+                        shoppingCart.shoppingCartQuantity = 1;
+                    }
+                    if (shoppingCart.shoppingCartNote == undefined) {
+                        shoppingCart.shoppingCartNote = '';
+                    }
+
+                    $scope.data.share.shoppingCart.add(shoppingCart);
+                    animationCart();
                     closeModal();
                 },
                 onFilterByCategory: function (categoryId) {
