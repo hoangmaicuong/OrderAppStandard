@@ -155,7 +155,7 @@
                                     </span>
                                 </div>
                                 <p class="product-note"
-                                   ng-bind-html="item.shoppingCartNote || '<i class=\'fa-light fa-pencil\'></i><span>Không có ghi chú</span>'">
+                                   ng-bind-html="item.shoppingCartNote == '' ? '' : '<i class=\'fa-light fa-pencil\'></i> ' + item.shoppingCartNote">
                                 </p>
                                 <div class="cart-item-control">
                                     <button class="cart-item-delete"
