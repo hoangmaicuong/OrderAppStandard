@@ -1,6 +1,7 @@
 ﻿using OrderApp.Areas.Admin.Controllers.AdminProduct;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -11,6 +12,7 @@ namespace OrderApp.Controllers.Home
     public class HomeApiController : ApiController
     {
         private HomeService services = new HomeService();
+        string serviceAccountPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "serviceAccountKey.json");
         [HttpGet]
         [Route("get-all")]
         public IHttpActionResult GetAll(string companySlug)
@@ -21,7 +23,7 @@ namespace OrderApp.Controllers.Home
         [Route("create-order")]
         public IHttpActionResult CreateOrder(string companySlug, HomeDto.CreateOrderDto dto)
         {
-            return Ok(services.CreateOrder(companySlug, dto));
+            return Ok(services.CreateOrder(companySlug, dto, serviceAccountPath));
         }
         [HttpGet]
         [Route("get-order-of-table")]
