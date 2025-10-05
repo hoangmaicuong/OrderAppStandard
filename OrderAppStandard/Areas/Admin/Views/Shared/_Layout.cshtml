@@ -36,9 +36,11 @@
     <script>
     const shareData = {
         newId: 0,
+        countNotification: 0,
         isAuthenticated : '@Request.IsAuthenticated' == 'True',
         searchKey: '',
         productCategoryId: 0,
+        currentController: '@currentController',
         pageUrl: {
             indexHomePageForSearch: '@Url.Action("Index", "Home", new { searchKey = "_searchKey" })'.replace('_searchKey', ''),
             indexHomePageForProductCategory: '@Url.Action("Index", "Home", new { productCategoryId = "_productCategoryId" })'.replace('_productCategoryId', '')
@@ -74,6 +76,7 @@
         }
     }
     </script>
+    <script type="module" src="~/Scripts/firebase.js"></script>
 </head>
 
 <body>

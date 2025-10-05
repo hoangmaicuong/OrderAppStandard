@@ -8,6 +8,10 @@ using System.Web;
 using System.Configuration;
 using OrderApp.Areas.Admin.Controllers.AdminProduct;
 using System.Web.UI.WebControls;
+using OrderApp.Controllers.ExternalServices;
+using System.IO;
+using System.ComponentModel.Design;
+using System.Threading.Tasks;
 
 namespace OrderApp.Controllers.Home
 {
@@ -49,17 +53,17 @@ namespace OrderApp.Controllers.Home
                 }
             }
         }
-        public Support.ResponsesAPI CreateOrder(string companySlug, HomeDto.CreateOrderDto dto)
+        public Support.ResponsesAPI CreateOrder(string companySlug, HomeDto.CreateOrderDto dto, string serviceAccountPath)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
             Order order = new Order();
 
             #endregion
-            bool existTable = db.Table.Any(x => x.TableId == dto.Order.TableId && x.TableToken == dto.Order.TableToken);
+            var table = db.Table.FirstOrDefault(x => x.TableId == dto.Order.TableId && x.TableToken == dto.Order.TableToken);
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            if (dto.Order.TableId < 1 || !existTable)
+            if (dto.Order.TableId < 1 || table == null)
             {
                 result.success = false;
                 result.messageForUser = "Chưa có bàn.";
@@ -97,6 +101,22 @@ namespace OrderApp.Controllers.Home
                     db.SaveChanges();
                     transaction.Commit();
 
+                    var firebase = new FirebaseHelper(serviceAccountPath);
+                    var firebaseTokens = company.UserExtension.Where(x => !string.IsNullOrEmpty(x.FirebaseToken)).Select(x => x.FirebaseToken).Distinct().ToList();
+                    foreach (var token in firebaseTokens)
+                    {
+                        Task.Run(() => firebase.SendNotificationToTokenAsync(
+                            token,
+                            "Đơn hàng mới",
+                            $"#{order.OrderId} - {table.TableName} đặt",
+                            null,
+                            new Dictionary<string, string>
+                            {
+                                { "orderId", order.OrderId.ToString() },
+                                { "type", "new-order" }
+                            }
+                        ));
+                    }
                     result = new Support.ResponsesAPI
                     {
                         success = true,
