@@ -70,8 +70,8 @@
             <div class="text-sm opacity-90">Tổng tiền</div>
         </div>
         <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white">
-            <div class="text-2xl font-bold" id="totalItems" ng-bind-html="(methods.countOrders(data.orders) | vnNumber) + ' / ' + (methods.countDeliveredOrders(data.orders) | vnNumber)"></div>
-            <div class="text-sm opacity-90">Đơn đặt / Đơn giao</div>
+            <div class="text-2xl font-bold" id="totalItems" ng-bind-html="(methods.countDeliveredOrders(data.orders) | vnNumber) + ' / ' + (methods.countOrders(data.orders) | vnNumber)"></div>
+            <div class="text-sm opacity-90">Đơn giao / Đơn đặt</div>
         </div>
     </div>
 
