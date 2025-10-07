@@ -15,14 +15,17 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Nhận thông báo khi web tắt hoặc chạy background
-messaging.onBackgroundMessage((payload) => {
-    //console.log("Background message received:", payload);
-    const notificationTitle = payload.notification.title;
-    const notificationOptions = {
-        body: payload.notification.body,
-        icon: "/assets/img/order.png"
-    };
-
-    self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//let oldMessageNotification = '';
+//// Nhận thông báo khi web tắt hoặc chạy background
+//messaging.onBackgroundMessage((payload) => {
+//    console.log("Background message received:", payload);
+//    const notificationTitle = payload.notification.title;
+//    const notificationOptions = {
+//        body: payload.notification.body,
+//        icon: "/assets/img/order.png"
+//    };
+//    if (oldMessageNotification != payload.notification.body) {
+//        //self.registration.showNotification(notificationTitle, notificationOptions);
+//        oldMessageNotification = payload.notification.body;
+//    }
+//});
