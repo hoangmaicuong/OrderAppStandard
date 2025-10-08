@@ -103,7 +103,10 @@
                         </div>*@
                         <img ng-src="{{detail.fileId ? data.support.imagePath + detail.fileId : '/assets/img/blank-image.png'}}" style="width: 100px; height: 100px; border-radius: 5px; object-fit: cover; " alt="">
                         <div class="flex-1">
-                            <h4 class="font-medium text-gray-800" ng-bind="detail.productName"></h4>
+                            <h4 class="font-medium text-gray-800">
+                                <span style="color: #13d000" ng-show="detail.isDelivered">✓</span>
+                                <span ng-bind="detail.productName"></span>
+                            </h4>
                             <p class="text-sm text-gray-600" ng-bind-html="detail.orderDetailNote || '<i class=\'fa-light fa-pen\'></i> Không có ghi chú'"></p>
                             <div class="flex items-center justify-between mt-1">
                                 <div class="text-sm text-gray-500">
@@ -175,9 +178,9 @@
             });
         });
     </script>
-    <script>
+    @*<script>
         (function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'98769ea7f02d09c4',t:'MTc1OTI2NTcxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();
-    </script>
+    </script>*@
 
     <script>
         app.controller("mainCtrl", function ($scope, $http) {

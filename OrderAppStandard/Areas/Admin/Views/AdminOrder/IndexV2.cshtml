@@ -458,7 +458,12 @@
                         <div class="order-product-left">
                             <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
                             <div class="order-product-info">
-                                <h4 ng-bind="item.productName"></h4>
+                                <h4 >
+                                    <input type="checkbox"
+                                           ng-click="events.onDeliveredOrderDetail($index, item, $event)"
+                                           ng-model="item.isDelivered" />
+                                    <span ng-bind="item.productName"></span>
+                                </h4>
                                 <p ng-show="item.orderDetailNote != null"
                                    ng-bind="item.orderDetailNote"
                                    class="order-product-note">
@@ -659,7 +664,24 @@
                     shareData.loadButton.loading(button, false);
 
                     $scope.methods.loadInit(button)
-                }
+                },
+                onDeliveredOrderDetail: async function (index, orderDetail, $event) {
+                    const checkbox = $event.currentTarget;
+                    checkbox.disabled = true;
+                    const oldValue = orderDetail.isDelivered;  
+                    const newValue = !oldValue; 
+                    
+                    let result = false;
+                    result = await $scope.methods.deliveredOrderDetail(orderDetail.orderDetailId);
+                    if (result) {
+                        $scope.data.order.orderDetails[index].isDelivered = newValue;
+                    }
+                    else {
+                        $scope.data.order.orderDetails[index].isDelivered = oldValue;
+                    }
+                    $scope.$apply();
+                    checkbox.disabled = false;
+                },
             };
             $scope.methods = {
                 loadInit: function (button) {
@@ -896,7 +918,30 @@
                 countWaitingPaymentOrders: function (orders) {
                     if (!orders || !orders.length) return 0;
                     return orders.filter(order => order.isConfirm && !order.isFinish).length;
-                }
+                },
+                deliveredOrderDetail: async function (orderDetailId) {
+                    return await $http({
+                        url: '/api/admin/order/delivered-order-detail?orderDetailId=' + orderDetailId,
+                        method: "Post"
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            return true;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                        return false;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+
+                    });
+                },
             };
             $scope.init();
         });

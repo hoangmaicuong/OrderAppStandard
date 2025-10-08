@@ -71,5 +71,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         {
             return Ok(services.RestoreOrder(orderId));
         }
+        [HttpPost]
+        [Route("delivered-order-detail")]
+        public IHttpActionResult DeliveredOrderDetail(int orderDetailId)
+        {
+            return Ok(services.DeliveredOrderDetail(orderDetailId));
+        }
     }
 }

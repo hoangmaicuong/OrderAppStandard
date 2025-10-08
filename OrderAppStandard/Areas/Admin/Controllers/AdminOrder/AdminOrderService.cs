@@ -395,5 +395,65 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
+        public Support.ResponsesAPI DeliveredOrderDetail(int orderDetailId)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            OrderDetail orderDetail = new OrderDetail();
+
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
+            if (orderDetail == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            var order = orderDetail.Order;
+            if (order == null)
+            {
+                result.success = false;
+                result.messageForUser = "Đơn không tồn tại.";
+                return result;
+            }
+            #endregion
+            if(orderDetail.IsDelivered == null)
+            {
+                orderDetail.IsDelivered = false;
+            }
+            orderDetail.IsDelivered = !orderDetail.IsDelivered;
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
+        }
     }
 }
