@@ -62,6 +62,7 @@
           <Property Name="ProductId" Type="int" />
           <Property Name="OrderDetailQuantity" Type="int" />
           <Property Name="OrderDetailNote" Type="nvarchar(max)" />
+          <Property Name="IsDelivered" Type="bit" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -382,6 +383,7 @@
           <NavigationProperty Name="Product" Relationship="OrderAppModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
           <Property Name="OrderDetailQuantity" Type="Int32" />
           <Property Name="OrderDetailNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelivered" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Order_Table">
           <End Type="OrderAppModel.Table" Role="Table" Multiplicity="0..1" />
@@ -561,6 +563,7 @@
           <EntitySetMapping Name="OrderDetail">
             <EntityTypeMapping TypeName="OrderAppModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
                 <ScalarProperty Name="OrderDetailNote" ColumnName="OrderDetailNote" />
                 <ScalarProperty Name="OrderDetailQuantity" ColumnName="OrderDetailQuantity" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
