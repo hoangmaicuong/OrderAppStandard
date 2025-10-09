@@ -101,22 +101,23 @@ async function resetAndRegisterToken() {
 }
 
 // 🔄 Kiểm tra token hiện tại, nếu mất hoặc đổi thì đăng ký lại
-async function ensureValidToken() {
-    try {
-        const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
-        const savedToken = localStorage.getItem("fcmToken");
+//async function ensureValidToken() {
+//    try {
+//        const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
+//        const savedToken = localStorage.getItem("fcmToken");
 
-        if (currentToken !== savedToken) {
-            await resetAndRegisterToken();
-        }
-    } catch (err) {
-        console.error("Lỗi kiểm tra token:", err);
-    }
-}
+//        if (currentToken !== savedToken) {
+//            await resetAndRegisterToken();
+//        }
+//    } catch (err) {
+//        console.error("Lỗi kiểm tra token:", err);
+//    }
+//}
 // 🚀 Gọi kiểm tra token khi trang load
-document.addEventListener("DOMContentLoaded", async () => {
-    await ensureValidToken();
-});
+//document.addEventListener("DOMContentLoaded", async () => {
+//    await ensureValidToken();
+//});
+
 function isDesktopDevice() {
     return !/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
