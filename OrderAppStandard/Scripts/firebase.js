@@ -15,6 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+const VAPID_KEY = 'BFmgu7QyM9Cv7M-pnD3xHE71DquQeJhBhGed1qdN0fJIaYc7-YqOHA_C3mtS2icfxQNe6Xp6VAaqezJoTEvSYI4';
 
 // dành cho apple
 document.addEventListener("DOMContentLoaded", function () {
@@ -22,15 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Nếu không có nút thì dừng
     if (!btn) return;
-
-    // Kiểm tra quyền thông báo
-    //if (Notification.permission === "granted") {
-    //    // Đã bật thông báo => ẩn nút
-    //    btn.style.display = "none";
-    //} else {
-    //    // Chưa bật => hiện nút
-    //    btn.style.display = "inline-block";
-    //}
 
     // Lưu lại HTML gốc của nút
     const originalHTML = btn.innerHTML;
@@ -43,9 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             // Hỏi người dùng bằng confirm
-            const confirmEnable = confirm("Bạn có muốn bật thông báo không?");
+            const confirmEnable = confirm("Bật thông báo để nhận đơn và nhiều thứ khác..");
             if (!confirmEnable) {
-                //alert("Bạn đã hủy yêu cầu bật thông báo.");
                 return;
             }
 
@@ -54,10 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (permission === "granted") {
                 await resetAndRegisterToken();
-                btn.disabled = true; // tạm khóa nút
-                //new Notification("✅ Bạn đã bật thông báo thành công!");
-                // Ẩn nút khi bật xong
-                //btn.style.display = "none";
+                btn.disabled = true;
             } else {
                 //alert("❌ Bạn đã từ chối thông báo.");
             }
@@ -73,13 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 async function resetAndRegisterToken() {
     try {
-        // Xoá token cũ (await để đảm bảo thực hiện xong)
+        // Xoá token cũ
         const deleted = await deleteToken(messaging);
-        //console.log("deleteToken result:", deleted); // boolean: true nếu đã xóa, false nếu không có token
-
-        // Lấy token mới (chắc chắn chạy sau khi deleteToken hoàn tất)
+        // Lấy token mới
         const currentToken = await getToken(messaging, {
-            vapidKey: "BFmgu7QyM9Cv7M-pnD3xHE71DquQeJhBhGed1qdN0fJIaYc7-YqOHA_C3mtS2icfxQNe6Xp6VAaqezJoTEvSYI4"
+            vapidKey: VAPID_KEY
         });
 
         if (!currentToken) {
@@ -106,6 +92,7 @@ async function resetAndRegisterToken() {
         //console.log("Token sent successfully:", data);
         playNotificationSound();
         toast({ title: 'Hệ thống sẵn sàng!', message: 'Chúc bạn làm việc vui vẽ 🥰🎉', type: 'success', duration: 3000 });
+        localStorage.setItem("fcmToken", currentToken);
 
     } catch (err) {
         console.error("Lỗi khi reset/register token:", err);
@@ -113,58 +100,24 @@ async function resetAndRegisterToken() {
     }
 }
 
-// dành cho hệ sinh thái google
-// Xin quyền nhận notification
-//Notification.requestPermission().then((permission) => {
-//    if (permission === "granted" && shareData.currentController == 'AdminHome') {
+// 🔄 Kiểm tra token hiện tại, nếu mất hoặc đổi thì đăng ký lại
+async function ensureValidToken() {
+    try {
+        const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
+        const savedToken = localStorage.getItem("fcmToken");
 
-//        async function resetAndRegisterToken() {
-//            try {
-//                // Xoá token cũ (await để đảm bảo thực hiện xong)
-//                const deleted = await deleteToken(messaging);
-//                //console.log("deleteToken result:", deleted); // boolean: true nếu đã xóa, false nếu không có token
-
-//                // Lấy token mới (chắc chắn chạy sau khi deleteToken hoàn tất)
-//                const currentToken = await getToken(messaging, {
-//                    vapidKey: "BFmgu7QyM9Cv7M-pnD3xHE71DquQeJhBhGed1qdN0fJIaYc7-YqOHA_C3mtS2icfxQNe6Xp6VAaqezJoTEvSYI4"
-//                });
-
-//                if (!currentToken) {
-//                    console.warn("Không lấy được token mới");
-//                    return;
-//                }
-//                else {
-//                    //console.log("currentToken:", currentToken);
-//                }
-
-//                // Gửi token lên server và chờ server lưu xong
-//                const res = await fetch("/api/firebase/register-topic", {
-//                    method: "POST",
-//                    headers: { "Content-Type": "application/json" },
-//                    body: JSON.stringify({ token: currentToken })
-//                });
-
-//                if (!res.ok) {
-//                    const text = await res.text();
-//                    throw new Error("Lỗi lưu token trên server: " + text);
-//                }
-
-//                const data = await res.json();
-//                //console.log("Token sent successfully:", data);
-//                toast({ title: 'Hệ thống sẵn sàng!', message: 'Chúc bạn làm việc vui vẽ 🥰🎉', type: 'success', duration: 3000 });
-
-//            } catch (err) {
-//                console.error("Lỗi khi reset/register token:", err);
-//                toast({ title: 'Lỗi', message: 'Chưa đăng ký được thông báo đơn hàng' || 'Xảy ra lỗi', type: 'error', duration: 5000 });
-//            }
-//        }
-
-//        // Gọi hàm
-//        resetAndRegisterToken();
-//    }
-//});
+        if (currentToken !== savedToken) {
+            await resetAndRegisterToken();
+        }
+    } catch (err) {
+        console.error("Lỗi kiểm tra token:", err);
+    }
+}
+// 🚀 Gọi kiểm tra token khi trang load
+document.addEventListener("DOMContentLoaded", async () => {
+    await ensureValidToken();
+});
 function isDesktopDevice() {
-    // Kiểm tra bằng userAgent
     return !/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 function playNotificationSound() {
@@ -179,7 +132,6 @@ function playNotificationSound() {
 onMessage(messaging, (payload) => {
     shareData.countNotification += 1;
     //console.log("Tin nhắn foreground:", payload);
-    //alert(payload.notification.title + " - " + payload.notification.body);
     playNotificationSound();
     toast({ title: payload.notification.title, message: payload.notification.body, type: 'success', duration: 3000 });
 });
