@@ -526,6 +526,7 @@
     <Content Include="Content\assets-register\vendor\select2\select2.min.css" />
     <Content Include="Content\assets-register\vendor\select2\select2.min.js" />
     <Content Include="Content\favicon.svg" />
+    <Content Include="Content\sounds\notify.wav" />
     <Content Include="Content\UploadFiles\0367d7e21da745578cfb4610487b3e20.jpeg" />
     <Content Include="Content\UploadFiles\05118989f4ba4a5dbed90828b90ebbb6.png" />
     <Content Include="Content\UploadFiles\05429f2c1ea44d1d809b45bacfa1ce7c.jpeg" />

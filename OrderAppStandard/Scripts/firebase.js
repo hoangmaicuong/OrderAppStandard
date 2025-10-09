@@ -15,6 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+
 // dành cho apple
 document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("btnEnableNotificationOfOrder");
@@ -103,6 +104,7 @@ async function resetAndRegisterToken() {
 
         const data = await res.json();
         //console.log("Token sent successfully:", data);
+        playNotificationSound();
         toast({ title: 'Hệ thống sẵn sàng!', message: 'Chúc bạn làm việc vui vẽ 🥰🎉', type: 'success', duration: 3000 });
 
     } catch (err) {
@@ -115,7 +117,7 @@ async function resetAndRegisterToken() {
 // Xin quyền nhận notification
 //Notification.requestPermission().then((permission) => {
 //    if (permission === "granted" && shareData.currentController == 'AdminHome') {
-        
+
 //        async function resetAndRegisterToken() {
 //            try {
 //                // Xoá token cũ (await để đảm bảo thực hiện xong)
@@ -161,11 +163,23 @@ async function resetAndRegisterToken() {
 //        resetAndRegisterToken();
 //    }
 //});
-
+function isDesktopDevice() {
+    // Kiểm tra bằng userAgent
+    return !/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+function playNotificationSound() {
+    if (!isDesktopDevice()) return; // Chỉ phát nếu là máy tính
+    const audio = new Audio("/Content/sounds/notify.wav");
+    audio.volume = 0.5; // âm lượng 
+    audio.play().catch(err => {
+        console.warn("Không phát được âm thanh:", err);
+    });
+}
 // Nhận thông báo khi web đang mở (foreground)
 onMessage(messaging, (payload) => {
     shareData.countNotification += 1;
     //console.log("Tin nhắn foreground:", payload);
     //alert(payload.notification.title + " - " + payload.notification.body);
+    playNotificationSound();
     toast({ title: payload.notification.title, message: payload.notification.body, type: 'success', duration: 3000 });
 });
