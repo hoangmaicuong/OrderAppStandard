@@ -531,10 +531,13 @@
                     })
                         .then(function (response) {
                             //console.log('response', response);
-                            $scope.data.table = response.data.tables[0];
-                            document.getElementById("open-order-page").style.display = 'inherit';
-                            document.getElementById('headerTableName').innerText = $scope.data.table.tableName;
-                            document.getElementById('btnCallStaff').style.display = 'inline-block';
+                            if (response.data.tables.length > 0) {
+                                $scope.data.table = response.data.tables[0];
+
+                                document.getElementById("open-order-page").style.display = 'inherit';
+                                document.getElementById('headerTableName').innerText = $scope.data.table.tableName;
+                                document.getElementById('btnCallStaff').style.display = 'inline-block';
+                            }
                         })
                         .catch(function (response) {
                             shareData.notification.exception();
