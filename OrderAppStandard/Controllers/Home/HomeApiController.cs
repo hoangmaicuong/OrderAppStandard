@@ -37,5 +37,11 @@ namespace OrderApp.Controllers.Home
         {
             return Ok(services.GetTable(tableId, tableToken));
         }
+        [HttpPost]
+        [Route("call-staff")]
+        public IHttpActionResult CallStaff(int tableId, Guid tableToken)
+        {
+            return Ok(services.CallStaff(tableId, tableToken, serviceAccountPath));
+        }
     }
 }

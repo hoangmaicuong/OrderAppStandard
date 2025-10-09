@@ -115,10 +115,10 @@
                                 <span ng-bind-html="item.productPrice | vnCurrency" class="current-price"></span>
                             </div>
                             <div class="product-buy">
-                                <button type="button" 
+                                <button type="button"
                                         ng-click="events.onAddShoppingCart($event, item)"
                                         class="card-button order-item">
-                                    <i class="fa-regular fa-cart-shopping-fast"></i> 
+                                    <i class="fa-regular fa-cart-shopping-fast"></i>
                                     Chọn món
                                 </button>
                             </div>
@@ -224,7 +224,7 @@
                                         <span style="margin-left: 5px; margin-right: 5px; ">•</span>
                                         <span ng-bind-html="'Đơn giá: ' + (detail.productPrice | vnCurrency)"></span>
                                     </p>
-                                    
+
                                 </div>
                             </div>
                             <div class="order-history-right">
@@ -385,7 +385,42 @@
         </div>
     </div>
 </div>
+<style>
+    /* Nút gọi phục vụ */
+    .call-button {
+        position: fixed;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        transition: all 0.3s ease;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    .bell-icon {
+        width: 23px;
+        height: 23px;
+        animation: ring 2s infinite;
+    }
+    
+</style>
+<!-- Nút gọi phục vụ cố định -->
+<button id="btnCallStaff" style="display:none"
+        ng-click="events.onCallStaff($event)" class="call-button" title="Gọi phục vụ">
+    <svg class="bell-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    </svg>
+</button>
 @section scripts_footer {
     <script>
         app.controller("mainCtrl", function ($scope, $http, $rootScope, ShareService) {
@@ -459,6 +494,11 @@
 
                     $scope.data.filter.categoryId = categoryId;
                     document.getElementById("home-title").scrollIntoView();
+                },
+                onCallStaff: function ($event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button);
+                    $scope.methods.callStaff(context.tableId, context.tableToken, button);
                 }
             };
             $scope.methods = {
@@ -467,38 +507,40 @@
                         url: '/api/home/get-all?companySlug=' + context.companySlug,
                         method: "Get"
                     })
-                    .then(function (response) {
-                        //console.log('response', response);
-                        $scope.data.products = response.data.products;
-                        $scope.data.support.categorys = response.data.categorys;
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
+                        .then(function (response) {
+                            //console.log('response', response);
+                            $scope.data.products = response.data.products;
+                            $scope.data.support.categorys = response.data.categorys;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
 
 
-                    });
+                        });
                 },
                 getTable: function (tableId, tableToken) {
                     $http({
                         url: `/api/home/get-table?tableId=${tableId}&tableToken=${tableToken}`,
                         method: "Get"
                     })
-                    .then(function (response) {
-                        //console.log('response', response);
-                        $scope.data.table = response.data.tables[0];
-                        document.getElementById('headerTableName').innerText = $scope.data.table.tableName;
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
+                        .then(function (response) {
+                            //console.log('response', response);
+                            $scope.data.table = response.data.tables[0];
+                            document.getElementById("open-order-page").style.display = 'inherit';
+                            document.getElementById('headerTableName').innerText = $scope.data.table.tableName;
+                            document.getElementById('btnCallStaff').style.display = 'inline-block';
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
 
 
-                    });
+                        });
                 },
                 productFilter: function (product) {
                     if ($scope.data.filter.categoryId == null) return true;
@@ -513,25 +555,25 @@
                         url: `/api/home/get-order-of-table?tableId=${tableId}&tableToken=${tableToken}`,
                         method: "Get"
                     })
-                    .then(function (response) {
-                        //console.log('response', response);
-                        let orders = response.data.orders.map(function (order) {
-                            return {
-                                ...order,
-                                orderDetails: response.data.orderDetails.filter(d => d.orderId === order.orderId)
-                            };
-                        });
+                        .then(function (response) {
+                            //console.log('response', response);
+                            let orders = response.data.orders.map(function (order) {
+                                return {
+                                    ...order,
+                                    orderDetails: response.data.orderDetails.filter(d => d.orderId === order.orderId)
+                                };
+                            });
 
-                        $scope.data.orders = orders;
-                        //console.log('orders', orders);
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
-                        liTag.innerHTML = liTagHtmlRoot;
-                    });
+                            $scope.data.orders = orders;
+                            //console.log('orders', orders);
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            liTag.innerHTML = liTagHtmlRoot;
+                        });
                 },
                 calculateOrderTotal: function (order) {
                     if (!order || !order.orderDetails) return 0;
@@ -546,6 +588,31 @@
                             return total + (detail.productPrice * detail.orderDetailQuantity);
                         }, 0);
                     }, 0);
+                },
+                callStaff: function (tableId, tableToken, button) {
+                    $http({
+                        url: `/api/home/call-staff?tableId=${tableId}&tableToken=${tableToken}`,
+                        method: "POST",
+                        data: null
+                    })
+                    .then(function (response) {
+                        if (response.data.success == true) {
+                            toast({ title: 'Đã gọi nhân viên', message: 'Sẽ đến hỗ trợ bạn sớm thôi 🥰', type: 'success', duration: 3000 });
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        if (button != null) {
+                            shareData.loadButton.loaded(button);
+                        }
+                    });
                 }
             };
             $scope.init();

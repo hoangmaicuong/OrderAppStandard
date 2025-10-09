@@ -12,6 +12,7 @@ using OrderApp.Controllers.ExternalServices;
 using System.IO;
 using System.ComponentModel.Design;
 using System.Threading.Tasks;
+using System.Runtime.Caching;
 
 namespace OrderApp.Controllers.Home
 {
@@ -19,6 +20,7 @@ namespace OrderApp.Controllers.Home
     {
         private OrderAppEntities db = new OrderAppEntities();
         private DapperContext dapperContext = new DapperContext();
+        private static readonly MemoryCache _cache = MemoryCache.Default;
         public DataSet GetAll(string companySlug)
         {
             using (var connec = dapperContext.CreateConnection())
@@ -221,6 +223,78 @@ namespace OrderApp.Controllers.Home
                     throw;
                 }
             }
+        }
+        public Support.ResponsesAPI CallStaff(int tableId, Guid tableToken, string serviceAccountPath)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            var table = db.Table.FirstOrDefault(x => x.TableId == tableId && x.TableToken == tableToken);
+            if (table == null)
+            {
+                result.success = false;
+                result.messageForUser = "Không tìm thấy bàn này.";
+                return result;
+            }
+
+            var company = db.Company.FirstOrDefault(x => x.CompanyId == table.CompanyId);
+            if (company == null)
+            {
+                result.success = false;
+                result.messageForUser = "Không tìm thấy công ty.";
+                return result;
+            }
+            #endregion
+
+            #region Cache chống spam
+            string cacheKey = $"CallStaff_Table_{table.TableId}";
+            if (_cache.Contains(cacheKey))
+            {
+                result.success = false;
+                result.messageForUser = "\nBạn vừa gọi nhân viên. Vui lòng đợi 3 phút trước khi gọi lại.";
+                return result;
+            }
+
+            // Thêm vào cache 3 phút
+            _cache.Add(cacheKey, true, DateTimeOffset.Now.AddMinutes(3));
+            #endregion
+
+            #region thực thi function
+            try
+            {
+                var firebase = new FirebaseHelper(serviceAccountPath);
+                var firebaseTokens = company.UserExtension
+                    .Where(x => !string.IsNullOrEmpty(x.FirebaseToken))
+                    .Select(x => x.FirebaseToken)
+                    .Distinct()
+                    .ToList();
+
+                foreach (var token in firebaseTokens)
+                {
+                    Task.Run(() => firebase.SendNotificationToTokenAsync(
+                        token,
+                        $"{table.TableName} gọi!",
+                        "Bàn đang cần hỗ trợ.",
+                        null,
+                        new Dictionary<string, string>()
+                    ));
+                }
+
+                result.success = true;
+                result.messageForUser = "Đã gửi yêu cầu hỗ trợ thành công.";
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.messageForUser = "Không thể gửi thông báo.";
+                result.messageForDev = ex.Message;
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
         }
     }
 }
