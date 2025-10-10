@@ -1,9 +1,12 @@
 ﻿using OrderApp.Areas.Admin.Controllers.AdminProduct;
+using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace OrderApp.Controllers.Home
@@ -11,14 +14,27 @@ namespace OrderApp.Controllers.Home
     [RoutePrefix("api/home")]
     public class HomeApiController : ApiController
     {
-        private HomeService services = new HomeService();
+        private readonly OrderAppEntities db;
+        private readonly HomeService services;
         string serviceAccountPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content/serviceAccountKey.json");
+        public HomeApiController()
+        {
+            db = new OrderAppEntities();
+            services = new HomeService(db);
+        }
         [HttpGet]
         [Route("get-all")]
-        public IHttpActionResult GetAll(string companySlug)
+        public async Task<IHttpActionResult> GetAllAsync(string companySlug)
         {
-            return Ok(services.GetAll(companySlug));
+            var result = await services.GetAllAsync(companySlug);
+            return Ok(result);
         }
+        //[HttpGet]
+        //[Route("get-all")]
+        //public IHttpActionResult GetAll(string companySlug)
+        //{
+        //    return Ok(services.GetAll(companySlug));
+        //}
         [HttpPost]
         [Route("create-order")]
         public IHttpActionResult CreateOrder(string companySlug, HomeDto.CreateOrderDto dto)

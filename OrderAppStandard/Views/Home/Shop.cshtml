@@ -510,19 +510,25 @@
                         url: '/api/home/get-all?companySlug=' + context.companySlug,
                         method: "Get"
                     })
-                        .then(function (response) {
-                            //console.log('response', response);
-                            $scope.data.products = response.data.products;
-                            $scope.data.support.categorys = response.data.categorys;
-                        })
-                        .catch(function (response) {
-                            shareData.notification.exception();
-                            console.error('catch error', response);
-                        })
-                        .finally(function () {
+                    .then(function (response) {
+                        //console.log('response', response);
+                        if (response.data.success == true) {
+                            $scope.data.products = response.data.objectResponses.products;
+                            $scope.data.support.categorys = response.data.objectResponses.categorys;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
 
 
-                        });
+                    });
                 },
                 getTable: function (tableId, tableToken) {
                     $http({

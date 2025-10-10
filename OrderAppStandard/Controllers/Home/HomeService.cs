@@ -13,14 +13,64 @@ using System.IO;
 using System.ComponentModel.Design;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
+using Dapper;
 
 namespace OrderApp.Controllers.Home
 {
     public class HomeService
     {
-        private OrderAppEntities db = new OrderAppEntities();
+        private OrderAppEntities db;
         private DapperContext dapperContext = new DapperContext();
         private static readonly MemoryCache _cache = MemoryCache.Default;
+        public HomeService(OrderAppEntities _db)
+        {
+            db = _db;
+        }
+        public async Task<Support.ResponsesAPI> GetAllAsync(string companySlug)
+        {
+            var result = new Support.ResponsesAPI();
+
+            try
+            {
+                using (var connec = dapperContext.CreateConnection())
+                {
+                    await connec.OpenAsync();
+                    using (var multi = await connec.QueryMultipleAsync(
+                        "HomeModuleGetAll", 
+                        new { companySlug }, 
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var products = (await multi.ReadAsync<dynamic>()).ToList();
+                        var categorys = (await multi.ReadAsync<dynamic>()).ToList();
+
+                        return new Support.ResponsesAPI()
+                        {
+                            success = true,
+                            objectResponses = new
+                            {
+                                products,
+                                categorys
+                            }
+                        };
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Lỗi SQL
+                result.success = false;
+                result.messageForUser = "Lỗi cơ sở dữ liệu.";
+                result.messageForDev = sqlEx.Message;
+            }
+            catch (Exception ex)
+            {
+                // Lỗi khác
+                result.success = false;
+                result.messageForUser = "Đã xảy ra lỗi.";
+                result.messageForDev = ex.Message;
+            }
+            return result;
+        }
         public DataSet GetAll(string companySlug)
         {
             using (var connec = dapperContext.CreateConnection())
