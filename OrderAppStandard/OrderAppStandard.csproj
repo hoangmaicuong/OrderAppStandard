@@ -255,11 +255,6 @@
     <Compile Include="Controllers\Home\HomeDto.cs" />
     <Compile Include="Controllers\Home\HomeService.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\Product\ProductApiController.cs" />
-    <Compile Include="Controllers\Product\ProductApiShareController.cs" />
-    <Compile Include="Controllers\Product\ProductController.cs" />
-    <Compile Include="Controllers\Product\ProductDto.cs" />
-    <Compile Include="Controllers\Product\ProductService.cs" />
     <Compile Include="DataFactory\AspNetUsers.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1409,7 +1404,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="doccument\" />
-    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\web.config" />
