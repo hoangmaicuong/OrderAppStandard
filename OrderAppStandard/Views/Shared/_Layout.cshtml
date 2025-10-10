@@ -18,6 +18,19 @@
     @RenderSection("css_header", required: false)
     @RenderSection("scripts_header", required: false)
     <style>
+        #pageLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5); /* màu nền trong suốt */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: var(--red)
+        }
         /*angularjs animate*/
         /*ng-repeat*/
         .ng-enter {
@@ -68,6 +81,10 @@
     </script>
 </head>
 <body>
+    <!-- Overlay -->
+    <div id="pageLoader">
+        <i class="fa-solid fa-loader fa-spin fa-spin-reverse fa-3x"></i>
+    </div>
     <div ng-app="orderApp">
         <header ng-controller="headerCtrl">
             <div class="header-top">
@@ -102,17 +119,17 @@
                             <input type="text" class="form-search-input" placeholder="Tìm kiếm món ăn..."
                                    ng-model="data.searchText"
                                    ng-change="methods.doSearch()"
-                                    oninput="document.getElementById('home-service').scrollIntoView({behavior: 'smooth'});" 
+                                   oninput="document.getElementById('home-service').scrollIntoView({behavior: 'smooth'});"
                                    @*oninput="searchProducts()"*@>
                         </form>
                     </div>
                     <div class="header-middle-right">
                         <ul class="header-middle-right-list">
                             @*<li class="header-middle-right-item dnone open" onclick="openSearchMb()">
-                                <div class="cart-icon-menu">
-                                    <i class="fa-light fa-magnifying-glass"></i>
-                                </div>
-                            </li>*@
+                                    <div class="cart-icon-menu">
+                                        <i class="fa-light fa-magnifying-glass"></i>
+                                    </div>
+                                </li>*@
                             <li class="header-middle-right-item close" onclick="closeSearchMb()">
                                 <div class="cart-icon-menu">
                                     <i class="fa-light fa-circle-xmark"></i>
@@ -160,13 +177,15 @@
                                 <div class="cart-item-control">
                                     <button class="cart-item-delete"
                                             ng-click="events.onDeleteShoppingCart($index)"
-                                            @*onclick="deleteCartItem(3,this)"*@>Xóa</button>
+                                            @*onclick="deleteCartItem(3,this)"*@>
+                                        Xóa
+                                    </button>
                                     <div class="buttons_added">
-                                        <input class="minus is-form" type="button" value="-" 
+                                        <input class="minus is-form" type="button" value="-"
                                                ng-click="events.onDecreasingNumber(item)"
                                                @*onclick="decreasingNumber(this)"*@>
                                         <input disabled ng-model="item.shoppingCartQuantity" class="input-qty" max="100" min="1" name="" type="number" value="1">
-                                        <input class="plus is-form" type="button" value="+" 
+                                        <input class="plus is-form" type="button" value="+"
                                                ng-click="events.onIncreasingNumber(item)"
                                                @*onclick="increasingNumber(this)"*@>
                                     </div>
@@ -183,7 +202,9 @@
                             <button class="them-mon"><i class="fa-regular fa-plus"></i> Thêm món</button>
                             <button ng-class="{'disabled': data.shoppingCarts.length === 0}"
                                     ng-click="events.onOrder($event)"
-                                    class="thanh-toan">Gọi món</button>
+                                    class="thanh-toan">
+                                Gọi món
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -424,11 +445,11 @@
                 tableToken: shareData.tableToken,
                 searchText: '',
                 support: {
-                    
+
                 }
             };
             $scope.init = function () {
-                
+
             };
             $scope.events = {
                 onOpenModelShoppingCart: function () {
@@ -489,31 +510,31 @@
                         method: "POST",
                         data: data
                     })
-                    .then(function (response) {
-                        if (response.data.success == true) {
-                            let share = ShareService.getShare();
-                            share.shoppingCart.clear();
-                            closeCart();
-                            $scope.events.onOpenOrderPage();
-                            //toast({ title: 'Success', message: 'Thêm thành công sản phẩm vào giỏ hàng', type: 'success', duration: 3000 });
-                        }
-                        else {
-                            shareData.notification.fail(response.data.messageForUser)
-                            console.error('response error', response)
-                        }
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
-                        if (button != null) {
-                            shareData.loadButton.loaded(button);
-                        }
-                    });
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                let share = ShareService.getShare();
+                                share.shoppingCart.clear();
+                                closeCart();
+                                $scope.events.onOpenOrderPage();
+                                //toast({ title: 'Success', message: 'Thêm thành công sản phẩm vào giỏ hàng', type: 'success', duration: 3000 });
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
                 }
             };
-            
+
             $scope.init();
         });
     </script>

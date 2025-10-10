@@ -526,8 +526,7 @@
                         console.error('catch error', response);
                     })
                     .finally(function () {
-
-
+                        document.getElementById('pageLoader').style.display = 'none';
                     });
                 },
                 getTable: function (tableId, tableToken) {
