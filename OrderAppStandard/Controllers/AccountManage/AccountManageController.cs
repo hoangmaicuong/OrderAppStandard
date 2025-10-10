@@ -6,6 +6,7 @@ using OrderApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -107,11 +108,25 @@ namespace OrderApp.Controllers.AccountManage
         {
             if (ModelState.IsValid)
             {
-                // 🔎 Kiểm tra Slug đã tồn tại chưa
+                if (string.IsNullOrEmpty(model.CompanySlug))
+                {
+                    ModelState.AddModelError("CompanySlug", "Tên miền công ty không bỏ trống.");
+                    return View(model);
+                }
+                if (model.CompanySlug.Length > 100)
+                {
+                    ModelState.AddModelError("CompanySlug", "Tên miền không vượt 100 ký tự.");
+                    return View(model);
+                }
+                if (!Regex.IsMatch(model.CompanySlug, "^[a-z0-9-]+$"))
+                {
+                    ModelState.AddModelError("CompanySlug", "Tên miền chỉ được chứa chữ thường, số và dấu gạch ngang (-), không được có khoảng trắng hoặc ký tự đặc biệt.");
+                    return View(model);
+                }
                 bool slugExists = db.Company.Any(c => c.Slug == model.CompanySlug);
                 if (slugExists)
                 {
-                    ModelState.AddModelError("CompanySlug", "Tên miền (Slug) đã tồn tại, vui lòng chọn tên khác.");
+                    ModelState.AddModelError("CompanySlug", "Tên miền đã tồn tại, vui lòng chọn tên khác.");
                     return View(model);
                 }
 

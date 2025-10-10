@@ -38,7 +38,7 @@
           <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="255" />
           <Property Name="CompanyOwnerId" Type="nvarchar" MaxLength="128" />
-          <Property Name="Slug" Type="varchar(max)" />
+          <Property Name="Slug" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -447,7 +447,7 @@
           <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CompanyOwnerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Slug" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="OrderAppModel.FK_Company_AspNetUsers" FromRole="Company" ToRole="AspNetUsers" />
           <NavigationProperty Name="UserExtension" Relationship="OrderAppModel.FK_UserExtension_Company" FromRole="Company" ToRole="UserExtension" />
         </EntityType>
