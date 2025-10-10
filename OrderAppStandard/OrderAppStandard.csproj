@@ -1942,6 +1942,7 @@
     <Content Include="Areas\Admin\Views\AdminTable\TableOfCurrentOrderList.cshtml" />
     <Content Include="Areas\Admin\Views\AdminOrder\IndexV2.cshtml" />
     <Content Include="manifest.json" />
+    <Content Include="Content\serviceAccountKey.rar" />
     <None Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
