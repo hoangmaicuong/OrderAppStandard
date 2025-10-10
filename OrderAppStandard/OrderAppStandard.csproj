@@ -1932,7 +1932,6 @@
     <Content Include="Areas\Admin\Views\AdminReport\ProductReport.cshtml" />
     <Content Include="Areas\Admin\Views\AdminReport\DayOfWeekReport.cshtml" />
     <Content Include="Areas\Admin\Views\AdminTable\TableOfCurrentOrderList.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminOrder\IndexV2.cshtml" />
     <Content Include="manifest.json" />
     <Content Include="Content\serviceAccountKey.rar" />
     <None Include="packages.config" />

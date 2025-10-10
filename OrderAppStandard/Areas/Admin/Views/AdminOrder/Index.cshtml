@@ -1,30 +1,319 @@
 ﻿@using System.Configuration;
 
 @{
-    ViewBag.Title = "Đơn hàng";
+    ViewBag.Title = "Đơn hàng Version 2";
 }
 @section css_header{
     <style>
-        .status-order-new {
-            background-color: #f04e2e;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 15px;
-            display: inline-block;
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
-        .status-order-finish {
-            background-color: #e5e5e5;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 15px;
-            display: inline-block;
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            padding: 20px;
         }
-        .admin-control-left button {
-            width: 40px;
-            border-radius: 5px;
-            height: 40px;
+
+            .order-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .order-info h3 {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin: 0 0 4px 0;
+        }
+
+        .order-info p {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .table-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
+        .table-number {
+            font-weight: bold;
+            color: #dc2626;
+            font-size: 1.125rem;
+        }
+
+        .status-badge {
+            color: white;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-number-red {
+            color: #dc2626;
+        }
+
+        .table-number-black {
+            color: #1f2937;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+        }
+
+        .status-finish {
+            background: linear-gradient(135deg, #787878, #e5e5e5);
+        }
+
+        .status-confirmed {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        .status-preparing {
+            background: linear-gradient(135deg, #f87171, #dc2626);
+        }
+
+        .status-ready {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .time-info {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+        }
+
+        .time-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .progress-step {
+            text-align: center;
+        }
+
+        .progress-circle {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 4px auto;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .step-active-yellow .progress-circle {
+            background-color: #fca5a5;
+        }
+
+        .step-active-yellow .progress-text {
+            color: #ef4444;
+        }
+
+        .step-active-blue .progress-circle {
+            background-color: #dc2626;
+        }
+
+        .step-active-blue .progress-text {
+            color: #b91c1c;
+        }
+
+        .step-active-purple .progress-circle {
+            background-color: #f87171;
+        }
+
+        .step-active-purple .progress-text {
+            color: #dc2626;
+        }
+
+        .step-active-green .progress-circle {
+            background-color: #dc2626;
+        }
+
+        .step-active-green .progress-text {
+            color: #991b1b;
+        }
+
+        .step-inactive {
+            opacity: 0.5;
+        }
+
+            .step-inactive .progress-circle {
+                background-color: #d1d5db;
+                color: #6b7280;
+            }
+
+            .step-inactive .progress-text {
+                color: #6b7280;
+            }
+
+        .detail-button {
+            width: 100%;
+            background-color: #f3f4f6;
+            color: #6b7280;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .detail-button:hover {
+                background-color: #e5e7eb;
+            }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+            .stat-icon svg {
+                width: 24px;
+                height: 24px;
+            }
+
+        .stat-pending .stat-icon {
+            background: linear-gradient(135deg, #fca5a5, #ef4444);
+        }
+
+        .stat-preparing .stat-icon {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 4px 0;
+        }
+
+        .stat-content p {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        @@media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+                .stat-icon svg {
+                    width: 20px;
+                    height: 20px;
+                }
+
+            .stat-content h3 {
+                font-size: 1.5rem;
+            }
+
+            .stat-content p {
+                font-size: 0.8rem;
+            }
         }
     </style>
 }
@@ -37,17 +326,21 @@
     </script>
 }
 <div class="section">
+    <!-- Header -->
+    <div class="text-center mb-8" style="text-align: center; margin-bottom: 20px;">
+        <h1 class="">🍽️ Đơn Đặt Hàng</h1>
+        <p class="">Theo dõi trạng thái đơn hàng của bạn</p>
+    </div>
+
     <div class="admin-control">
         <div class="admin-control-left">
-            <select ng-model="selectedStatusOrder">
-                <option value="">Tất cả trạng thái</option>
-                <option value="true">Hoàn thành</option>
-                <option value="false">Đơn mới</option>
-            </select>
-            <select ng-model="selectedTableId">
-                <option value="">Tất cả bàn</option>
-                <option ng-repeat="item in data.support.tables" value="{{item.tableId}}">{{item.tableName}}</option>
-            </select>
+            <div>
+                <select ng-model="selectedTableId">
+                    <option value="">Tất cả bàn</option>
+                    <option ng-repeat="item in data.support.tables" value="{{item.tableId}}">{{item.tableName}}</option>
+                </select>
+            </div>
+
         </div>
         <div class="admin-control-center">
             <form action="" class="form-search">
@@ -56,6 +349,12 @@
             </form>
         </div>
         <div class="admin-control-right">
+            <button ng-click=""
+                    id="btnEnableNotificationOfOrder"
+                    style="width: 66px "
+                    class="btn-reset-order">
+                <i class="fa-light fa-bells"></i>
+            </button>
             <button ng-click="events.onReloadOrder($event)"
                     style="width: 133px"
                     class="btn-reset-order">
@@ -63,54 +362,100 @@
             </button>
         </div>
     </div>
-    <div class="table">
-        <table width="100%">
-            <thead>
-                <tr>
-                    <td style="text-align:left">Đơn & Bàn đặt</td>
-                    <td style="text-align:left">Trạng thái</td>
-                    @*<td>Trạng thái</td>*@
-                    <td>Ngày đặt</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="item in data.orders
-                    | filter:searchText
-                    | filter:{ isFinish: selectedStatusOrder }
-                    | filter:{ tableId: selectedTableId }">
-                    <td style="text-align:left">
-                        <button class="btn-detail"
-                                ng-bind-html="'<i class=\'fa-light fa-receipt\'></i>&nbsp;' + item.orderId"
-                                ng-click="events.onOpenModelOrder($event, item)">
-                        </button>
-                        <a href="/Admin/AdminTable/TableOfCurrentOrderList?tableId={{item.tableId}}&tableToken={{item.tableToken}}">
-                            {{item.tableName}}
-                        </a>
-                    </td>
-                    <td style="text-align:left">
-                        <div>
-                            <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
-                            <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
+    <!-- Statistics -->
+    <div class="stats-container">
+        <div class="stat-card stat-pending">
+            <div class="stat-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3 ng-bind="methods.countWaitingConfirmOrders(data.orders)"></h3>
+                <p>Đơn chờ xác nhận</p>
+            </div>
+        </div>
 
-                            <span ng-hide="item.isConfirm" class="status-order-new">Chưa xác nhận</span>
-                            <span ng-show="item.isConfirm" class="status-order-finish">Đã xác nhận</span>
-                        </div>
-                        <div style="margin-top:3px">
-                            <span ng-hide="item.isInProcess" class="status-order-new">Chưa sử lý</span>
-                            <span ng-show="item.isInProcess" class="status-order-finish">Đang sử lý</span>
+        <div class="stat-card stat-preparing">
+            <div class="stat-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3 ng-bind="methods.countWaitingPaymentOrders(data.orders)"></h3>
+                <p>Đơn chờ thanh toán</p>
+            </div>
+        </div>
+    </div>
+    <!-- Orders List -->
+    <div class="orders-grid">
+        <!-- Order 1 -->
+        <div ng-repeat="item in data.orders | filter: searchText | filter:{ tableId: selectedTableId }" class="order-card">
+            <div class="order-header">
+                <div class="order-info">
+                    <h3 ng-bind="'#' + item.orderId"></h3>
+                    <a href="/Admin/AdminTable/TableOfCurrentOrderList?tableId={{item.tableId}}&tableToken={{item.tableToken}}"
+                       ng-click="events.onLinkClick($event)">
+                        <p style="display:inline">
+                            <svg class="table-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            <span ng-class="item.isFinish ? 'table-number-black' : 'table-number-red'"
+                                  class="table-number" ng-bind="item.tableName"></span>
+                        </p>
+                    </a>
+                </div>
+                <div ng-bind-html="methods.getOrderStatus(item)"
+                     ng-class="item.isFinish ? 'status-finish' : 'status-pending'"
+                     class="status-badge">
+                </div>
+            </div>
 
-                            <span ng-hide="item.isDelivered" class="status-order-new">Chưa giao</span>
-                            <span ng-show="item.isDelivered" class="status-order-finish">Đã giao</span>
-                        </div>
-                    </td>
-                    @*<td>
-                        <span ng-show="item.isFinish" class="status-order-finish">Hoàn thành</span>
-                        <span ng-hide="item.isFinish" class="status-order-new">Đơn mới</span>
-                    </td>*@
-                    <td ng-bind="item.orderDate | formatDateTime"></td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="time-info">
+                <svg class="time-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span ng-bind="'Đặt vào lúc ' + methods.getHourMinute(item.orderDate)"></span>
+            </div>
+
+            <!-- Status Progress -->
+            <div class="progress-grid">
+                <div ng-class="item.isConfirm ? 'step-inactive' : 'step-active-green'"
+                     class="progress-step">
+                    <div ng-bind="item.isConfirm ? '✓' : '1'"
+                         class="progress-circle">1</div>
+                    <p ng-bind="item.isConfirm ? 'Đã xác nhận' : 'Chờ xác nhận'"
+                       class="progress-text"></p>
+                </div>
+                <div ng-class="item.isInProcess ? 'step-inactive' : 'step-active-green'"
+                     class="progress-step">
+                    <div ng-bind="item.isInProcess ? '✓' : '2'"
+                         class="progress-circle">2</div>
+                    <p ng-bind="item.isInProcess ? 'Đang sử lý' : 'Chờ sử lý'"
+                       class="progress-text"></p>
+                </div>
+                <div ng-class="item.isDelivered ? 'step-inactive' : 'step-active-green'"
+                     class="progress-step">
+                    <div ng-bind="item.isDelivered ? '✓' : '3'"
+                         class="progress-circle">3</div>
+                    <p ng-bind="item.isDelivered ? 'Đã giao' : 'Chờ giao'"
+                       class="progress-text"></p>
+                </div>
+                <div ng-class="item.isFinish ? 'step-inactive' : 'step-active-green'"
+                     class="progress-step">
+                    <div ng-bind="item.isFinish ? '✓' : '4'"
+                         class="progress-circle">4</div>
+                    <p ng-bind="item.isFinish ? 'Thanh toán' : 'Chờ thanh toán'"
+                       class="progress-text"></p>
+                </div>
+            </div>
+
+            <button ng-click="events.onOpenModelOrder($event, item)"
+                    class="detail-button">
+                Xem chi tiết
+            </button>
+        </div>
     </div>
 </div>
 <div class="modal detail-order">
@@ -124,12 +469,17 @@
                         <div class="order-product-left">
                             <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
                             <div class="order-product-info">
-                                <h4 ng-bind="item.productName"></h4>
-                                <p ng-show="item.orderDetailNote != null" 
-                                   ng-bind="item.orderDetailNote" 
+                                <h4>
+                                    <input type="checkbox"
+                                           ng-click="events.onDeliveredOrderDetail($index, item, $event)"
+                                           ng-model="item.isDelivered" />
+                                    <span ng-bind="item.productName"></span>
+                                </h4>
+                                <p ng-show="item.orderDetailNote != null"
+                                   ng-bind="item.orderDetailNote"
                                    class="order-product-note">
                                 </p>
-                                <p ng-show="item.orderDetailNote == null" 
+                                <p ng-show="item.orderDetailNote == null"
                                    class="order-product-note">
                                     <i class="fa-light fa-pen"></i> Không có ghi chú
                                 </p>
@@ -155,6 +505,10 @@
             <div class="modal-detail-right">
                 <ul class="detail-order-group">
                     <li class="detail-order-item">
+                        <span class="detail-order-item-left"><i class="fa-light fa-bowl-food"></i> Tổng món</span>
+                        <span ng-bind="data.order.orderDetails.length + ' món'" class="detail-order-item-right"></span>
+                    </li>
+                    <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-table-picnic"></i> Bàn đặt</span>
                         <span @*ng-bind="data.order.tableName"*@ class="detail-order-item-right">
                             {{data.order.tableName}}
@@ -162,11 +516,11 @@
                                 <i class="fa-light fa-utensils"></i>
                             </a>
                         </span>
-                        
+
                     </li>
                     <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-code"></i> Mã đơn</span>
-                        <span ng-bind="data.order.orderId" class="detail-order-item-right"></span>
+                        <span ng-bind="'#' + data.order.orderId" class="detail-order-item-right"></span>
                     </li>
                     <li class="detail-order-item">
                         <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt</span>
@@ -231,7 +585,7 @@
             $scope.events = {
                 onOpenModelOrder: async function ($event, order) {
                     const button = $event.currentTarget;
-                    shareData.loadButton.loading(button, false);
+                    shareData.loadButton.loading(button, true);
 
                     $scope.data.order = order;
                     $scope.data.order.orderDetails = await $scope.methods.getOrderDetails(order.orderId);
@@ -242,6 +596,9 @@
                     //console.log('$scope.data.order', $scope.data.order);
                 },
                 onRemoveOrderDetail: async function (index, orderDetail, $event) {
+                    if (!confirm('Nếu bạn muốn xóa món này!\nNhấn OK hoặc Cancel để trở lại.')) {
+                        return;
+                    }
                     const button = $event.currentTarget;
                     shareData.loadButton.loading(button, false);
 
@@ -318,6 +675,29 @@
                     shareData.loadButton.loading(button, false);
 
                     $scope.methods.loadInit(button)
+                },
+                onDeliveredOrderDetail: async function (index, orderDetail, $event) {
+                    const checkbox = $event.currentTarget;
+                    checkbox.disabled = true;
+                    const oldValue = orderDetail.isDelivered;
+                    const newValue = !oldValue;
+
+                    let result = false;
+                    result = await $scope.methods.deliveredOrderDetail(orderDetail.orderDetailId);
+                    if (result) {
+                        $scope.data.order.orderDetails[index].isDelivered = newValue;
+                    }
+                    else {
+                        $scope.data.order.orderDetails[index].isDelivered = oldValue;
+                    }
+                    $scope.$apply();
+                    checkbox.disabled = false;
+                },
+                onLinkClick: function ($event) {
+                    $event.preventDefault();
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+                    window.location.href = $event.currentTarget.href;
                 }
             };
             $scope.methods = {
@@ -327,7 +707,7 @@
                         method: "Get"
                     })
                         .then(function (response) {
-                            console.log('data', response.data);
+                            //console.log('data', response.data);
                             $scope.data.orders = response.data.orders;
                             $scope.data.support.tables = response.data.tables;
                         })
@@ -336,6 +716,7 @@
                             console.error('catch error', response);
                         })
                         .finally(function () {
+                            document.getElementById('pageLoader').style.display = 'none';
                             if (button != null) {
                                 shareData.loadButton.loaded(button);
                             }
@@ -373,62 +754,62 @@
                         url: '/api/admin/order/get-order-details?orderId=' + orderId,
                         method: "Get"
                     })
-                    .then(function (response) {
-                        return response.data.orderDetails;
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
-                        
-                    });
+                        .then(function (response) {
+                            return response.data.orderDetails;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
                 },
                 removeOrderDetail: async function (orderDetailId) {
                     return await $http({
                         url: '/api/admin/order/remove-order-detail?orderDetailId=' + orderDetailId,
                         method: "Post"
                     })
-                    .then(function (response) {
-                        if (response.data.success == true) {
-                            return true;
-                        }
-                        else {
-                            shareData.notification.fail(response.data.messageForUser)
-                            console.error('response error', response)
-                        }
-                        return false;
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
 
-                    });
+                        });
                 },
                 changeStatusToFinish: async function (orderId) {
                     return await $http({
                         url: '/api/admin/order/change-status-to-finish?orderId=' + orderId,
                         method: "Post"
                     })
-                    .then(function (response) {
-                        if (response.data.success == true) {
-                            return true;
-                        }
-                        else {
-                            shareData.notification.fail(response.data.messageForUser)
-                            console.error('response error', response)
-                        }
-                        return false;
-                    })
-                    .catch(function (response) {
-                        shareData.notification.exception();
-                        console.error('catch error', response);
-                    })
-                    .finally(function () {
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
 
-                    });
+                        });
                 },
                 orderConfirm: async function (orderId) {
                     return await $http({
@@ -530,7 +911,55 @@
                         }
                     }
                     return total;
-                }
+                },
+                getHourMinute: function (date) {
+                    if (!(date instanceof Date)) {
+                        date = new Date(date); // ép nếu là chuỗi hoặc timestamp
+                    }
+                    let hours = date.getHours().toString().padStart(2, '0');
+                    let minutes = date.getMinutes().toString().padStart(2, '0');
+                    return `${hours}:${minutes}`;
+                },
+                getOrderStatus: function (order) {
+                    if (order.isFinish) return "✓ Hoàn tất đơn";
+                    if (order.isDelivered) return "<div class=\'status-dot\'></div> Đã giao";
+                    if (order.isInProcess) return "<div class=\'status-dot\'></div> Đang chuẩn bị";
+                    if (order.isConfirm) return "<div class=\'status-dot\'></div> Đã xác nhận";
+                    return "<div class=\'status-dot\'></div> Chờ xác nhận";
+                },
+                // Đếm số đơn chờ xác nhận
+                countWaitingConfirmOrders: function (orders) {
+                    if (!orders || !orders.length) return 0;
+                    return orders.filter(order => !order.isConfirm).length;
+                },
+                // Đếm số đơn chờ thanh toán
+                countWaitingPaymentOrders: function (orders) {
+                    if (!orders || !orders.length) return 0;
+                    return orders.filter(order => order.isConfirm && !order.isFinish).length;
+                },
+                deliveredOrderDetail: async function (orderDetailId) {
+                    return await $http({
+                        url: '/api/admin/order/delivered-order-detail?orderDetailId=' + orderDetailId,
+                        method: "Post"
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+                                return true;
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                            return false;
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+
+                        });
+                },
             };
             $scope.init();
         });

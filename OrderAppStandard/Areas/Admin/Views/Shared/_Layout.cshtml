@@ -111,10 +111,11 @@
                 </div>
             </button>
         </header>
-        <div class="container">
-            <aside class="sidebar open">
+        <div  class="container">
+            <aside ng-controller="headerCtrl" class="sidebar open">
                 <div class="top-sidebar">
-                    <a href="@Url.Action("Index","AdminHome", new {area = "Admin"})" class="channel-logo"><img src="~/assets/img/favicon.png" alt="Channel Logo"></a>
+                    <a href="@Url.Action("Index","AdminHome", new {area = "Admin"})"
+                       class="channel-logo"><img src="~/assets/img/favicon.png" alt="Channel Logo"></a>
                     <div class="hidden-sidebar your-channel">
                         <img src="/assets/img/admin/vy-food-title.png"
                              style="height: 30px;" alt="">
@@ -123,31 +124,41 @@
                 <div class="middle-sidebar">
                     <ul class="sidebar-list">
                         <li class="sidebar-list-item tab-content @(currentController == "AdminHome" ? "active" : "")">
-                            <a href="@Url.Action("Index", "AdminHome", new {area = "Admin"})" class="sidebar-link">
+                            <a href="@Url.Action("Index", "AdminHome", new {area = "Admin"})" 
+                               ng-click="events.onLinkClick($event)"
+                               class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-house"></i></div>
                                 <div class="hidden-sidebar">Tổng quan</div>
                             </a>
                         </li>
                         <li class="sidebar-list-item tab-content @(currentController == "AdminOrder" ? "active" : "")">
-                            <a href="@Url.Action("IndexV2", "AdminOrder", new {area = "Admin"})" class="sidebar-link">
+                            <a href="@Url.Action("Index", "AdminOrder", new {area = "Admin"})"
+                               ng-click="events.onLinkClick($event)"
+                               class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-basket-shopping"></i></div>
                                 <div class="hidden-sidebar">Đơn hàng</div>
                             </a>
                         </li>
                         <li class="sidebar-list-item tab-content @(currentController == "AdminTable" ? "active" : "")">
-                            <a href="@Url.Action("Index", "AdminTable", new {area = "Admin"})" class="sidebar-link">
+                            <a href="@Url.Action("Index", "AdminTable", new {area = "Admin"})"
+                               ng-click="events.onLinkClick($event)"
+                               class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-table-picnic"></i></div>
                                 <div class="hidden-sidebar">Các bàn</div>
                             </a>
                         </li>
                         <li class="sidebar-list-item tab-content @(currentController == "AdminProduct" ? "active" : "")">
-                            <a href="@Url.Action("Index", "AdminProduct", new {area = "Admin"})" class="sidebar-link">
+                            <a href="@Url.Action("Index", "AdminProduct", new {area = "Admin"})"
+                               ng-click="events.onLinkClick($event)"
+                               class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-pot-food"></i></div>
                                 <div class="hidden-sidebar">Sản phẩm</div>
                             </a>
                         </li>
                         <li class="sidebar-list-item tab-content @(currentController == "AdminCategory" ? "active" : "")">
-                            <a href="@Url.Action("Index", "AdminCategory", new {area = "Admin"})" class="sidebar-link">
+                            <a href="@Url.Action("Index", "AdminCategory", new {area = "Admin"})"
+                               ng-click="events.onLinkClick($event)"
+                               class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-layer-group"></i></div>
                                 <div class="hidden-sidebar">Các Loại SP</div>
                             </a>
@@ -155,25 +166,33 @@
                         @if (User.IsInRole("admin"))
                         {
                             <li class="sidebar-list-item tab-content @(currentController == "AdminAccount" ? "active" : "")">
-                                <a href="@Url.Action("Index", "AdminAccount", new {area = "Admin"})" class="sidebar-link">
+                                <a href="@Url.Action("Index", "AdminAccount", new {area = "Admin"})"
+                                   ng-click="events.onLinkClick($event)"
+                                   class="sidebar-link">
                                     <div class="sidebar-icon"><i class="fa-light fa-users"></i></div>
                                     <div class="hidden-sidebar">Tài khoản</div>
                                 </a>
                             </li>
                             <li class="sidebar-list-item tab-content @(currentController == "AdminReport" && currentAction == "OrderReport" ? "active" : "")">
-                                <a href="@Url.Action("OrderReport", "AdminReport", new {area = "Admin"})" class="sidebar-link">
+                                <a href="@Url.Action("OrderReport", "AdminReport", new {area = "Admin"})"
+                                   ng-click="events.onLinkClick($event)"
+                                   class="sidebar-link">
                                     <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
                                     <div class="hidden-sidebar">Thống kê đơn</div>
                                 </a>
                             </li>
                             <li class="sidebar-list-item tab-content @(currentController == "AdminReport" && currentAction == "ProductReport"  ? "active" : "")">
-                                <a href="@Url.Action("ProductReport", "AdminReport", new {area = "Admin"})" class="sidebar-link">
+                                <a href="@Url.Action("ProductReport", "AdminReport", new {area = "Admin"})"
+                                   ng-click="events.onLinkClick($event)"
+                                   class="sidebar-link">
                                     <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
                                     <div class="hidden-sidebar">Thống kê sản phẩm</div>
                                 </a>
                             </li>
                             <li class="sidebar-list-item tab-content @(currentController == "AdminReport" && currentAction == "DayOfWeekReport"  ? "active" : "")">
-                                <a href="@Url.Action("DayOfWeekReport", "AdminReport", new {area = "Admin"})" class="sidebar-link">
+                                <a href="@Url.Action("DayOfWeekReport", "AdminReport", new {area = "Admin"})"
+                                   ng-click="events.onLinkClick($event)"
+                                   class="sidebar-link">
                                     <div class="sidebar-icon"><i class="fa-light fa-chart-simple"></i></div>
                                     <div class="hidden-sidebar">TK ngày trong tuần</div>
                                 </a>
@@ -184,7 +203,7 @@
                 <div class="bottom-sidebar">
                     <ul class="sidebar-list">
                         <li class="sidebar-list-item user-logout">
-                            <a href="/" class="sidebar-link">
+                            <a href="/" ng-click="events.onLinkClick($event)" class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-thin fa-circle-chevron-left"></i></div>
                                 <div class="hidden-sidebar">Trang chủ</div>
                             </a>
@@ -204,7 +223,7 @@
                             @using (Html.BeginForm("LogOff", "AccountManage", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "" }))
                             {
                                 @Html.AntiForgeryToken()
-                                <a class="sidebar-link" @*id="logout-acc"*@ href="javascript:document.getElementById('logoutForm').submit()">
+                                <a class="sidebar-link" ng-click="events.onLinkClick($event)" @*id="logout-acc"*@ href="javascript:document.getElementById('logoutForm').submit()">
                                     <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
                                     <div class="hidden-sidebar">Đăng xuất</div>
                                 </a>
@@ -249,6 +268,31 @@
     <script src="/assets/js/toast-message.js"></script>
     <script>
         const app = angular.module("appAdmin", ['ngSanitize', 'ngAnimate']);
+    </script>
+    <script>
+        app.controller("headerCtrl", function ($scope, $http) {
+            $scope.data = {
+                support: {
+
+                }
+            };
+            $scope.init = function () {
+
+            };
+            $scope.events = {
+                onLinkClick: function ($event) {
+                    $event.preventDefault();
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+                    window.location.href = $event.currentTarget.href;
+                }
+            }
+            $scope.methods = {
+                
+            };
+
+            $scope.init();
+        });
     </script>
     @RenderSection("scripts_footer", required: false)
     <script>
