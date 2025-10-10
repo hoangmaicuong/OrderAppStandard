@@ -113,10 +113,16 @@ function detailProduct(index) {
 }
 
 function animationCart() {
-    document.querySelector(".count-product-cart").style.animation = "slidein ease 1s"
-    setTimeout(()=>{
-        document.querySelector(".count-product-cart").style.animation = "none"
-    },1000)
+    //mới
+    const el = document.querySelector(".count-product-cart");
+    el.style.animation = "none"; // reset animation
+    void el.offsetWidth; // trigger reflow
+    el.style.animation = "slidein ease 1s"; // start animation lại
+    // củ
+    //document.querySelector(".count-product-cart").style.animation = "slidein ease 1s"
+    //setTimeout(()=>{
+    //    document.querySelector(".count-product-cart").style.animation = "none"
+    //},1000)
 }
 
 // Them SP vao gio hang
