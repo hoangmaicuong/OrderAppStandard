@@ -14,16 +14,17 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
     [RoutePrefix("api/admin/order")]
     public class AdminOrderApiController : ApiController
     {
+        private readonly OrderAppEntities db;
         private AdminOrderService services;
-        private OrderAppEntities db;
         private string userId = null;
         private int companyId = 0;
         private AdminOrderApiController()
         {
-            userId = User.Identity.GetUserId();
-            companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
             db = new OrderAppEntities();
             services = new AdminOrderService(db);
+
+            userId = User.Identity.GetUserId();
+            companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }
         [HttpGet]
         [Route("get-all")]
