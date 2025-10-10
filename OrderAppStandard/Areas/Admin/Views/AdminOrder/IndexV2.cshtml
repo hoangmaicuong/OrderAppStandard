@@ -689,20 +689,21 @@
                         url: '/api/admin/order/get-all',
                         method: "Get"
                     })
-                        .then(function (response) {
-                            //console.log('data', response.data);
-                            $scope.data.orders = response.data.orders;
-                            $scope.data.support.tables = response.data.tables;
-                        })
-                        .catch(function (response) {
-                            shareData.notification.exception();
-                            console.error('catch error', response);
-                        })
-                        .finally(function () {
-                            if (button != null) {
-                                shareData.loadButton.loaded(button);
-                            }
-                        });
+                    .then(function (response) {
+                        //console.log('data', response.data);
+                        $scope.data.orders = response.data.orders;
+                        $scope.data.support.tables = response.data.tables;
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        document.getElementById('pageLoader').style.display = 'none';
+                        if (button != null) {
+                            shareData.loadButton.loaded(button);
+                        }
+                    });
                 },
                 update: function (data, button) {
 

@@ -235,7 +235,8 @@
                         shareData.notification.exception();
                         console.error('catch error', response);
                     })
-                    .finally(function () {
+                        .finally(function () {
+                            document.getElementById('pageLoader').style.display = 'none';
                         if (button != null) {
                             shareData.loadButton.loaded(button);
                         }

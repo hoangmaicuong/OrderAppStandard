@@ -109,6 +109,7 @@
                 const today = new Date();
                 $scope.data.filter.startDate = today;
                 $scope.data.filter.endDate = today;
+                document.getElementById('pageLoader').style.display = 'none';
             };
 
             $scope.events = {

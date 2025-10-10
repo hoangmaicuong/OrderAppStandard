@@ -28,6 +28,19 @@
     @RenderSection("css_header", required: false)
     @RenderSection("scripts_header", required: false)
     <style>
+        #pageLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5); /* màu nền trong suốt */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: var(--red)
+        }
         /*angularjs animate*/
         /*ng-repeat*/
         .ng-enter {
@@ -86,6 +99,10 @@
 </head>
 
 <body>
+    <!-- Overlay -->
+    <div id="pageLoader">
+        <i class="fa-solid fa-loader fa-spin fa-spin-reverse fa-3x"></i>
+    </div>
     <div ng-app="appAdmin">
         <header class="header">
             <button class="menu-icon-btn">
