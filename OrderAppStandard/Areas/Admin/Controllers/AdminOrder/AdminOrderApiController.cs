@@ -36,43 +36,118 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         [Route("get-order-details")]
         public IHttpActionResult GetOrderDetails(int orderId)
         {
-            return Ok(services.GetOrderDetails(orderId));
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if(order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if(order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.GetOrderDetails(order));
         }
         [HttpPost]
         [Route("remove-order-detail")]
         public IHttpActionResult RemoveOrderDetail(int orderDetailId)
         {
-            return Ok(services.RemoveOrderDetail(orderDetailId));
+            var orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
+            if (orderDetail == null)
+            {
+                return NotFound();
+            }
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderDetail.OrderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.RemoveOrderDetail(orderDetail));
         }
         [HttpPost]
         [Route("change-status-to-finish")]
         public IHttpActionResult ChangeStatusToFinish(int orderId)
         {
-            return Ok(services.ChangeStatusToFinish(orderId));
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.ChangeStatusToFinish(order));
         }
         [HttpPost]
         [Route("order-confirm")]
         public IHttpActionResult OrderConfirm(int orderId)
         {
-            return Ok(services.OrderConfirm(orderId));
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.OrderConfirm(order));
         }
         [HttpPost]
         [Route("order-in-process")]
         public IHttpActionResult OrderInProcess(int orderId)
         {
-            return Ok(services.OrderInProcess(orderId));
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.OrderInProcess(order));
         }
         [HttpPost]
         [Route("order-delivered")]
         public IHttpActionResult OrderDelivered(int orderId)
         {
-            return Ok(services.OrderDelivered(orderId));
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.OrderDelivered(order));
         }
         [HttpPost]
         [Route("restore-order")]
         public IHttpActionResult RestoreOrder(int orderId)
         {
-            return Ok(services.RestoreOrder(orderId));
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                return Unauthorized();
+            }
+            return Ok(services.RestoreOrder(order));
         }
         [HttpPost]
         [Route("delivered-order-detail")]

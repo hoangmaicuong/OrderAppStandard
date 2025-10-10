@@ -53,7 +53,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 }
             }
         }
-        public DataSet GetOrderDetails(int orderId)
+        public DataSet GetOrderDetails(Order order)
         {
             using (var connec = dapperContext.CreateConnection())
             {
@@ -68,7 +68,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                         {
                             ParameterName = "@id",
                             SqlDbType = SqlDbType.Int,
-                            Value = orderId
+                            Value = order.OrderId
                         });
                         using (var adapter = new SqlDataAdapter(cmd))
                         {
@@ -86,17 +86,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 }
             }
         }
-        public Support.ResponsesAPI RemoveOrderDetail(int orderDetailId)
+        public Support.ResponsesAPI RemoveOrderDetail(OrderDetail _orderDetail)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            OrderDetail orderDetail = new OrderDetail();
+            OrderDetail orderDetail = _orderDetail;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
             if (orderDetail == null)
             {
                 result.success = false;
@@ -149,17 +148,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI ChangeStatusToFinish(int orderId)
+        public Support.ResponsesAPI ChangeStatusToFinish(Order _order)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            Order order = new Order();
+            Order order = _order;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
                 result.success = false;
@@ -199,17 +197,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI OrderConfirm(int orderId)
+        public Support.ResponsesAPI OrderConfirm(Order _order)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            Order order = new Order();
+            Order order = _order;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
                 result.success = false;
@@ -249,17 +246,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI OrderInProcess(int orderId)
+        public Support.ResponsesAPI OrderInProcess(Order _order)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            Order order = new Order();
+            Order order = _order;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
                 result.success = false;
@@ -299,17 +295,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI OrderDelivered(int orderId)
+        public Support.ResponsesAPI OrderDelivered(Order _order)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            Order order = new Order();
+            Order order = _order;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
                 result.success = false;
@@ -349,17 +344,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI RestoreOrder(int orderId)
+        public Support.ResponsesAPI RestoreOrder(Order _order)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            Order order = new Order();
+            Order order = _order;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
                 result.success = false;
