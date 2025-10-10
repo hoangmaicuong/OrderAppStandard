@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web;
-using OrderApp.Areas.Admin.Controllers.AdminSample;
 using System.IO;
 using static System.Net.WebRequestMethods;
 
