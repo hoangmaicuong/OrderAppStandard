@@ -242,10 +242,6 @@
     <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportDto.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminReport\AdminReportService.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleApiController.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleController.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleDto.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdminSample\AdminSampleService.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminTable\AdminTableDto.cs" />
@@ -1415,10 +1411,6 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminSample\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminSample\Detail.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminSample\SinglePageList.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminSample\SinglePage.cshtml" />
     <Content Include="assets\font\font-awesome-pro-v6-6.2.0\.github\pull_request_template.md" />
     <Content Include="assets\font\font-awesome-pro-v6-6.2.0\CODE_OF_CONDUCT.md" />
     <Content Include="assets\font\font-awesome-pro-v6-6.2.0\README.md" />
