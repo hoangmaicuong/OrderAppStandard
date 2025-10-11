@@ -222,14 +222,20 @@
                     })
                     .then(function (response) {
                         //console.log('data', response.data);
-                        let orders = response.data.orders.map(function (order) {
-                            return {
-                                ...order,
-                                orderDetails: response.data.orderDetails.filter(d => d.orderId === order.orderId)
-                            };
-                        });
+                        if (response.data.success == true) {
+                            let orders = response.data.objectResponses.orders.map(function (order) {
+                                return {
+                                    ...order,
+                                    orderDetails: response.data.objectResponses.orderDetails.filter(d => d.orderId === order.orderId)
+                                };
+                            });
 
-                        $scope.data.orders = orders;
+                            $scope.data.orders = orders;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
                     })
                     .catch(function (response) {
                         shareData.notification.exception();

@@ -300,5 +300,49 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
                 }
             }
         }
+        public async Task<Support.ResponsesAPI> GetOrderOfTableAsync(int tableId, Guid tableToken)
+        {
+            var result = new Support.ResponsesAPI();
+
+            try
+            {
+                using (var connec = dapperContext.CreateConnection())
+                {
+                    await connec.OpenAsync();
+                    using (var multi = await connec.QueryMultipleAsync(
+                        "AdminTableModuleGetOrderOfTable",
+                        new { tableId, tableToken },
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var orders = (await multi.ReadAsync<dynamic>()).ToList();
+                        var orderDetails = (await multi.ReadAsync<dynamic>()).ToList();
+
+                        return new Support.ResponsesAPI()
+                        {
+                            success = true,
+                            objectResponses = new
+                            {
+                                orders, orderDetails
+                            }
+                        };
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Lỗi SQL
+                result.success = false;
+                result.messageForUser = "Lỗi cơ sở dữ liệu.";
+                result.messageForDev = sqlEx.Message;
+            }
+            catch (Exception ex)
+            {
+                // Lỗi khác
+                result.success = false;
+                result.messageForUser = "Đã xảy ra lỗi.";
+                result.messageForDev = ex.Message;
+            }
+            return result;
+        }
     }
 }

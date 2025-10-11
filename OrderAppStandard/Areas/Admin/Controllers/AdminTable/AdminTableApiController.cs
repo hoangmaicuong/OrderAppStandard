@@ -84,11 +84,17 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
             }
             return Ok(services.CreateNewToken(tableId));
         }
+        //[HttpGet]
+        //[Route("get-order-of-table")]
+        //public IHttpActionResult GetOrderOfTable(int tableId, Guid tableToken)
+        //{
+        //    return Ok(services.GetOrderOfTable(tableId, tableToken));
+        //}
         [HttpGet]
         [Route("get-order-of-table")]
-        public IHttpActionResult GetOrderOfTable(int tableId, Guid tableToken)
+        public async Task<IHttpActionResult> GetOrderOfTableAsync(int tableId, Guid tableToken)
         {
-            return Ok(services.GetOrderOfTable(tableId, tableToken));
+            return Ok(await services.GetOrderOfTableAsync(tableId, tableToken));
         }
     }
 }
