@@ -12,9 +12,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
 {
     public class AdminCategoryService
     {
-        private OrderAppEntities db = new OrderAppEntities();
+        private OrderAppEntities db;
         private DapperContext dapperContext = new DapperContext();
-        string imagePath = ConfigurationManager.AppSettings["ProductImageUploadPath"];
+        public AdminCategoryService(OrderAppEntities _db)
+        {
+            db = _db;
+        }
         public DataSet GetAll(int companyId)
         {
             using (var connec = dapperContext.CreateConnection())

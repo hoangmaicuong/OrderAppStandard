@@ -14,12 +14,15 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
     [RoutePrefix("api/admin/account")]
     public class AdminAccountApiController : ApiController
     {
-        private AdminAccountService services = new AdminAccountService();
-        private OrderAppEntities db = new OrderAppEntities();
+        private AdminAccountService services;
+        private OrderAppEntities db;
         private string userId = null;
         private int companyId = 0;
         private AdminAccountApiController()
         {
+            db = new OrderAppEntities();
+            services = new AdminAccountService(db);
+
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }

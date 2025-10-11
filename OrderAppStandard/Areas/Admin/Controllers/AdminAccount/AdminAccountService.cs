@@ -16,12 +16,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
 {
     public class AdminAccountService
     {
-        private OrderAppEntities db = new OrderAppEntities();
+        private OrderAppEntities db;
         private DapperContext dapperContext = new DapperContext();
-        string imagePath = ConfigurationManager.AppSettings["ProductImageUploadPath"];
         private ApplicationUserManager UserManager;
-        public AdminAccountService()
+        public AdminAccountService(OrderAppEntities _db)
         {
+            db = _db;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
         public DataSet GetAll(int companyId)

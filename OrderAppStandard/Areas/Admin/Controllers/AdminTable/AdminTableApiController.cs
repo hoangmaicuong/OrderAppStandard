@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using OrderApp.Areas.Admin.Controllers.AdminOrder;
 using OrderApp.Areas.Admin.Controllers.AdminProduct;
 using OrderApp.DataFactory;
 using System;
@@ -15,12 +16,15 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
     [RoutePrefix("api/admin/table")]
     public class AdminTableApiController : ApiController
     {
-        private AdminTableService services = new AdminTableService();
-        private OrderAppEntities db = new OrderAppEntities();
+        private AdminTableService services;
+        private OrderAppEntities db;
         private string userId = null;
         private int companyId = 0;
         private AdminTableApiController()
         {
+            db = new OrderAppEntities();
+            services = new AdminTableService(db);
+
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using OrderApp.Areas.Admin.Controllers.AdminOrder;
 using OrderApp.Areas.Admin.Controllers.AdminTable;
 using OrderApp.DataFactory;
 using System;
@@ -14,12 +15,15 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
     [RoutePrefix("api/admin/category")]
     public class AdminCategoryApiController : ApiController
     {
-        private AdminCategoryService services = new AdminCategoryService();
-        private OrderAppEntities db = new OrderAppEntities();
+        private AdminCategoryService services;
+        private OrderAppEntities db;
         private string userId = null;
         private int companyId = 0;
         private AdminCategoryApiController()
         {
+            db = new OrderAppEntities();
+            services = new AdminCategoryService(db);
+
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }
