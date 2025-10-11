@@ -1,11 +1,13 @@
-﻿using OrderApp.Areas.Admin.Controllers.AdminProduct;
+﻿using Dapper;
+using OrderApp.Areas.Admin.Controllers.AdminProduct;
 using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminTable
@@ -51,6 +53,49 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
                     throw;
                 }
             }
+        }
+        public async Task<Support.ResponsesAPI> GetAllAsync(int companyId)
+        {
+            var result = new Support.ResponsesAPI();
+
+            try
+            {
+                using (var connec = dapperContext.CreateConnection())
+                {
+                    await connec.OpenAsync();
+                    using (var multi = await connec.QueryMultipleAsync(
+                        "AdminTableModuleGetAll",
+                        new { companyId },
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var tables = (await multi.ReadAsync<dynamic>()).ToList();
+
+                        return new Support.ResponsesAPI()
+                        {
+                            success = true,
+                            objectResponses = new
+                            {
+                                tables
+                            }
+                        };
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Lỗi SQL
+                result.success = false;
+                result.messageForUser = "Lỗi cơ sở dữ liệu.";
+                result.messageForDev = sqlEx.Message;
+            }
+            catch (Exception ex)
+            {
+                // Lỗi khác
+                result.success = false;
+                result.messageForUser = "Đã xảy ra lỗi.";
+                result.messageForDev = ex.Message;
+            }
+            return result;
         }
         public Support.ResponsesAPI Create(int companyId, AdminTableDto.UpdateDto dto)
         {

@@ -73,9 +73,8 @@
                         <a href="/{{data.support.companySlug}}?tableId={{item.tableId}}&tableToken={{item.tableToken}}" class="btn-edit" target="_blank">
                             <i class="fa-light fa-utensils"></i> @*{{item.tableId}}*@
                         </a>&nbsp;
-                        <a href="/Admin/AdminTable/TableOfCurrentOrderList?tableId={{item.tableId}}&tableToken={{item.tableToken}}">
-                            {{item.tableName}}
-                        </a>
+                        <a href="/Admin/AdminTable/TableOfCurrentOrderList?tableId={{item.tableId}}&tableToken={{item.tableToken}}"
+                           ng-bind="item.tableName"></a>
                     </td>
                     <td>
                         <span ng-show="item.isOpen" class="status-open">Đang mở</span>
@@ -221,8 +220,13 @@
                     })
                     .then(function (response) {
                         //console.log('data', response.data);
-
-                        $scope.data.tables = response.data.tables;
+                        if (response.data.success == true) {
+                            $scope.data.tables = response.data.objectResponses.tables;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
                     })
                     .catch(function (response) {
                         shareData.notification.exception();

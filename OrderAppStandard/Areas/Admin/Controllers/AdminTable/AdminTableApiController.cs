@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.UI.WebControls;
 
@@ -30,9 +31,10 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
         }
         [HttpGet]
         [Route("get-all")]
-        public IHttpActionResult GetAll()
+        public async Task<IHttpActionResult> GetAllAsync()
         {
-            return Ok(services.GetAll(companyId));
+            var result = await services.GetAllAsync(companyId);
+            return Ok(result);
         }
         [HttpPost]
         [Route("update")]
