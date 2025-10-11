@@ -566,25 +566,30 @@
                         url: `/api/home/get-order-of-table?tableId=${tableId}&tableToken=${tableToken}`,
                         method: "Get"
                     })
-                        .then(function (response) {
-                            //console.log('response', response);
-                            let orders = response.data.orders.map(function (order) {
+                    .then(function (response) {
+                        //console.log('response', response);
+                        if (response.data.success == true) {
+                            let orders = response.data.objectResponses.orders.map(function (order) {
                                 return {
                                     ...order,
-                                    orderDetails: response.data.orderDetails.filter(d => d.orderId === order.orderId)
+                                    orderDetails: response.data.objectResponses.orderDetails.filter(d => d.orderId === order.orderId)
                                 };
                             });
 
                             $scope.data.orders = orders;
-                            //console.log('orders', orders);
-                        })
-                        .catch(function (response) {
-                            shareData.notification.exception();
-                            console.error('catch error', response);
-                        })
-                        .finally(function () {
-                            liTag.innerHTML = liTagHtmlRoot;
-                        });
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        liTag.innerHTML = liTagHtmlRoot;
+                    });
                 },
                 calculateOrderTotal: function (order) {
                     if (!order || !order.orderDetails) return 0;
