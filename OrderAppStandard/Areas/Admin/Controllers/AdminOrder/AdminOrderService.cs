@@ -1,12 +1,14 @@
-﻿using OrderApp.DataFactory;
+﻿using Dapper;
+using OrderApp.Areas.Admin.Controllers.AdminTable;
+using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
-using OrderApp.Areas.Admin.Controllers.AdminTable;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminOrder
 {
@@ -18,6 +20,51 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         public AdminOrderService(OrderAppEntities _db)
         {
             db = _db;
+        }
+        public async Task<Support.ResponsesAPI> GetAllAsync(int companyId)
+        {
+            var result = new Support.ResponsesAPI();
+
+            try
+            {
+                using (var connec = dapperContext.CreateConnection())
+                {
+                    await connec.OpenAsync();
+                    using (var multi = await connec.QueryMultipleAsync(
+                        "AdminOrderModuleGetAll",
+                        new { companyId },
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var orders = (await multi.ReadAsync<dynamic>()).ToList();
+                        var tables = (await multi.ReadAsync<dynamic>()).ToList();
+
+                        return new Support.ResponsesAPI()
+                        {
+                            success = true,
+                            objectResponses = new
+                            {
+                                orders,
+                                tables
+                            }
+                        };
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Lỗi SQL
+                result.success = false;
+                result.messageForUser = "Lỗi cơ sở dữ liệu.";
+                result.messageForDev = sqlEx.Message;
+            }
+            catch (Exception ex)
+            {
+                // Lỗi khác
+                result.success = false;
+                result.messageForUser = "Đã xảy ra lỗi.";
+                result.messageForDev = ex.Message;
+            }
+            return result;
         }
         public DataSet GetAll(int companyId)
         {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminOrder
@@ -26,11 +27,18 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }
+        //[HttpGet]
+        //[Route("get-all")]
+        //public IHttpActionResult GetAll()
+        //{
+        //    return Ok(services.GetAll(companyId));
+        //}
         [HttpGet]
         [Route("get-all")]
-        public IHttpActionResult GetAll()
+        public async Task<IHttpActionResult> GetAllAsync()
         {
-            return Ok(services.GetAll(companyId));
+            var result = await services.GetAllAsync(companyId);
+            return Ok(result);
         }
         [HttpGet]
         [Route("get-order-details")]

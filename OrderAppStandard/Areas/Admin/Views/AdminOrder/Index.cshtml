@@ -706,21 +706,27 @@
                         url: '/api/admin/order/get-all',
                         method: "Get"
                     })
-                        .then(function (response) {
-                            //console.log('data', response.data);
-                            $scope.data.orders = response.data.orders;
-                            $scope.data.support.tables = response.data.tables;
-                        })
-                        .catch(function (response) {
-                            shareData.notification.exception();
-                            console.error('catch error', response);
-                        })
-                        .finally(function () {
-                            document.getElementById('pageLoader').style.display = 'none';
-                            if (button != null) {
-                                shareData.loadButton.loaded(button);
-                            }
-                        });
+                    .then(function (response) {
+                        //console.log('data', response.data);
+                        if (response.data.success == true) {
+                            $scope.data.orders = response.data.objectResponses.orders;
+                            $scope.data.support.tables = response.data.objectResponses.tables;
+                        }
+                        else {
+                            shareData.notification.fail(response.data.messageForUser)
+                            console.error('response error', response)
+                        }
+                    })
+                    .catch(function (response) {
+                        shareData.notification.exception();
+                        console.error('catch error', response);
+                    })
+                    .finally(function () {
+                        document.getElementById('pageLoader').style.display = 'none';
+                        if (button != null) {
+                            shareData.loadButton.loaded(button);
+                        }
+                    });
                 },
                 update: function (data, button) {
 
