@@ -33,12 +33,28 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
         [Route("update")]
         public IHttpActionResult Update(AdminProductDto.UpdateDto dto)
         {
+            var result = new Support.ResponsesAPI();
+
             if (dto.Product.ProductId < 1)
             {
                 return Ok(services.Create(companyId, dto));
             }
             else
             {
+                var product = db.Product.FirstOrDefault(x => x.ProductId == dto.Product.ProductId);
+                if (product == null)
+                {
+                    result.success = false;
+                    result.messageForUser = "Dữ liệu không tồn tại!";
+                    return Ok(result);
+                }
+                //Check company
+                if (product.CompanyId != companyId)
+                {
+                    result.success = false;
+                    result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                    return Ok(result);
+                }
                 return Ok(services.Edit(dto));
             }
         }
@@ -46,9 +62,25 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
         [Route("upload-image")]
         public IHttpActionResult UploadImage(int productId)
         {
+            var result = new Support.ResponsesAPI();
+
             var httpRequest = HttpContext.Current.Request;
             var server = HttpContext.Current.Server;
 
+            var product = db.Product.FirstOrDefault(x => x.ProductId == productId);
+            if (product == null) 
+            {
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
+            }
+            //Check company
+            if (product.CompanyId != companyId)
+            {
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
+            }
             return Json(services.UploadImage(productId, httpRequest, server));
         }
     }

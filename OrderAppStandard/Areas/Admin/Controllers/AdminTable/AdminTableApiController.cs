@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminTable
 {
@@ -33,12 +34,27 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
         [Route("update")]
         public IHttpActionResult Update(AdminTableDto.UpdateDto dto)
         {
+            var result = new Support.ResponsesAPI();
+
             if (dto.Table.TableId < 1)
             {
                 return Ok(services.Create(companyId, dto));
             }
             else
             {
+                var table = db.Table.FirstOrDefault(x => x.TableId == dto.Table.TableId);
+                if (table == null)
+                {
+                    result.success = false;
+                    result.messageForUser = "Dữ liệu không tồn tại!";
+                    return Ok(result);
+                }
+                if (table.CompanyId != companyId)
+                {
+                    result.success = false;
+                    result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                    return Ok(result);
+                }
                 return Ok(services.Edit(dto));
             }
         }
@@ -46,6 +62,20 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
         [Route("create-new-token")]
         public IHttpActionResult CreateNewToken(int tableId)
         {
+            var result = new Support.ResponsesAPI();
+            var table = db.Table.FirstOrDefault(x => x.TableId == tableId);
+            if(table == null)
+            {
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
+            }
+            if(table.CompanyId != companyId)
+            {
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
+            }
             return Ok(services.CreateNewToken(tableId));
         }
         [HttpGet]

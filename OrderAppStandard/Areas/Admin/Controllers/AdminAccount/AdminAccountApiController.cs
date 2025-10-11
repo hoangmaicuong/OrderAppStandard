@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OrderApp.DataFactory;
 using OrderApp.Models;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -33,12 +34,27 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
         [Route("update")]
         public async Task<IHttpActionResult> Update(AdminAccountDto.UpdateDto dto)
         {
+            var result = new Support.ResponsesAPI();
             if (string.IsNullOrEmpty(dto.AspNetUser.Id))
             {
                 return Ok(await services.Create(companyId ,dto));
             }
             else
             {
+                var userExten = await db.UserExtension.FirstOrDefaultAsync(x => x.AspNetUserId == dto.AspNetUser.Id);
+                if (userExten == null)
+                {
+                    result.success = false;
+                    result.messageForUser = "Dữ liệu không tồn tại!";
+                    return Ok(result);
+                }
+                //Check company
+                if (userExten.CompanyId != companyId)
+                {
+                    result.success = false;
+                    result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                    return Ok(result);
+                }
                 return Ok(await services.Edit(dto));
             }
         }
@@ -46,6 +62,21 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
         [Route("change-password")]
         public async Task<IHttpActionResult> ChangePassword(AdminAccountDto.UpdateDto dto)
         {
+            var result = new Support.ResponsesAPI();
+            var userExten = await db.UserExtension.FirstOrDefaultAsync(x => x.AspNetUserId == dto.AspNetUser.Id);
+            if(userExten == null)
+            {
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
+            }
+            //Check company
+            if(userExten.CompanyId != companyId)
+            {
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
+            }
             return Ok(await services.ChangePassword(dto));
         }
     }
