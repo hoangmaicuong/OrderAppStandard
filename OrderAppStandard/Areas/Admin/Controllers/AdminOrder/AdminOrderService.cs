@@ -393,17 +393,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI DeliveredOrderDetail(int orderDetailId)
+        public Support.ResponsesAPI DeliveredOrderDetail(OrderDetail _orderDetail)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
-            OrderDetail orderDetail = new OrderDetail();
+            OrderDetail orderDetail = _orderDetail;
 
             #endregion
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
-            orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
             if (orderDetail == null)
             {
                 result.success = false;

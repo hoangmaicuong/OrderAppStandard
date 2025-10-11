@@ -18,6 +18,7 @@ namespace OrderApp
             {
                 public const string failTitle = "Thao tác thất bại";
                 public const string messageException = "Thao tác thất bại!!!";
+                public const string hacker = "Hacker. Hành động vi phạm pháp luật!";
             }
         }
     }

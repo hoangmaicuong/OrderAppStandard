@@ -52,108 +52,169 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         [Route("remove-order-detail")]
         public IHttpActionResult RemoveOrderDetail(int orderDetailId)
         {
+            var result = new Support.ResponsesAPI();
             var orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
             if (orderDetail == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             var order = db.Order.FirstOrDefault(x => x.OrderId == orderDetail.OrderId);
             if (order == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             // Check Company..
             if (order.CompanyId != companyId)
             {
-                return Unauthorized();
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
             }
-            return Ok(services.RemoveOrderDetail(orderDetail));
+            result = services.RemoveOrderDetail(orderDetail);
+            return Ok(result);
         }
         [HttpPost]
         [Route("change-status-to-finish")]
         public IHttpActionResult ChangeStatusToFinish(int orderId)
         {
+            var result = new Support.ResponsesAPI();
             var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             // Check Company..
             if (order.CompanyId != companyId)
             {
-                return Unauthorized();
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
             }
-            return Ok(services.ChangeStatusToFinish(order));
+            result = services.ChangeStatusToFinish(order);
+            return Ok(result);
         }
         [HttpPost]
         [Route("order-confirm")]
         public IHttpActionResult OrderConfirm(int orderId)
         {
+            var result = new Support.ResponsesAPI();
             var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             // Check Company..
             if (order.CompanyId != companyId)
             {
-                return Unauthorized();
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
             }
-            return Ok(services.OrderConfirm(order));
+            result = services.OrderConfirm(order);
+            return Ok(result);
         }
         [HttpPost]
         [Route("order-in-process")]
         public IHttpActionResult OrderInProcess(int orderId)
         {
+            var result = new Support.ResponsesAPI();
             var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             // Check Company..
             if (order.CompanyId != companyId)
             {
-                return Unauthorized();
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
             }
-            return Ok(services.OrderInProcess(order));
+            result = services.OrderInProcess(order);
+            return Ok(result);
         }
         [HttpPost]
         [Route("order-delivered")]
         public IHttpActionResult OrderDelivered(int orderId)
         {
+            var result = new Support.ResponsesAPI();
             var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             // Check Company..
             if (order.CompanyId != companyId)
             {
-                return Unauthorized();
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
             }
-            return Ok(services.OrderDelivered(order));
+            result = services.OrderDelivered(order);
+            return Ok(result);
         }
         [HttpPost]
         [Route("restore-order")]
         public IHttpActionResult RestoreOrder(int orderId)
         {
+            var result = new Support.ResponsesAPI();
             var order = db.Order.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null)
             {
-                return NotFound();
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
             }
             // Check Company..
             if (order.CompanyId != companyId)
             {
-                return Unauthorized();
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
             }
-            return Ok(services.RestoreOrder(order));
+            result = services.RestoreOrder(order);
+            return Ok(result);
         }
         [HttpPost]
         [Route("delivered-order-detail")]
         public IHttpActionResult DeliveredOrderDetail(int orderDetailId)
         {
-            return Ok(services.DeliveredOrderDetail(orderDetailId));
+            var result = new Support.ResponsesAPI();
+            var orderDetail = db.OrderDetail.FirstOrDefault(x => x.OrderDetailId == orderDetailId);
+            if (orderDetail == null)
+            {
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
+            }
+            var order = db.Order.FirstOrDefault(x => x.OrderId == orderDetail.OrderId);
+            if (order == null)
+            {
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
+            }
+            // Check Company..
+            if (order.CompanyId != companyId)
+            {
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
+            }
+            result = services.DeliveredOrderDetail(orderDetail);
+            return Ok(result);
         }
     }
 }
