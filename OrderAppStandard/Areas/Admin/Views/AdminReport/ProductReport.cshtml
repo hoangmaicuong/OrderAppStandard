@@ -4,23 +4,23 @@
 }
 @section css_header{
     <style>
-        tr img {
+        /*tr img {
             max-width: 180px;
             min-width: 180px;
-            height: 110px; /* giữ đúng tỉ lệ */
-            object-fit: cover; /* ảnh không méo */
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* đổ bóng nhẹ */
-            margin: 5px;
+            height: 110px;*/ /* giữ đúng tỉ lệ */
+            /*object-fit: cover;*/ /* ảnh không méo */
+            /*box-shadow: 0 2px 6px rgba(0,0,0,0.2);*/ /* đổ bóng nhẹ */
+            /*margin: 5px;
             border-radius: 5px
-        }
+        }*/
 
-        @@media only screen and (max-width: 470px) {
+        /*@@media only screen and (max-width: 470px) {
             tr img {
                 min-width: 80px;
                 max-width: 80px;
                 height: 80px;
             }
-        }
+        }*/
     </style>
 }
 @section scripts_header{
@@ -67,7 +67,7 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td></td>
+                    @*<td></td>*@
                     <td style="text-align:left">Sản phẩm</td>
                     <td style="text-align:right">Số lượng bán</td>
                     <td style="text-align:right">Tổng giá bán</td>
@@ -76,10 +76,15 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.products">
-                    <td style="float:left">
+                    @*<td style="float:left">
                         <img ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                    </td>*@
+                    <td style="text-align:left">
+                        <div class="prod-img-title">
+                            <img class="prd-img-tbl" ng-src="{{item.fileId ? data.support.imagePath + item.fileId : '/assets/img/blank-image.png'}}" alt="">
+                            <p ng-bind="item.productName"></p>
+                        </div>
                     </td>
-                    <td ng-bind="item.productName" style="text-align:left"></td>
                     <td ng-bind-html="item.totalQuantitySold | vnNumber" style="text-align:right"></td>
                     <td ng-bind-html="item.totalRevenue | vnCurrency" style="text-align:right"></td>
                 </tr>
