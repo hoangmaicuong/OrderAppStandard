@@ -4,7 +4,22 @@
 }
 @section css_header{
     <style>
-        
+        .status-enable {
+            background-color: #f04e2e;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            display: inline-block;
+        }
+        .status-no-enable {
+            background: var(--lighter-gray);
+            color: var(--dark-gray);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            display: inline-block;
+        }
     </style>
 }
 @section scripts_header{
@@ -45,29 +60,44 @@
         <table @*width="100%"*@ style="width:auto;min-width:50%">
             <thead>
                 <tr>
+                    <td></td>
                     <td style="text-align:left">Tên đăng nhập</td>
                     <td>Số điện thoại</td>
-                    @*<td>Trạng thái</td>*@
-                    <td></td>
+                    <td>Gọi nhận viên</td>
+                    <td>Đơn hàng mới</td>
+                    <td>Xác nhận đơn</td>
+                    <td>Đơn chuẩn bị</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in data.aspNetUsers">
-                    <td ng-bind="item.userName" style="text-align:left"></td>
-                    <td ng-bind-html="item.phoneNumber | formatPhoneNumber"></td>
-                    @*<td>
-                        <span class="status-complete">Hoạt động</span>
-                        <span class="status-no-complete">Bị khóa</span>
-                    </td>*@
                     <td>
-                        <button ng-click="events.onOpenModel(item)"
-                                class="btn-edit">
-                            <i class="fa-light fa-pen-to-square"></i>
-                        </button>
                         <button ng-click="events.onOpenModelChangePassword(item)"
                                 class="btn-delete">
                             <i class="fa-regular fa-key"></i>
                         </button>
+                        <button ng-click="events.onOpenModel(item)"
+                                class="btn-edit">
+                            <i class="fa-light fa-pen-to-square"></i>
+                        </button>
+                    </td>
+                    <td ng-bind="item.userName" style="text-align:left"></td>
+                    <td ng-bind-html="item.phoneNumber | formatPhoneNumber"></td>
+                    <td>
+                        <span ng-hide="item.isStaffCallNotification" class="status-no-enable">Tắt</span>
+                        <span ng-show="item.isStaffCallNotification" class="status-enable">Bật</span>
+                    </td>
+                    <td>
+                        <span ng-hide="item.isNewOrderNotification" class="status-no-enable">Tắt</span>
+                        <span ng-show="item.isNewOrderNotification" class="status-enable">Bật</span>
+                    </td>
+                    <td>
+                        <span ng-hide="item.isOrderConfirmNotification" class="status-no-enable">Tắt</span>
+                        <span ng-show="item.isOrderConfirmNotification" class="status-enable">Bật</span>
+                    </td>
+                    <td>
+                        <span ng-hide="item.isOrderInProcessNotification" class="status-no-enable">Tắt</span>
+                        <span ng-show="item.isOrderInProcessNotification" class="status-enable">Bật</span>
                     </td>
                 </tr>
             </tbody>
@@ -88,7 +118,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phone" class="form-label">Số điện thoại</label>
-                    <input ng-model="data.aspNetUser.phoneNumber" 
+                    <input ng-model="data.aspNetUser.phoneNumber"
                            format-phone-input
                            type="text"
                            name="phone" placeholder=".." class="form-control">
@@ -96,14 +126,37 @@
                 </div>
                 <div ng-show="data.aspNetUser.id == null" class="form-group">
                     <label for="phone" class="form-label">Mật khẩu</label>
-                    <input ng-model="data.aspNetUser.password"  type="text" placeholder="***" class="form-control">
+                    <input ng-model="data.aspNetUser.password" type="text" placeholder="***" class="form-control">
                     <span class="form-message-phone form-message"></span>
                 </div>
-                @*<div class="form-group">
-            <label for="" class="form-label">Trạng thái</label>
-            <input type="checkbox" id="user-status" class="switch-input">
-            <label for="user-status" class="switch"></label>
-        </div>*@
+                <div class="form-group">
+                    <label for="is-staff-call-notification" class="form-label">Gọi nhận viên</label>
+                    <input type="checkbox" 
+                           ng-model="data.aspNetUser.isStaffCallNotification"
+                           id="is-staff-call-notification" class="switch-input">
+                    <label for="is-staff-call-notification" class="switch"></label>
+                </div>
+                <div class="form-group">
+                    <label for="is-new-order-notification" class="form-label">Đơn hàng mới</label>
+                    <input type="checkbox"
+                           ng-model="data.aspNetUser.isNewOrderNotification"
+                           id="is-new-order-notification" class="switch-input">
+                    <label for="is-new-order-notification" class="switch"></label>
+                </div>
+                <div class="form-group">
+                    <label for="is-order-confirm-notification" class="form-label">Xác nhận đơn</label>
+                    <input type="checkbox"
+                           ng-model="data.aspNetUser.isOrderConfirmNotification"
+                           id="is-order-confirm-notification" class="switch-input">
+                    <label for="is-order-confirm-notification" class="switch"></label>
+                </div>
+                <div class="form-group">
+                    <label for="is-order-in-process-notification" class="form-label">Đơn chuẩn bị</label>
+                    <input type="checkbox"
+                           ng-model="data.aspNetUser.isOrderInProcessNotification"
+                           id="is-order-in-process-notification" class="switch-input">
+                    <label for="is-order-in-process-notification" class="switch"></label>
+                </div>
                 <button ng-click="events.onUpdate($event)"
                         class="form-submit">
                     Lưu thay đổi

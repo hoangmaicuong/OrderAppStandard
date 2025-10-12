@@ -23,6 +23,10 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
             public string PhoneNumber { get; set; }
             public string Password { get; set; }
             public string NewPassword { get; set; }
+            public Nullable<bool> IsStaffCallNotification { get; set; }
+            public Nullable<bool> IsNewOrderNotification { get; set; }
+            public Nullable<bool> IsOrderConfirmNotification { get; set; }
+            public Nullable<bool> IsOrderInProcessNotification { get; set; }
         }
     }
 }

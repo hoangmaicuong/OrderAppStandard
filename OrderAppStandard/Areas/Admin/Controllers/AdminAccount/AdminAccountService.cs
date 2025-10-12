@@ -96,6 +96,10 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                     {
                         AspNetUserId = user.Id,
                         CompanyId = companyId,
+                        IsStaffCallNotification = dto.AspNetUser.IsStaffCallNotification,
+                        IsNewOrderNotification = dto.AspNetUser.IsNewOrderNotification,
+                        IsOrderConfirmNotification = dto.AspNetUser.IsOrderConfirmNotification,
+                        IsOrderInProcessNotification = dto.AspNetUser.IsOrderInProcessNotification
                     };
                     db.UserExtension.Add(userExtension);
                     db.SaveChanges();
@@ -147,11 +151,23 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                 response.messageForUser = "Không tìm thấy người dùng.";
                 return response;
             }
+            var userExten = db.UserExtension.FirstOrDefault(x => x.AspNetUserId == dto.AspNetUser.Id);
+            if (userExten == null)
+            {
+                response.success = false;
+                response.messageForUser = "Không tìm thấy người dùng.";
+                return response;
+            }
             #endregion
 
-            // Cập nhật các trường cho user
+                // Cập nhật các trường cho user
             user.PhoneNumber = dto.AspNetUser.PhoneNumber;
             user.UserName = dto.AspNetUser.UserName;
+
+            userExten.IsStaffCallNotification = dto.AspNetUser.IsStaffCallNotification;
+            userExten.IsNewOrderNotification = dto.AspNetUser.IsNewOrderNotification;
+            userExten.IsOrderConfirmNotification = dto.AspNetUser.IsOrderConfirmNotification;
+            userExten.IsOrderInProcessNotification = dto.AspNetUser.IsOrderInProcessNotification;
 
             #region Thực thi function
             using (var transaction = db.Database.BeginTransaction())
@@ -167,7 +183,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                         response.messageForUser = string.Join(", ", identityResult.Errors);
                         return response;
                     }
-
+                    db.SaveChanges();
                     transaction.Commit();
 
                     response = new Support.ResponsesAPI

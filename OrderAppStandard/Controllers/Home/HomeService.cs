@@ -154,7 +154,9 @@ namespace OrderApp.Controllers.Home
                     transaction.Commit();
 
                     var firebase = new FirebaseHelper(serviceAccountPath);
-                    var firebaseTokens = company.UserExtension.Where(x => !string.IsNullOrEmpty(x.FirebaseToken)).Select(x => x.FirebaseToken).Distinct().ToList();
+                    var firebaseTokens = company.UserExtension
+                        .Where(x => !string.IsNullOrEmpty(x.FirebaseToken) && x.IsNewOrderNotification == true)
+                        .Select(x => x.FirebaseToken).Distinct().ToList();
                     foreach (var token in firebaseTokens)
                     {
                         Task.Run(() => firebase.SendNotificationToTokenAsync(
@@ -360,7 +362,7 @@ namespace OrderApp.Controllers.Home
             {
                 var firebase = new FirebaseHelper(serviceAccountPath);
                 var firebaseTokens = company.UserExtension
-                    .Where(x => !string.IsNullOrEmpty(x.FirebaseToken))
+                    .Where(x => !string.IsNullOrEmpty(x.FirebaseToken) && x.IsStaffCallNotification == true)
                     .Select(x => x.FirebaseToken)
                     .Distinct()
                     .ToList();
@@ -369,8 +371,8 @@ namespace OrderApp.Controllers.Home
                 {
                     Task.Run(() => firebase.SendNotificationToTokenAsync(
                         token,
-                        $"{table.TableName} gọi!",
-                        "Bàn đang cần hỗ trợ.",
+                        $"{table.TableName} cần hỗ trợ!",
+                        "...",
                         null,
                         new Dictionary<string, string>()
                     ));

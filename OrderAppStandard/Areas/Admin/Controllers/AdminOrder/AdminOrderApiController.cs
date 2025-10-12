@@ -3,6 +3,7 @@ using OrderApp.Areas.Admin.Controllers.AdminTable;
 using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,6 +20,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         private AdminOrderService services;
         private string userId = null;
         private int companyId = 0;
+        string serviceAccountPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content/serviceAccountKey.json");
         private AdminOrderApiController()
         {
             db = new OrderAppEntities();
@@ -126,7 +128,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
                 return Ok(result);
             }
-            result = services.OrderConfirm(order);
+            result = services.OrderConfirm(order, serviceAccountPath);
             return Ok(result);
         }
         [HttpPost]
@@ -148,7 +150,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
                 return Ok(result);
             }
-            result = services.OrderInProcess(order);
+            result = services.OrderInProcess(order, serviceAccountPath);
             return Ok(result);
         }
         [HttpPost]
