@@ -39,7 +39,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            color: var(--red)
+            color: var(--red);
         }
         /*angularjs animate*/
         /*ng-repeat*/
@@ -282,8 +282,7 @@
             $scope.events = {
                 onLinkClick: function ($event) {
                     $event.preventDefault();
-                    const button = $event.currentTarget;
-                    shareData.loadButton.loading(button, true);
+                    document.getElementById('pageLoader').style.display = 'flex';
                     window.location.href = $event.currentTarget.href;
                 }
             }

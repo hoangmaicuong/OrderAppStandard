@@ -695,8 +695,7 @@
                 },
                 onLinkClick: function ($event) {
                     $event.preventDefault();
-                    const button = $event.currentTarget;
-                    shareData.loadButton.loading(button, true);
+                    document.getElementById('pageLoader').style.display = 'flex';
                     window.location.href = $event.currentTarget.href;
                 }
             };
