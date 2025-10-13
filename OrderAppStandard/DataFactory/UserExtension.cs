@@ -21,6 +21,7 @@ namespace OrderApp.DataFactory
         public Nullable<bool> IsNewOrderNotification { get; set; }
         public Nullable<bool> IsOrderConfirmNotification { get; set; }
         public Nullable<bool> IsOrderInProcessNotification { get; set; }
+        public Nullable<bool> IsCheckedItemNotification { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Company Company { get; set; }

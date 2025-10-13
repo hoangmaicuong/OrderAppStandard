@@ -223,7 +223,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
                 return Ok(result);
             }
-            result = services.DeliveredOrderDetail(orderDetail);
+            result = services.DeliveredOrderDetail(orderDetail, serviceAccountPath);
             return Ok(result);
         }
     }

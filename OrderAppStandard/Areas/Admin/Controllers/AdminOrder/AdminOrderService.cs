@@ -508,7 +508,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             //* Kết quả hàm *
             return result;
         }
-        public Support.ResponsesAPI DeliveredOrderDetail(OrderDetail _orderDetail)
+        public Support.ResponsesAPI DeliveredOrderDetail(OrderDetail _orderDetail, string serviceAccountPath)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
@@ -518,6 +518,21 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
 
             #region Kiểm tra điều kiện thực thi function
             // Check.. (điều kiện để thực thi)
+            var company = db.Company.FirstOrDefault(x => x.CompanyId == orderDetail.Order.CompanyId);
+            if (company == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            var table = db.Table.FirstOrDefault(x => x.TableId == orderDetail.Order.TableId);
+            if (table == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+
             if (orderDetail == null)
             {
                 result.success = false;
@@ -531,8 +546,15 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 result.messageForUser = "Đơn không tồn tại.";
                 return result;
             }
+            var product = orderDetail.Product;
+            if (product == null)
+            {
+                result.success = false;
+                result.messageForUser = "Sản phẩm không tồn tại.";
+                return result;
+            }
             #endregion
-            if(orderDetail.IsDelivered == null)
+            if (orderDetail.IsDelivered == null)
             {
                 orderDetail.IsDelivered = false;
             }
@@ -544,6 +566,25 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
                 {
                     db.SaveChanges();
                     transaction.Commit();
+
+                    var firebase = new FirebaseHelper(serviceAccountPath);
+                    var firebaseTokens = company.UserExtension
+                        .Where(x => !string.IsNullOrEmpty(x.FirebaseToken) && x.IsOrderInProcessNotification == true)
+                        .Select(x => x.FirebaseToken).Distinct().ToList();
+                    foreach (var token in firebaseTokens)
+                    {
+                        Task.Run(() => firebase.SendNotificationToTokenAsync(
+                            token,
+                            $"{product.ProductName}",
+                            $"#{order.OrderId} - {table.TableName} đặt",
+                            null,
+                            new Dictionary<string, string>
+                            {
+                                { "orderId", order.OrderId.ToString() },
+                                { "type", "new-order" }
+                            }
+                        ));
+                    }
 
                     result = new Support.ResponsesAPI
                     {

@@ -99,7 +99,8 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
                         IsStaffCallNotification = dto.AspNetUser.IsStaffCallNotification,
                         IsNewOrderNotification = dto.AspNetUser.IsNewOrderNotification,
                         IsOrderConfirmNotification = dto.AspNetUser.IsOrderConfirmNotification,
-                        IsOrderInProcessNotification = dto.AspNetUser.IsOrderInProcessNotification
+                        IsOrderInProcessNotification = dto.AspNetUser.IsOrderInProcessNotification,
+                        IsCheckedItemNotification = dto.AspNetUser.IsCheckedItemNotification,
                     };
                     db.UserExtension.Add(userExtension);
                     db.SaveChanges();
@@ -168,6 +169,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
             userExten.IsNewOrderNotification = dto.AspNetUser.IsNewOrderNotification;
             userExten.IsOrderConfirmNotification = dto.AspNetUser.IsOrderConfirmNotification;
             userExten.IsOrderInProcessNotification = dto.AspNetUser.IsOrderInProcessNotification;
+            userExten.IsCheckedItemNotification = dto.AspNetUser.IsCheckedItemNotification;
 
             #region Thực thi function
             using (var transaction = db.Database.BeginTransaction())

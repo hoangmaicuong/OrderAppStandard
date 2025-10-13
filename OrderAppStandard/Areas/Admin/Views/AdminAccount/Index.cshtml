@@ -67,6 +67,7 @@
                     <td>Đơn hàng mới</td>
                     <td>Xác nhận đơn</td>
                     <td>Đơn chuẩn bị</td>
+                    <td>Chọn từng món</td>
                 </tr>
             </thead>
             <tbody>
@@ -98,6 +99,10 @@
                     <td>
                         <span ng-hide="item.isOrderInProcessNotification" class="status-no-enable">Tắt</span>
                         <span ng-show="item.isOrderInProcessNotification" class="status-enable">Bật</span>
+                    </td>
+                    <td>
+                        <span ng-hide="item.isCheckedItemNotification" class="status-no-enable">Tắt</span>
+                        <span ng-show="item.isCheckedItemNotification" class="status-enable">Bật</span>
                     </td>
                 </tr>
             </tbody>
@@ -131,7 +136,7 @@
                 </div>
                 <div class="form-group">
                     <label for="is-staff-call-notification" class="form-label">Gọi nhận viên</label>
-                    <input type="checkbox" 
+                    <input type="checkbox"
                            ng-model="data.aspNetUser.isStaffCallNotification"
                            id="is-staff-call-notification" class="switch-input">
                     <label for="is-staff-call-notification" class="switch"></label>
@@ -156,6 +161,13 @@
                            ng-model="data.aspNetUser.isOrderInProcessNotification"
                            id="is-order-in-process-notification" class="switch-input">
                     <label for="is-order-in-process-notification" class="switch"></label>
+                </div>
+                <div class="form-group">
+                    <label for="is-checked-item-notification" class="form-label">Chọn từng món</label>
+                    <input type="checkbox"
+                           ng-model="data.aspNetUser.isCheckedItemNotification"
+                           id="is-checked-item-notification" class="switch-input">
+                    <label for="is-checked-item-notification" class="switch"></label>
                 </div>
                 <button ng-click="events.onUpdate($event)"
                         class="form-submit">

@@ -105,6 +105,7 @@
           <Property Name="IsNewOrderNotification" Type="bit" />
           <Property Name="IsOrderConfirmNotification" Type="bit" />
           <Property Name="IsOrderInProcessNotification" Type="bit" />
+          <Property Name="IsCheckedItemNotification" Type="bit" />
         </EntityType>
         <Association Name="FK_Company_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
@@ -468,6 +469,7 @@
           <Property Name="IsNewOrderNotification" Type="Boolean" />
           <Property Name="IsOrderConfirmNotification" Type="Boolean" />
           <Property Name="IsOrderInProcessNotification" Type="Boolean" />
+          <Property Name="IsCheckedItemNotification" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Company_AspNetUsers">
           <End Type="OrderAppModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
@@ -611,6 +613,7 @@
           <EntitySetMapping Name="UserExtension">
             <EntityTypeMapping TypeName="OrderAppModel.UserExtension">
               <MappingFragment StoreEntitySet="UserExtension">
+                <ScalarProperty Name="IsCheckedItemNotification" ColumnName="IsCheckedItemNotification" />
                 <ScalarProperty Name="IsOrderInProcessNotification" ColumnName="IsOrderInProcessNotification" />
                 <ScalarProperty Name="IsOrderConfirmNotification" ColumnName="IsOrderConfirmNotification" />
                 <ScalarProperty Name="IsNewOrderNotification" ColumnName="IsNewOrderNotification" />
