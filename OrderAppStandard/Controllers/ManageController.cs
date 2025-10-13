@@ -18,6 +18,7 @@ namespace OrderApp.Controllers
 
         public ManageController()
         {
+            throw new HttpException(403, "This controller is disabled");
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)

@@ -1,7 +1,10 @@
-﻿using OrderApp.DataFactory;
+﻿using Dapper;
+using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,24 +12,42 @@ namespace OrderApp.Controllers
 {
     public class HomeController : Controller
     {
-        private OrderAppEntities db = new OrderAppEntities();
+        private readonly DapperContext dapperContext = new DapperContext();
         public ActionResult Index()
         {
             return View();
         }
         [Route("{CompanySlug}")]
-        public ActionResult Shop( string CompanySlug, int tableId = 0, Guid? tableToken = null)
+        public async Task<ActionResult> Shop( string CompanySlug, int tableId = 0, Guid? tableToken = null)
         {
-            var company = db.Company.FirstOrDefault(x => x.Slug == CompanySlug);
-            if(company == null)
+            try
             {
-                return RedirectToAction("NotFound", "Home");
-            }
+                using (var conn = dapperContext.CreateConnection())
+                {
+                    await conn.OpenAsync();
 
-            ViewBag.TableId = tableId;
-            ViewBag.TableToken = tableToken;
-            ViewBag.CompanySlug = CompanySlug;
-            return View();
+                    string sql = "SELECT TOP 1 CompanyId FROM Company WHERE Slug = @Slug";
+
+                    int companyId = await conn.QueryFirstOrDefaultAsync<int>(sql, new { Slug = CompanySlug });
+
+                    if (companyId == 0)
+                    {
+                        return RedirectToAction("NotFound", "Home");
+                    }
+
+                    ViewBag.TableId = tableId;
+                    ViewBag.TableToken = tableToken;
+                    ViewBag.CompanySlug = CompanySlug;
+
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ghi log nếu cần
+                // Log.Error(ex);
+                return new HttpStatusCodeResult(500, "Internal Server Error");
+            }
         }
 
         public ActionResult About()

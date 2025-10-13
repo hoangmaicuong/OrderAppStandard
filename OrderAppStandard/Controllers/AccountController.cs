@@ -20,6 +20,7 @@ namespace OrderApp.Controllers
 
         public AccountController()
         {
+            throw new HttpException(403, "This controller is disabled");
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
