@@ -9,10 +9,32 @@
     <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
   </configSections>
   <connectionStrings>
-    <add name="DefaultConnection" connectionString="Data Source=localhost;Initial Catalog=goimonsh_OrderAppStandardServer;user id=goimonsh_OrderAppStandardServer;password=KRo9m#nP0xvt0o$q;" providerName="System.Data.SqlClient" />
-    <add name="OrderAppEntities" connectionString="metadata=res://*/DataFactory.Model.csdl|res://*/DataFactory.Model.ssdl|res://*/DataFactory.Model.msl;
-	provider=System.Data.SqlClient;
-	provider connection string=&quot;data source=localhost;initial catalog=goimonsh_OrderAppStandardServer;user id=goimonsh_OrderAppStandardServer;password='KRo9m#nP0xvt0o$q';trustservercertificate=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <!-- Kết nối thuần SQL -->
+	<add name="DefaultConnection"
+	  connectionString="
+	   Data Source=210.245.90.235;
+	   Initial Catalog=goimonsh_OrderAppStandardServer;
+	   User ID=goimonsh_OrderAppStandardServer;
+	   Password=KRo9m#nP0xvt0o$q;
+	 "
+	  providerName="System.Data.SqlClient" />
+	<!-- Kết nối Entity Framework (EDMX) -->
+	<add name="OrderAppEntities"
+	  connectionString="
+	   metadata=res://*/DataFactory.Model.csdl|
+				res://*/DataFactory.Model.ssdl|
+				res://*/DataFactory.Model.msl;
+	   provider=System.Data.SqlClient;
+	   provider connection string=&quot;
+		   Data Source=210.245.90.235;
+		   Initial Catalog=goimonsh_OrderAppStandardServer;
+		   User ID=goimonsh_OrderAppStandardServer;
+		   Password='KRo9m#nP0xvt0o$q';
+		   TrustServerCertificate=True;
+		   MultipleActiveResultSets=True;
+		   App=EntityFramework
+	   &quot;"
+	  providerName="System.Data.EntityClient" />
   </connectionStrings>
   <appSettings>
     <add key="webpages:Version" value="3.0.0.0" />
