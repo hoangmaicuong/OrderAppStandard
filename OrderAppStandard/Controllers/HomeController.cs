@@ -18,8 +18,12 @@ namespace OrderApp.Controllers
             return View();
         }
         [Route("{CompanySlug}")]
-        public async Task<ActionResult> Shop( string CompanySlug, int tableId = 0, Guid? tableToken = null)
+        public async Task<ActionResult> Shop(string CompanySlug, int tableId = 0, Guid? tableToken = null)
         {
+            if (string.IsNullOrEmpty(CompanySlug))
+            {
+                return RedirectToAction("NotFound", "Home");
+            }
             try
             {
                 using (var conn = dapperContext.CreateConnection())
