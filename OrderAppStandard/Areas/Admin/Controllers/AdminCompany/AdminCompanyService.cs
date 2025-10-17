@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using OrderApp.Areas.Admin.Controllers.AdminTable;
 using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,57 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
                     throw;
                 }
             }
+        }
+        public Support.ResponsesAPI Edit(int companyId, AdminCompanyDto.UpdateDto dto)
+        {
+            var result = new Support.ResponsesAPI();
+            #region khởi tạo tham số
+            Company company = new Company();
+
+            #endregion
+
+            #region Kiểm tra điều kiện thực thi function
+            // Check.. (điều kiện để thực thi)
+            company = db.Company.FirstOrDefault(x => x.CompanyId == companyId);
+            if (company == null)
+            {
+                result.success = false;
+                result.messageForUser = "Data này không tồn tại.";
+                return result;
+            }
+            company.CompanyName = dto.Company.CompanyName;
+            company.Slug = dto.Company.Slug;
+            #endregion
+
+            #region thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = true
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    result = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.Message
+                    };
+                }
+            }
+            #endregion
+
+            //* Kết quả hàm *
+            return result;
         }
     }
 }

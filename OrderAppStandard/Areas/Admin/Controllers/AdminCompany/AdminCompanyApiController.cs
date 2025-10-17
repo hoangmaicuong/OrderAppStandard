@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using static OrderApp.Areas.Admin.Controllers.AdminCompany.AdminCompanyDto;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminCompany
 {
@@ -32,6 +33,14 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
         public IHttpActionResult GetDetail()
         {
             return Ok(services.GetDetail(companyId));
+        }
+        [HttpPost]
+        [Route("update")]
+        public IHttpActionResult Update(AdminCompanyDto.UpdateDto dto)
+        {
+            var result = new Support.ResponsesAPI();
+
+            return Ok(services.Edit(companyId, dto));
         }
     }
 }
