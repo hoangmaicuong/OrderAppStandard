@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace OrderApp.Areas.Admin.Controllers.AdminCompany
 {
+    [Authorize(Roles = "admin")]
     public class AdminCompanyController : Controller
     {
         // GET: Admin/AdminCompany
