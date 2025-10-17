@@ -26,13 +26,27 @@ namespace OrderApp
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/AccountManage/Login"),
+                SlidingExpiration = false, // Không tự gia hạn cookie khi user hoạt động
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
+
+                    // Gán thời gian hết hạn cookie về 0h đêm mỗi ngày
+                    OnResponseSignIn = context =>
+                    {
+                        // Giờ Việt Nam (UTC+7)
+                        var nowVN = DateTime.UtcNow.AddHours(7);
+                        var midnightVN = nowVN.Date.AddDays(1); // 0h ngày mai ở VN
+                        var expires = midnightVN - nowVN;
+
+                        // Gán cho cookie (theo chuẩn UTC)
+                        context.Properties.IsPersistent = true;
+                        context.Properties.ExpiresUtc = DateTimeOffset.UtcNow.Add(expires);
+                    }
                 }
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
