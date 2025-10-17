@@ -12,7 +12,7 @@ namespace OrderApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DapperContext dapperContext = new DapperContext();
+        private readonly DapperContext dapperContext = DapperContext.dapperContext;
         public ActionResult Index()
         {
             return View();
