@@ -70,24 +70,23 @@ namespace OrderApp.Controllers.AccountManage
             {
                 return View(model);
             }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var user = await UserManager.FindByNameAsync(model.PhoneNumber);
+            if (user == null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                //case SignInStatus.LockedOut:
-                //    ModelState.AddModelError("", "Tài khoản khóa 5 phút, do đăng nhập sai 5 lần!");
-                //    return View(model);
-                //case SignInStatus.RequiresVerification:
-                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                //case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Số điện thoại hoặc mật khẩu không đúng!");
-                    return View(model);
+                ModelState.AddModelError("PhoneNumber", "Số điện thoại không đúng!");
+                return View(model);
             }
+            bool isSuccess = await UserManager.CheckPasswordAsync(user, model.Password);
+            if (!isSuccess)
+            {
+                ModelState.AddModelError("Password", "Mật khẩu không đúng!");
+                return View(model);
+            }
+            // ✅ Cập nhật SecurityStamp để vô hiệu hóa các session cũ
+            await UserManager.UpdateSecurityStampAsync(user.Id);
+            await SignInManager.SignInAsync(user, isPersistent: model.RememberMe, rememberBrowser: false);
+
+            return RedirectToLocal(returnUrl);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
