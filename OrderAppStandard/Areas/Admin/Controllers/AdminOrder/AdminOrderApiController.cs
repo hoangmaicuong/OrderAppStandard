@@ -30,12 +30,6 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
         }
-        //[HttpGet]
-        //[Route("get-all")]
-        //public IHttpActionResult GetAll()
-        //{
-        //    return Ok(services.GetAll(companyId));
-        //}
         [HttpGet]
         [Route("get-all")]
         public async Task<IHttpActionResult> GetAllAsync()

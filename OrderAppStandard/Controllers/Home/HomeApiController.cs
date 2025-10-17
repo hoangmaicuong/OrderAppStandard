@@ -31,12 +31,6 @@ namespace OrderApp.Controllers.Home
             var result = await services.GetAllAsync(companySlug);
             return Ok(result);
         }
-        //[HttpGet]
-        //[Route("get-all")]
-        //public IHttpActionResult GetAll(string companySlug)
-        //{
-        //    return Ok(services.GetAll(companySlug));
-        //}
         [HttpPost]
         [Route("create-order")]
         public IHttpActionResult CreateOrder(string companySlug, HomeDto.CreateOrderDto dto)

@@ -69,40 +69,6 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             }
             return result;
         }
-        public DataSet GetAll(int companyId)
-        {
-            using (var connec = dapperContext.CreateConnection())
-            {
-                connec.Open();
-                try
-                {
-                    string proce = "AdminOrderModuleGetAll";
-                    using (var cmd = new SqlCommand(proce, connec))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter
-                        {
-                            ParameterName = "@companyId",
-                            SqlDbType = SqlDbType.Int,
-                            Value = companyId
-                        });
-                        using (var adapter = new SqlDataAdapter(cmd))
-                        {
-                            var dataSet = new DataSet();
-                            adapter.Fill(dataSet);
-                            dataSet.Tables[0].TableName = "orders";
-                            dataSet.Tables[1].TableName = "tables";
-                            return dataSet;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
-            }
-        }
         public DataSet GetOrderDetails(Order order)
         {
             using (var connec = dapperContext.CreateConnection())

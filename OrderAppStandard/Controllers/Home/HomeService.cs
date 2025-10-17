@@ -72,40 +72,6 @@ namespace OrderApp.Controllers.Home
             }
             return result;
         }
-        public DataSet GetAll(string companySlug)
-        {
-            using (var connec = dapperContext.CreateConnection())
-            {
-                connec.Open();
-                try
-                {
-                    string proce = "HomeModuleGetAll";
-                    using (var cmd = new SqlCommand(proce, connec))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter
-                        {
-                            ParameterName = "@companySlug",
-                            SqlDbType = SqlDbType.VarChar,
-                            Value = companySlug
-                        });
-                        using (var adapter = new SqlDataAdapter(cmd))
-                        {
-                            var dataSet = new DataSet();
-                            adapter.Fill(dataSet);
-                            dataSet.Tables[0].TableName = "products";
-                            dataSet.Tables[1].TableName = "categorys";
-                            return dataSet;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
-            }
-        }
         public Support.ResponsesAPI CreateOrder(string companySlug, HomeDto.CreateOrderDto dto, string serviceAccountPath)
         {
             var result = new Support.ResponsesAPI();
@@ -197,46 +163,6 @@ namespace OrderApp.Controllers.Home
 
             //* Kết quả hàm *
             return result;
-        }
-        public DataSet GetOrderOfTable(int tableId, Guid tableToken)
-        {
-            using (var connec = dapperContext.CreateConnection())
-            {
-                connec.Open();
-                try
-                {
-                    string proce = "HomeModuleGetOrderOfTable";
-                    using (var cmd = new SqlCommand(proce, connec))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter
-                        {
-                            ParameterName = "@tableId",
-                            SqlDbType = SqlDbType.Int,
-                            Value = tableId
-                        });
-                        cmd.Parameters.Add(new SqlParameter
-                        {
-                            ParameterName = "@tableToken",
-                            SqlDbType = SqlDbType.UniqueIdentifier,
-                            Value = tableToken
-                        });
-                        using (var adapter = new SqlDataAdapter(cmd))
-                        {
-                            var dataSet = new DataSet();
-                            adapter.Fill(dataSet);
-                            dataSet.Tables[0].TableName = "orders";
-                            dataSet.Tables[1].TableName = "orderDetails";
-                            return dataSet;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
-            }
         }
         public async Task<Support.ResponsesAPI> GetOrderOfTableAsync(int tableId, Guid tableToken)
         {
