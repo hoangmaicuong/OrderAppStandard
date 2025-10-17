@@ -1,0 +1,546 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Công ty";
+}
+@section css_header{
+    <style>
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .form-header {
+            text-align:center;
+        }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dc2626;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: #dc2626;
+        }
+
+        .form-input,
+        .form-textarea {
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .social-input {
+            position: relative;
+        }
+
+        .social-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-input .form-input {
+            padding-left: 45px;
+        }
+
+        .facebook-icon { color: #1877f2; }
+        .zalo-icon { color: #0068ff; }
+        .youtube-icon { color: #ff0000; }
+        .tiktok-icon { color: #000000; }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #6b7280;
+            margin-bottom: 15px;
+        }
+
+        .upload-btn {
+            background: #dc2626;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #b91c1c;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-container {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            object-fit: cover;
+        }
+
+        .banner-preview {
+            width: 100%;
+            height: 120px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            padding-top: 30px;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}
+@section scripts_header{
+    <script>
+        const context = {
+            imagePath: '@ConfigurationManager.AppSettings["ProductImageUploadPath"]'
+        }
+    </script>
+}
+<div class="section">
+    <div class="text-center mb-8" style="text-align: center; margin-bottom: 20px;">
+        <h1 class="">🍟 Anna Coffe</h1>
+        <p class="">Quản lý các thông tin Công ty / Shop của bạn</p>
+    </div>
+    <!-- Main Form -->
+    <div class="form-card">
+        <div class="form-content">
+            <form onsubmit="handleSubmit(event)">
+                <!-- Basic Info Section -->
+                <div class="section">
+                    <h3 class="section-title">
+                        <span class="section-icon">ℹ️</span>
+                        Thông tin cơ bản
+                    </h3>
+                    <div class="form-grid form-grid-2">
+                        <div class="form-group">
+                            <label for="companyName" class="form-label required">Tên công ty</label>
+                            <input type="text" id="companyName" name="companyName" class="form-input"
+                                   placeholder="Nhập tên công ty" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="slug" class="form-label required">Slug</label>
+                            <input type="text" id="slug" name="slug" class="form-input"
+                                   placeholder="ten-cong-ty" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="section">
+                    <h3 class="section-title">
+                        <span class="section-icon">📞</span>
+                        Thông tin liên hệ
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <textarea id="address" name="address" class="form-textarea"
+                                      placeholder="Nhập địa chỉ công ty"></textarea>
+                        </div>
+
+                        <div class="form-grid form-grid-2">
+                            <div class="form-group">
+                                <label for="phone1" class="form-label">Số điện thoại 1</label>
+                                <input type="tel" id="phone1" name="phone1" class="form-input"
+                                       placeholder="0123 456 789">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone2" class="form-label">Số điện thoại 2</label>
+                                <input type="tel" id="phone2" name="phone2" class="form-input"
+                                       placeholder="0987 654 321">
+                            </div>
+                        </div>
+
+                        <div class="form-grid form-grid-2">
+                            <div class="form-group">
+                                <label for="email1" class="form-label">Email 1</label>
+                                <input type="email" id="email1" name="email1" class="form-input"
+                                       placeholder="contact@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="email2" class="form-label">Email 2</label>
+                                <input type="email" id="email2" name="email2" class="form-input"
+                                       placeholder="info@company.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="section">
+                    <h3 class="section-title">
+                        <span class="section-icon">📝</span>
+                        Giới thiệu công ty
+                    </h3>
+                    <div class="form-group">
+                        <label for="description" class="form-label">Mô tả về công ty</label>
+                        <textarea id="description" name="description" class="form-textarea"
+                                  style="min-height: 120px;"
+                                  placeholder="Nhập mô tả chi tiết về công ty, lĩnh vực hoạt động, tầm nhìn, sứ mệnh..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Social Media Section -->
+                <div class="section">
+                    <h3 class="section-title">
+                        <span class="section-icon">🌐</span>
+                        Mạng xã hội
+                    </h3>
+                    <div class="social-grid">
+                        <div class="form-group">
+                            <label for="facebook" class="form-label">Facebook</label>
+                            <div class="social-input">
+                                <span class="social-icon facebook-icon">📘</span>
+                                <input type="url" id="facebook" name="facebook" class="form-input"
+                                       placeholder="https://facebook.com/company">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zalo" class="form-label">Zalo</label>
+                            <div class="social-input">
+                                <span class="social-icon zalo-icon">💬</span>
+                                <input type="text" id="zalo" name="zalo" class="form-input"
+                                       placeholder="Zalo ID hoặc số điện thoại">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="youtube" class="form-label">YouTube</label>
+                            <div class="social-input">
+                                <span class="social-icon youtube-icon">📺</span>
+                                <input type="url" id="youtube" name="youtube" class="form-input"
+                                       placeholder="https://youtube.com/channel/...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tiktok" class="form-label">TikTok</label>
+                            <div class="social-input">
+                                <span class="social-icon tiktok-icon">🎵</span>
+                                <input type="url" id="tiktok" name="tiktok" class="form-input"
+                                       placeholder="https://tiktok.com/company">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Images Section -->
+                <div class="section">
+                    <h3 class="section-title">
+                        <span class="section-icon">🖼️</span>
+                        Hình ảnh
+                    </h3>
+                    <div class="form-grid form-grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Logo công ty</label>
+                            <div class="upload-area" onclick="document.getElementById('logo').click()">
+                                <div class="upload-icon">☁️</div>
+                                <div class="upload-text">Kéo thả logo vào đây hoặc</div>
+                                <button type="button" class="upload-btn">Chọn file</button>
+                                <input type="file" id="logo" name="logo" class="file-input"
+                                       accept="image/*" onchange="handleFileSelect(event, 'logo-preview')">
+                            </div>
+                            <div id="logo-preview" class="preview-container">
+                                <img class="preview-image">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Banner công ty</label>
+                            <div class="upload-area" onclick="document.getElementById('banner').click()">
+                                <div class="upload-icon">☁️</div>
+                                <div class="upload-text">Kéo thả banner vào đây hoặc</div>
+                                <button type="button" class="upload-btn">Chọn file</button>
+                                <input type="file" id="banner" name="banner" class="file-input"
+                                       accept="image/*" onchange="handleFileSelect(event, 'banner-preview')">
+                            </div>
+                            <div id="banner-preview" class="preview-container">
+                                <img class="preview-image banner-preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">
+                        💾 Lưu thông tin
+                    </button>
+                    @*<button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        🔄 Đặt lại
+                    </button>*@
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+    @section scripts_footer {
+        <script>
+            app.controller("mainCtrl", function ($scope, $http) {
+                $scope.data = {
+                    category: {},
+                    support: {
+                        imagePath: context.imagePath,
+                    }
+                }
+
+                $scope.init = function () {
+                    $scope.methods.loadInit();
+                };
+
+                $scope.events = {
+                    onUpdate: function ($event) {
+                        const button = $event.currentTarget;
+                        shareData.loadButton.loading(button, true);
+
+                        const data = {
+                            category: $scope.data.category
+                        }
+                        $scope.methods.update(data, button)
+                    },
+                    onOpenModel: function (category) {
+                        let isNew;
+                        if (category == null || category == undefined) {
+                            isNew = true;
+                        }
+                        else isNew = false;
+
+                        if (isNew) {
+                            $scope.data.category = {
+
+                            };
+                        }
+                        else {
+                            $scope.data.category = category;
+                        }
+
+                        document.querySelector(".item-detail").classList.add("open");
+                    }
+                };
+                $scope.methods = {
+                    loadInit: function (button) {
+                        $http({
+                            url: '/api/admin/category/get-all',
+                            method: "Get"
+                        })
+                            .then(function (response) {
+                                //console.log('data', response.data);
+
+                                $scope.data.categorys = response.data.categorys;
+                            })
+                            .catch(function (response) {
+                                shareData.notification.exception();
+                                console.error('catch error', response);
+                            })
+                            .finally(function () {
+                                document.getElementById('pageLoader').style.display = 'none';
+                                if (button != null) {
+                                    shareData.loadButton.loaded(button);
+                                }
+                            });
+                    },
+                    update: function (data, button) {
+
+                        $http({
+                            url: '/api/admin/category/update',
+                            method: "POST",
+                            data: data
+                        })
+                            .then(function (response) {
+                                if (response.data.success == true) {
+                                    if (response.data?.objectResponses?.id > 0) {
+                                        $scope.data.category.categoryId = response.data.objectResponses.id;
+                                    }
+                                    $scope.methods.loadInit(button);
+                                }
+                                else {
+                                    shareData.notification.fail(response.data.messageForUser)
+                                    console.error('response error', response)
+                                }
+                            })
+                            .catch(function (response) {
+                                shareData.notification.exception();
+                                console.error('catch error', response);
+                            })
+                            .finally(function () {
+
+                            });
+                    },
+                };
+                $scope.init();
+            });
+        </script>
+    }

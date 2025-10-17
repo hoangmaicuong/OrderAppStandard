@@ -124,7 +124,7 @@
                 <div class="middle-sidebar">
                     <ul class="sidebar-list">
                         <li class="sidebar-list-item tab-content @(currentController == "AdminHome" ? "active" : "")">
-                            <a href="@Url.Action("Index", "AdminHome", new {area = "Admin"})" 
+                            <a href="@Url.Action("Index", "AdminHome", new {area = "Admin"})"
                                ng-click="events.onLinkClick($event)"
                                class="sidebar-link">
                                 <div class="sidebar-icon"><i class="fa-light fa-house"></i></div>
@@ -171,6 +171,14 @@
                                    class="sidebar-link">
                                     <div class="sidebar-icon"><i class="fa-light fa-users"></i></div>
                                     <div class="hidden-sidebar">Tài khoản</div>
+                                </a>
+                            </li>
+                            <li class="sidebar-list-item tab-content @(currentController == "AdminCompany" ? "active" : "")">
+                                <a href="@Url.Action("Index", "AdminCompany", new {area = "Admin"})"
+                                   ng-click="events.onLinkClick($event)"
+                                   class="sidebar-link">
+                                    <div class="sidebar-icon"><i class="fa-light fa-building"></i></div>
+                                    <div class="hidden-sidebar">Công ty / Shop</div>
                                 </a>
                             </li>
                             <li class="sidebar-list-item tab-content @(currentController == "AdminReport" && currentAction == "OrderReport" ? "active" : "")">
