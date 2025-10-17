@@ -59,5 +59,13 @@ namespace OrderApp.Controllers.Home
         {
             return Ok(services.CallStaff(tableId, tableToken, serviceAccountPath));
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose(); // Giải phóng DbContext
+            }
+            base.Dispose(disposing); // Cho Web API dọn phần còn lại
+        }
     }
 }

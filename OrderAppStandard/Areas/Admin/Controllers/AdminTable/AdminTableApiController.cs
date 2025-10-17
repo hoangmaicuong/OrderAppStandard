@@ -96,5 +96,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
         {
             return Ok(await services.GetOrderOfTableAsync(tableId, tableToken));
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose(); // Giải phóng DbContext
+            }
+            base.Dispose(disposing); // Cho Web API dọn phần còn lại
+        }
     }
 }

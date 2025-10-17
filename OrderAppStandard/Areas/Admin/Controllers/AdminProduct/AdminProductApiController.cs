@@ -87,5 +87,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
             }
             return Json(services.UploadImage(productId, httpRequest, server));
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose(); // Giải phóng DbContext
+            }
+            base.Dispose(disposing); // Cho Web API dọn phần còn lại
+        }
     }
 }

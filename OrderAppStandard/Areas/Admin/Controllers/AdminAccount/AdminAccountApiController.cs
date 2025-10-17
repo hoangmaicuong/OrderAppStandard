@@ -82,5 +82,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
             }
             return Ok(await services.ChangePassword(dto));
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose(); // Giải phóng DbContext
+            }
+            base.Dispose(disposing); // Cho Web API dọn phần còn lại
+        }
     }
 }

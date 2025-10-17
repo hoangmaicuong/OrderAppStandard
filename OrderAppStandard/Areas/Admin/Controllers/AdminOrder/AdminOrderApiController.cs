@@ -226,5 +226,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
             result = services.DeliveredOrderDetail(orderDetail, serviceAccountPath);
             return Ok(result);
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose(); // Giải phóng DbContext
+            }
+            base.Dispose(disposing); // Cho Web API dọn phần còn lại
+        }
     }
 }

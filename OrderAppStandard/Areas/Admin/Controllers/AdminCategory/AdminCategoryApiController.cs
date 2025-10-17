@@ -82,5 +82,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
             }
             return Ok(services.Delete(categoryId));
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose(); // Giải phóng DbContext
+            }
+            base.Dispose(disposing); // Cho Web API dọn phần còn lại
+        }
     }
 }
