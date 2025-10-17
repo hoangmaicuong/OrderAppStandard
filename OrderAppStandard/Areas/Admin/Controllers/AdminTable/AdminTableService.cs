@@ -15,10 +15,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminTable
     public class AdminTableService
     {
         private OrderAppEntities db;
-        private DapperContext dapperContext = new DapperContext();
-        public AdminTableService(OrderAppEntities _db)
+        private DapperContext dapperContext;
+        public AdminTableService(OrderAppEntities _db, DapperContext _dapperContext)
         {
             db = _db;
+            dapperContext = _dapperContext;
         }
         public DataSet GetAll(int companyId)
         {

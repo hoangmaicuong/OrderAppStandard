@@ -15,12 +15,14 @@ namespace OrderApp.Controllers.Home
     public class HomeApiController : ApiController
     {
         private readonly OrderAppEntities db;
+        private DapperContext dapperContext = DapperContext.dapperContext;
         private readonly HomeService services;
+        
         string serviceAccountPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content/serviceAccountKey.json");
         public HomeApiController()
         {
             db = new OrderAppEntities();
-            services = new HomeService(db);
+            services = new HomeService(db, dapperContext);
         }
         [HttpGet]
         [Route("get-all")]

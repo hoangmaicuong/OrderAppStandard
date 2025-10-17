@@ -13,10 +13,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
     public class AdminCategoryService
     {
         private OrderAppEntities db;
-        private DapperContext dapperContext = new DapperContext();
-        public AdminCategoryService(OrderAppEntities _db)
+        private DapperContext dapperContext;
+        public AdminCategoryService(OrderAppEntities _db, DapperContext _dapperContext)
         {
             db = _db;
+            dapperContext = _dapperContext;
         }
         public DataSet GetAll(int companyId)
         {

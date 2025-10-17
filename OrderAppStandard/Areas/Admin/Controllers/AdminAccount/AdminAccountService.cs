@@ -17,11 +17,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
     public class AdminAccountService
     {
         private OrderAppEntities db;
-        private DapperContext dapperContext = new DapperContext();
+        private DapperContext dapperContext;
         private ApplicationUserManager UserManager;
-        public AdminAccountService(OrderAppEntities _db)
+        public AdminAccountService(OrderAppEntities _db, DapperContext _dapperContext)
         {
             db = _db;
+            dapperContext = _dapperContext;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
         public DataSet GetAll(int companyId)

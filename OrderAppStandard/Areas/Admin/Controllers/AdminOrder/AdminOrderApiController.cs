@@ -17,6 +17,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
     public class AdminOrderApiController : ApiController
     {
         private readonly OrderAppEntities db;
+        private DapperContext dapperContext = DapperContext.dapperContext;
         private AdminOrderService services;
         private string userId = null;
         private int companyId = 0;
@@ -24,7 +25,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
         private AdminOrderApiController()
         {
             db = new OrderAppEntities();
-            services = new AdminOrderService(db);
+            services = new AdminOrderService(db, dapperContext);
 
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;

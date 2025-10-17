@@ -16,12 +16,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
     {
         private AdminAccountService services;
         private OrderAppEntities db;
+        private DapperContext dapperContext = DapperContext.dapperContext;
         private string userId = null;
         private int companyId = 0;
         private AdminAccountApiController()
         {
             db = new OrderAppEntities();
-            services = new AdminAccountService(db);
+            services = new AdminAccountService(db, dapperContext);
 
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;

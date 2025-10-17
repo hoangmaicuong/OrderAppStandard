@@ -14,11 +14,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminProduct
     public class AdminProductService
     {
         private OrderAppEntities db;
-        private DapperContext dapperContext = new DapperContext();
+        private DapperContext dapperContext;
         string imagePath = ConfigurationManager.AppSettings["ProductImageUploadPath"];
-        public AdminProductService(OrderAppEntities _db)
+        public AdminProductService(OrderAppEntities _db, DapperContext _dapperContext)
         {
             db = _db;
+            dapperContext = _dapperContext;
         }
         public DataSet GetAll(int companyId)
         {

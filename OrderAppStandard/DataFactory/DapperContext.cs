@@ -14,5 +14,7 @@ namespace OrderApp.DataFactory
         {
             return new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         }
+        //Tất cả dùng chung nên tạo 1 lần
+        public static readonly DapperContext dapperContext = new DapperContext();
     }
 }

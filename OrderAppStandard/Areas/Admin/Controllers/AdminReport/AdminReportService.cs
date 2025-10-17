@@ -11,7 +11,11 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
 {
     public class AdminReportService
     {
-        private DapperContext dapperContext = new DapperContext();
+        private DapperContext dapperContext;
+        public AdminReportService(DapperContext _dapperContext)
+        {
+            dapperContext = _dapperContext;
+        }
         public DataSet GetOrderReport(int companyId, DateTime startDate, DateTime endDate, string searchKey = null)
         {
             using (var connec = dapperContext.CreateConnection())

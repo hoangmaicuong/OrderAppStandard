@@ -17,11 +17,12 @@ namespace OrderApp.Areas.Admin.Controllers.AdminOrder
     public class AdminOrderService
     {
         private OrderAppEntities db;
-        private DapperContext dapperContext = new DapperContext();
+        private DapperContext dapperContext;
         string imagePath = ConfigurationManager.AppSettings["ProductImageUploadPath"];
-        public AdminOrderService(OrderAppEntities _db)
+        public AdminOrderService(OrderAppEntities _db, DapperContext _dapperContext)
         {
             db = _db;
+            dapperContext = _dapperContext;
         }
         public async Task<Support.ResponsesAPI> GetAllAsync(int companyId)
         {

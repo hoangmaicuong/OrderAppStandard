@@ -20,11 +20,12 @@ namespace OrderApp.Controllers.Home
     public class HomeService
     {
         private OrderAppEntities db;
-        private DapperContext dapperContext = new DapperContext();
+        private DapperContext dapperContext;
         private static readonly MemoryCache _cache = MemoryCache.Default;
-        public HomeService(OrderAppEntities _db)
+        public HomeService(OrderAppEntities _db, DapperContext _dapperContext)
         {
             db = _db;
+            dapperContext = _dapperContext;
         }
         public async Task<Support.ResponsesAPI> GetAllAsync(string companySlug)
         {

@@ -14,14 +14,16 @@ namespace OrderApp.Areas.Admin.Controllers.AdminReport
     [RoutePrefix("api/admin/report")]
     public class AdminReportApiController : ApiController
     {
-        private AdminReportService services = new AdminReportService();
+        private AdminReportService services;
         private OrderAppEntities db = new OrderAppEntities();
+        private DapperContext dapperContext = DapperContext.dapperContext;
         private string userId = null;
         private int companyId = 0;
         private AdminReportApiController()
         {
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
+            services = new AdminReportService(dapperContext);
         }
         [HttpGet]
         [Route("get-order-report")]

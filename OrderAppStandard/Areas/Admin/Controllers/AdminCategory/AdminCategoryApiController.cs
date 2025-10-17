@@ -17,12 +17,13 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCategory
     {
         private AdminCategoryService services;
         private OrderAppEntities db;
+        private DapperContext dapperContext = DapperContext.dapperContext;
         private string userId = null;
         private int companyId = 0;
         private AdminCategoryApiController()
         {
             db = new OrderAppEntities();
-            services = new AdminCategoryService(db);
+            services = new AdminCategoryService(db, dapperContext);
 
             userId = User.Identity.GetUserId();
             companyId = db.UserExtension.Find(userId)?.CompanyId ?? 0;
