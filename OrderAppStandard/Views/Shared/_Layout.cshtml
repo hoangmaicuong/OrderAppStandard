@@ -136,7 +136,9 @@
                                     <i class="fa-light fa-magnifying-glass"></i>
                                 </div>
                             </li>
-                            <li class="header-middle-right-item close" onclick="closeSearchMb()">
+                            <li class="header-middle-right-item close" 
+                                ng-click="data.searchText = '';methods.doSearch();" 
+                                onclick="closeSearchMb()">
                                 <div class="cart-icon-menu">
                                     <i class="fa-light fa-circle-xmark"></i>
                                 </div>
