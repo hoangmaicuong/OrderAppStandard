@@ -119,29 +119,30 @@
                             <input type="text" class="form-search-input" placeholder="Tìm kiếm món ăn..."
                                    ng-model="data.searchText"
                                    ng-change="methods.doSearch()"
-                                   oninput="document.getElementById('home-service').scrollIntoView({behavior: 'smooth'});"
+                                   @*oninput="document.getElementById('home-service').scrollIntoView({behavior: 'smooth'});"*@
                                    @*oninput="searchProducts()"*@>
                         </form>
                     </div>
                     <div class="header-middle-right">
                         <ul class="header-middle-right-list">
-                            @*<li class="header-middle-right-item dnone open" onclick="openSearchMb()">
-                                    <div class="cart-icon-menu">
-                                        <i class="fa-light fa-magnifying-glass"></i>
-                                    </div>
-                                </li>*@
-                            <li class="header-middle-right-item close" onclick="closeSearchMb()">
-                                <div class="cart-icon-menu">
-                                    <i class="fa-light fa-circle-xmark"></i>
-                                </div>
-                            </li>
                             <li id="open-order-page" style="display:none"
                                 ng-click="events.onOpenOrderPage()"
                                 class="header-middle-right-item dropdown open">
                                 <i class="fa-light fa-table-picnic"></i>
                                 <p id="headerTableName"></p>
                             </li>
-                            <li class="header-middle-right-item open" ng-click="events.onOpenModelShoppingCart()" onclick="openCart()">
+                            <li class="header-middle-right-item dnone open" onclick="openSearchMb();">
+                                <div class="cart-icon-menu">
+                                    <i class="fa-light fa-magnifying-glass"></i>
+                                </div>
+                            </li>
+                            <li class="header-middle-right-item close" onclick="closeSearchMb()">
+                                <div class="cart-icon-menu">
+                                    <i class="fa-light fa-circle-xmark"></i>
+                                </div>
+                            </li>
+
+                            <li class="header-middle-right-item cart open" ng-click="events.onOpenModelShoppingCart()" onclick="openCart()">
                                 <div class="cart-icon-menu">
                                     <i class="fa-light fa-basket-shopping"></i>
                                     <span class="count-product-cart" ng-bind="data.share.shoppingCart.totalQuantity()"></span>

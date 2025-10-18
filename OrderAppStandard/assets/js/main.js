@@ -316,6 +316,10 @@ function openSearchMb() {
     for(let i = 0; i < liItem.length; i++) {
         liItem[i].style.setProperty("display", "none", "important")
     }
+    document.querySelector(".header-middle-right-item.dropdown.open").style.display = "none";
+    document.getElementById('home-slider').style.display = 'none';
+    document.getElementById('home-service').style.display = 'none';
+    document.querySelector(".header-middle-right-item.cart.open").style.display = "flex"; // khôi phục
 }
 
 //Close Search Mobile 
@@ -327,6 +331,14 @@ function closeSearchMb() {
     for(let i = 0; i < liItem.length; i++) {
         liItem[i].style.setProperty("display", "block", "important")
     }
+
+    document.querySelector(".header-middle-right-item.dropdown.open").style.display = "none";
+    let tableName = document.getElementById('headerTableName').innerText;
+    if (tableName != '') {
+        document.querySelector(".header-middle-right-item.dropdown.open").style.display = "inherit";
+    }
+    document.getElementById('home-slider').style.display = 'flex';
+    document.getElementById('home-service').style.display = 'flex';
 }
 
 //Signup && Login Form
