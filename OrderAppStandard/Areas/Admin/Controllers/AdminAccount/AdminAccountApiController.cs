@@ -83,6 +83,27 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
             }
             return Ok(await services.ChangePassword(dto));
         }
+        [HttpPost]
+        [Route("reset-lockout")]
+        public async Task<IHttpActionResult> ResetLockout(AdminAccountDto.UpdateDto dto)
+        {
+            var result = new Support.ResponsesAPI();
+            var userExten = await db.UserExtension.FirstOrDefaultAsync(x => x.AspNetUserId == dto.AspNetUser.Id);
+            if (userExten == null)
+            {
+                result.success = false;
+                result.messageForUser = "Dữ liệu không tồn tại!";
+                return Ok(result);
+            }
+            //Check company
+            if (userExten.CompanyId != companyId)
+            {
+                result.success = false;
+                result.messageForUser = Support.ResponsesAPI.MessageAPI.hacker;
+                return Ok(result);
+            }
+            return Ok(await services.ResetLockout(dto));
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

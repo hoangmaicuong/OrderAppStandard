@@ -73,6 +73,11 @@
             <tbody>
                 <tr ng-repeat="item in data.aspNetUsers">
                     <td>
+                        <button ng-click="events.onResetLockout(item, $event)"
+                                class="btn-delete">
+                            <i class="fa-light fa-arrow-rotate-right"></i>
+                            Reset TK khóa
+                        </button>
                         <button ng-click="events.onOpenModelChangePassword(item)"
                                 class="btn-delete">
                             <i class="fa-regular fa-key"></i>
@@ -248,6 +253,15 @@
                     $scope.data.aspNetUser.newPassword = aspNetUser.userName + getSpecialChar();
                     document.querySelector(".item-change-password").classList.add("open");
                 },
+                onResetLockout: function (aspNetUser, $event) {
+                    const button = $event.currentTarget;
+                    shareData.loadButton.loading(button, true);
+
+                    const data = {
+                        aspNetUser: aspNetUser
+                    }
+                    $scope.methods.resetLockout(data, button)
+                },
                 onChangePassword: function ($event) {
                     const button = $event.currentTarget;
                     shareData.loadButton.loading(button, true);
@@ -335,6 +349,31 @@
                             shareData.loadButton.loaded(button);
                         }
                     });
+                },
+                resetLockout: function (data, button) {
+                    $http({
+                        url: '/api/admin/account/reset-lockout',
+                        method: "POST",
+                        data: data
+                    })
+                        .then(function (response) {
+                            if (response.data.success == true) {
+
+                            }
+                            else {
+                                shareData.notification.fail(response.data.messageForUser)
+                                console.error('response error', response)
+                            }
+                        })
+                        .catch(function (response) {
+                            shareData.notification.exception();
+                            console.error('catch error', response);
+                        })
+                        .finally(function () {
+                            if (button != null) {
+                                shareData.loadButton.loaded(button);
+                            }
+                        });
                 }
             };
             $scope.init();

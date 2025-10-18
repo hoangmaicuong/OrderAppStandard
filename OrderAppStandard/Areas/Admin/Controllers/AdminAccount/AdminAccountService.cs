@@ -287,5 +287,54 @@ namespace OrderApp.Areas.Admin.Controllers.AdminAccount
 
             return response;
         }
+        public async Task<Support.ResponsesAPI> ResetLockout(AdminAccountDto.UpdateDto dto)
+        {
+            var response = new Support.ResponsesAPI();
+
+            #region Kiểm tra điều kiện
+            var user = await UserManager.FindByIdAsync(dto.AspNetUser.Id);
+            if (user == null)
+            {
+                response.success = false;
+                response.messageForUser = "Không tìm thấy người dùng.";
+                return response;
+            }
+            #endregion
+
+            #region Thực thi function
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    await UserManager.ResetAccessFailedCountAsync(user.Id);
+                    await UserManager.SetLockoutEndDateAsync(user.Id, DateTimeOffset.UtcNow);
+
+                    transaction.Commit();
+
+                    response = new Support.ResponsesAPI
+                    {
+                        success = true,
+                        objectResponses = new
+                        {
+                            id = user.Id
+                        }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    response = new Support.ResponsesAPI
+                    {
+                        success = false,
+                        messageForUser = Support.ResponsesAPI.MessageAPI.messageException,
+                        messageForDev = ex.ToString()
+                    };
+                }
+            }
+            #endregion
+
+            return response;
+        }
     }
 }
