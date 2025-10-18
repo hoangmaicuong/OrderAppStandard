@@ -107,28 +107,6 @@ namespace OrderApp.Controllers.AccountManage
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(model.CompanySlug))
-                {
-                    ModelState.AddModelError("CompanySlug", "Tên miền công ty không bỏ trống.");
-                    return View(model);
-                }
-                if (model.CompanySlug.Length > 100)
-                {
-                    ModelState.AddModelError("CompanySlug", "Tên miền không vượt 100 ký tự.");
-                    return View(model);
-                }
-                if (!Regex.IsMatch(model.CompanySlug, "^[a-z0-9-]+$"))
-                {
-                    ModelState.AddModelError("CompanySlug", "Tên miền chỉ được chứa chữ thường, số và dấu gạch ngang (-), không được có khoảng trắng hoặc ký tự đặc biệt.");
-                    return View(model);
-                }
-                bool slugExists = db.Company.Any(c => c.Slug == model.CompanySlug);
-                if (slugExists)
-                {
-                    ModelState.AddModelError("CompanySlug", "Tên miền đã tồn tại, vui lòng chọn tên khác.");
-                    return View(model);
-                }
-
                 var user = new ApplicationUser { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -137,8 +115,7 @@ namespace OrderApp.Controllers.AccountManage
                     Company company = new Company
                     {
                         CompanyOwnerId = user.Id,
-                        CompanyName = model.CompanyName,
-                        Slug = model.CompanySlug
+                        CompanyName = model.CompanyName
                     };
                     UserExtension userExtension = new UserExtension
                     {

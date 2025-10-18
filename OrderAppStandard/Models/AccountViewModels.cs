@@ -90,8 +90,6 @@ namespace OrderApp.Models
 
         [Required(ErrorMessage = "Tên công ty là bắt buộc.")]
         public string CompanyName { get; set; }
-        [Required(ErrorMessage = "Đường dẫn công ty là bắt buộc.")]
-        public string CompanySlug { get; set; }
     }
 
     public class ResetPasswordViewModel
