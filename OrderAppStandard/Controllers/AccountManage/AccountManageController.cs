@@ -5,6 +5,7 @@ using OrderApp.DataFactory;
 using OrderApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -76,12 +77,41 @@ namespace OrderApp.Controllers.AccountManage
                 ModelState.AddModelError("PhoneNumber", "Số điện thoại không đúng!");
                 return View(model);
             }
+            var isOwnerCompany = await db.Company.AnyAsync(x => x.CompanyOwnerId == user.Id);
+
+            // 🔹 Nếu không phải chủ doanh nghiệp, mới áp dụng lockout
+            if (!isOwnerCompany)
+            {
+                user.LockoutEnabled = true;
+                // 🔸 Kiểm tra nếu user đang bị khóa
+                if (user.LockoutEnabled && user.LockoutEndDateUtc.HasValue && user.LockoutEndDateUtc > DateTime.UtcNow)
+                {
+                    var remain = user.LockoutEndDateUtc.Value - DateTime.UtcNow;
+                    ModelState.AddModelError("", $"Tài khoản bị khóa. Vui lòng thử lại sau {Math.Ceiling(remain.TotalMinutes)} phút.");
+                    return View(model);
+                }
+            }
             bool isSuccess = await UserManager.CheckPasswordAsync(user, model.Password);
             if (!isSuccess)
             {
-                ModelState.AddModelError("Password", "Mật khẩu không đúng!");
+                // Tăng số lần đăng nhập sai
+                await UserManager.AccessFailedAsync(user.Id);
+                // Kiểm tra nếu bị khóa
+                if (user.AccessFailedCount + 1 >= 5)
+                {
+                    await UserManager.SetLockoutEndDateAsync(user.Id, DateTimeOffset.UtcNow.AddMinutes(5));
+                    ModelState.AddModelError("", "Tài khoản đã bị khóa trong 5 phút do đăng nhập sai quá nhiều lần!");
+                }
+                else
+                {
+                    int remainAttempts = 5 - (user.AccessFailedCount + 1);
+                    ModelState.AddModelError("", $"Mật khẩu không đúng! Bạn còn {remainAttempts} lần thử.");
+                }
                 return View(model);
             }
+            // 🔸 Nếu đăng nhập đúng, reset số lần sai
+            await UserManager.ResetAccessFailedCountAsync(user.Id);
+
             // ✅ Cập nhật SecurityStamp để vô hiệu hóa các session cũ
             await UserManager.UpdateSecurityStampAsync(user.Id);
             await SignInManager.SignInAsync(user, isPersistent: model.RememberMe, rememberBrowser: false);
