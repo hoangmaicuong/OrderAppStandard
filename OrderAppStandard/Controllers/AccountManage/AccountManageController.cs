@@ -94,19 +94,29 @@ namespace OrderApp.Controllers.AccountManage
             bool isSuccess = await UserManager.CheckPasswordAsync(user, model.Password);
             if (!isSuccess)
             {
-                // Tăng số lần đăng nhập sai
-                await UserManager.AccessFailedAsync(user.Id);
-                // Kiểm tra nếu bị khóa
-                if (user.AccessFailedCount + 1 >= 5)
+                // Nếu không phải chủ doanh nghiệp thì áp dụng đếm lỗi
+                if (!isOwnerCompany)
                 {
-                    await UserManager.SetLockoutEndDateAsync(user.Id, DateTimeOffset.UtcNow.AddMinutes(5));
-                    ModelState.AddModelError("", "Tài khoản đã bị khóa trong 5 phút do đăng nhập sai quá nhiều lần!");
+                    // Tăng số lần đăng nhập sai
+                    await UserManager.AccessFailedAsync(user.Id);
+                    // Kiểm tra nếu bị khóa
+                    if (user.AccessFailedCount + 1 >= 5)
+                    {
+                        await UserManager.SetLockoutEndDateAsync(user.Id, DateTimeOffset.UtcNow.AddMinutes(5));
+                        ModelState.AddModelError("", "Tài khoản đã bị khóa trong 5 phút do đăng nhập sai quá nhiều lần!");
+                    }
+                    else
+                    {
+                        int remainAttempts = 5 - (user.AccessFailedCount + 1);
+                        ModelState.AddModelError("Password", $"Mật khẩu không đúng! Bạn còn {remainAttempts} lần thử.");
+                    }
                 }
                 else
                 {
-                    int remainAttempts = 5 - (user.AccessFailedCount + 1);
-                    ModelState.AddModelError("", $"Mật khẩu không đúng! Bạn còn {remainAttempts} lần thử.");
+                    // Chủ doanh nghiệp thì chỉ báo sai mật khẩu
+                    ModelState.AddModelError("Password", "Mật khẩu không đúng!");
                 }
+
                 return View(model);
             }
             // 🔸 Nếu đăng nhập đúng, reset số lần sai
