@@ -40,7 +40,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
         {
             var result = new Support.ResponsesAPI();
 
-            return Ok(services.Edit(companyId, dto));
+            return Ok(services.Edit(companyId, userId, dto));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -27,7 +28,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
                 connec.Open();
                 try
                 {
-                    string proce = "AdminOrderModuleGetOrderDetails";
+                    string proce = "AdminCompanyModuleGetDetail";
                     using (var cmd = new SqlCommand(proce, connec))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -41,7 +42,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
                         {
                             var dataSet = new DataSet();
                             adapter.Fill(dataSet);
-                            dataSet.Tables[0].TableName = "orderDetails";
+                            dataSet.Tables[0].TableName = "companys";
                             return dataSet;
                         }
                     }
@@ -53,7 +54,7 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
                 }
             }
         }
-        public Support.ResponsesAPI Edit(int companyId, AdminCompanyDto.UpdateDto dto)
+        public Support.ResponsesAPI Edit(int companyId, string userId, AdminCompanyDto.UpdateDto dto)
         {
             var result = new Support.ResponsesAPI();
             #region khởi tạo tham số
@@ -70,8 +71,47 @@ namespace OrderApp.Areas.Admin.Controllers.AdminCompany
                 result.messageForUser = "Data này không tồn tại.";
                 return result;
             }
+            if(company.CompanyOwnerId != userId)
+            {
+                result.success = false;
+                result.messageForUser = "Chủ sở hữu mới có quyền chỉnh sửa.";
+                return result;
+            }
+            if (string.IsNullOrEmpty(dto.Company.Slug))
+            {
+                result.success = false;
+                result.messageForUser = "Tên miền công ty không bỏ trống.";
+                return result;
+            }
+            if (dto.Company.Slug.Length > 100)
+            {
+                result.success = false;
+                result.messageForUser = "Tên miền không vượt 100 ký tự.";
+                return result;
+            }
+            if(!Regex.IsMatch(dto.Company.Slug, "^[a-z0-9-]+$"))
+            {
+                result.success = false;
+                result.messageForUser = "Tên miền chỉ được chứa chữ thường, số và dấu gạch ngang (-), không được có khoảng trắng hoặc ký tự đặc biệt.";
+                return result;
+            }
+            bool slugExists = db.Company.Any(c => c.Slug == dto.Company.Slug && c.CompanyId != companyId);
+            if (slugExists)
+            {
+                result.success = false;
+                result.messageForUser = "Tên miền đã tồn tại, vui lòng chọn tên khác.";
+                return result;
+            }
+
             company.CompanyName = dto.Company.CompanyName;
             company.Slug = dto.Company.Slug;
+            company.Address = dto.Company.Address;
+            company.Phone1 = dto.Company.Phone1;
+            company.Phone2 = dto.Company.Phone2;
+            company.Email1 = dto.Company.Email1;
+            company.Email2 = dto.Company.Email2;
+            company.Summary = dto.Company.Summary;
+
             #endregion
 
             #region thực thi function

@@ -273,7 +273,7 @@
 }
 <div class="section">
     <div class="text-center mb-8" style="text-align: center; margin-bottom: 20px;">
-        <h1 class="">🍟 Anna Coffe</h1>
+        <h1 class="">🍟 <span ng-bind="data.company.companyName"></span></h1>
         <p class="">Quản lý các thông tin Công ty / Shop của bạn</p>
     </div>
     <!-- Main Form -->
@@ -290,11 +290,13 @@
                         <div class="form-group">
                             <label for="companyName" class="form-label required">Tên công ty</label>
                             <input type="text" id="companyName" name="companyName" class="form-input"
+                                   ng-model="data.company.companyName"
                                    placeholder="Nhập tên công ty" required>
                         </div>
                         <div class="form-group">
                             <label for="slug" class="form-label required">Slug</label>
                             <input type="text" id="slug" name="slug" class="form-input"
+                                   ng-model="data.company.slug"
                                    placeholder="ten-cong-ty" required>
                         </div>
                     </div>
@@ -310,6 +312,7 @@
                         <div class="form-group">
                             <label for="address" class="form-label">Địa chỉ</label>
                             <textarea id="address" name="address" class="form-textarea"
+                                      ng-model="data.company.address"
                                       placeholder="Nhập địa chỉ công ty"></textarea>
                         </div>
 
@@ -317,11 +320,13 @@
                             <div class="form-group">
                                 <label for="phone1" class="form-label">Số điện thoại 1</label>
                                 <input type="tel" id="phone1" name="phone1" class="form-input"
+                                       ng-model="data.company.phone1"
                                        placeholder="0123 456 789">
                             </div>
                             <div class="form-group">
                                 <label for="phone2" class="form-label">Số điện thoại 2</label>
                                 <input type="tel" id="phone2" name="phone2" class="form-input"
+                                       ng-model="data.company.phone2"
                                        placeholder="0987 654 321">
                             </div>
                         </div>
@@ -330,11 +335,13 @@
                             <div class="form-group">
                                 <label for="email1" class="form-label">Email 1</label>
                                 <input type="email" id="email1" name="email1" class="form-input"
+                                       ng-model="data.company.email1"
                                        placeholder="contact@company.com">
                             </div>
                             <div class="form-group">
                                 <label for="email2" class="form-label">Email 2</label>
                                 <input type="email" id="email2" name="email2" class="form-input"
+                                       ng-model="data.company.email2"
                                        placeholder="info@company.com">
                             </div>
                         </div>
@@ -351,12 +358,13 @@
                         <label for="description" class="form-label">Mô tả về công ty</label>
                         <textarea id="description" name="description" class="form-textarea"
                                   style="min-height: 120px;"
+                                  ng-model="data.company.summary"
                                   placeholder="Nhập mô tả chi tiết về công ty, lĩnh vực hoạt động, tầm nhìn, sứ mệnh..."></textarea>
                     </div>
                 </div>
 
                 <!-- Social Media Section -->
-                <div class="section">
+                @*<div class="section">
                     <h3 class="section-title">
                         <span class="section-icon">🌐</span>
                         Mạng xã hội
@@ -395,10 +403,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
 
                 <!-- Images Section -->
-                <div class="section">
+                @*<div class="section">
                     <h3 class="section-title">
                         <span class="section-icon">🖼️</span>
                         Hình ảnh
@@ -436,11 +444,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
 
                 <!-- Action Buttons -->
                 <div class="button-group">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="button" ng-click="events.onUpdate($event)" class="btn btn-primary">
                         💾 Lưu thông tin
                     </button>
                     @*<button type="button" class="btn btn-secondary" onclick="resetForm()">
@@ -472,39 +480,21 @@
                         shareData.loadButton.loading(button, true);
 
                         const data = {
-                            category: $scope.data.category
+                            company: $scope.data.company
                         }
                         $scope.methods.update(data, button)
-                    },
-                    onOpenModel: function (category) {
-                        let isNew;
-                        if (category == null || category == undefined) {
-                            isNew = true;
-                        }
-                        else isNew = false;
-
-                        if (isNew) {
-                            $scope.data.category = {
-
-                            };
-                        }
-                        else {
-                            $scope.data.category = category;
-                        }
-
-                        document.querySelector(".item-detail").classList.add("open");
                     }
                 };
                 $scope.methods = {
                     loadInit: function (button) {
                         $http({
-                            url: '/api/admin/category/get-all',
+                            url: '/api/admin/company/get-detail',
                             method: "Get"
                         })
                             .then(function (response) {
-                                //console.log('data', response.data);
+                                console.log('data', response.data);
 
-                                $scope.data.categorys = response.data.categorys;
+                                $scope.data.company = response.data.companys[0];
                             })
                             .catch(function (response) {
                                 shareData.notification.exception();
@@ -520,15 +510,12 @@
                     update: function (data, button) {
 
                         $http({
-                            url: '/api/admin/category/update',
+                            url: '/api/admin/company/update',
                             method: "POST",
                             data: data
                         })
                             .then(function (response) {
                                 if (response.data.success == true) {
-                                    if (response.data?.objectResponses?.id > 0) {
-                                        $scope.data.category.categoryId = response.data.objectResponses.id;
-                                    }
                                     $scope.methods.loadInit(button);
                                 }
                                 else {
