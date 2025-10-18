@@ -242,7 +242,14 @@
                         <div class="widget-row-col-1">
                             <h3 class="widget-title">Về chúng tôi</h3>
                             <div class="widget-row-col-content">
-                                <p>Vy Food là thương hiệu được thành lập vào năm 2022 với tiêu chí đặt chất lượng sản phẩm lên hàng đầu.</p>
+                                @if (ViewBag.Summary == null)
+                                {
+                                    <p>Vy Food là thương hiệu được thành lập vào năm 2022 với tiêu chí đặt chất lượng sản phẩm lên hàng đầu.</p>
+                                }
+                                else
+                                {
+                                    <p>@ViewBag.Summary</p>
+                                }
                             </div>
                             <div class="widget-social">
                                 <div class="widget-social-item">
@@ -345,7 +352,14 @@
                                         <i class="fa-regular fa-location-dot"></i>
                                     </div>
                                     <div class="contact-content">
-                                        <span>11 Công trường Mê Linh, Bến Nghé, Quận 1, Hồ Chí Minh</span>
+                                        @if (ViewBag.Address == null)
+                                        {
+                                            <span>11 Công trường Mê Linh, Bến Nghé, Quận 1, Hồ Chí Minh</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@ViewBag.Address</span>
+                                        }
                                     </div>
                                 </div>
                                 <div class="contact-item">
@@ -353,9 +367,19 @@
                                         <i class="fa-regular fa-phone"></i>
                                     </div>
                                     <div class="contact-content contact-item-phone">
-                                        <span>0123 456 789</span>
+                                        @if (ViewBag.Phone1 == null)
+                                        {
+                                            <span>0123 456 789</span>
+                                        }
+                                        else
+                                        {<span>@ViewBag.Phone1</span>}
                                         <br>
-                                        <span>9876 543 210</span>
+                                        @if (ViewBag.Phone2 == null)
+                                        {
+                                            <span>9876 543 210</span>
+                                        }
+                                        else
+                                        { <span>@ViewBag.Phone2</span>}
                                     </div>
                                 </div>
                                 <div class="contact-item">
@@ -363,8 +387,20 @@
                                         <i class="fa-regular fa-envelope"></i>
                                     </div>
                                     <div class="contact-content conatct-item-email">
-                                        <span>abc@domain.com</span><br />
-                                        <span>infoabc@domain.com</span>
+                                        @if (ViewBag.Email1 == null)
+                                        {
+                                            <span>abc@domain.com</span>
+                                        }
+                                        else
+                                        { <span>@ViewBag.Email1</span>}
+
+                                        <br />
+                                        @if (ViewBag.Email2 == null)
+                                        {
+                                            <span>infoabc@domain.com</span>
+                                        }
+                                        else
+                                        { <span>@ViewBag.Email2</span>}
                                     </div>
                                 </div>
                             </div>

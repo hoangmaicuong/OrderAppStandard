@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using OrderApp.Controllers.Home;
 using OrderApp.DataFactory;
 using System;
 using System.Collections.Generic;
@@ -30,11 +31,11 @@ namespace OrderApp.Controllers
                 {
                     await conn.OpenAsync();
 
-                    string sql = "SELECT TOP 1 CompanyId FROM Company WHERE Slug = @Slug";
+                    string sql = "SELECT TOP 1 * FROM Company WHERE Slug = @Slug";
 
-                    int companyId = await conn.QueryFirstOrDefaultAsync<int>(sql, new { Slug = CompanySlug });
+                    var company = await conn.QueryFirstOrDefaultAsync<HomeDto.CompanyDto>(sql, new { Slug = CompanySlug });
 
-                    if (companyId == 0)
+                    if (company == null)
                     {
                         return RedirectToAction("NotFound", "Home");
                     }
@@ -42,6 +43,13 @@ namespace OrderApp.Controllers
                     ViewBag.TableId = tableId;
                     ViewBag.TableToken = tableToken;
                     ViewBag.CompanySlug = CompanySlug;
+
+                    ViewBag.Summary = company.Summary;
+                    ViewBag.Address = company.Address;
+                    ViewBag.Phone1 = company.Phone1;
+                    ViewBag.Phone2 = company.Phone2;
+                    ViewBag.Email1 = company.Email1;
+                    ViewBag.Email2 = company.Email2;
 
                     return View();
                 }
